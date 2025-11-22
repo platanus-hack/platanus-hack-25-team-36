@@ -170,8 +170,23 @@ export async function GET(request: Request) {
       });
     }
     
-    const tips = await Tip.find().limit(100);
-    return NextResponse.json(tips);
+    // Default: return all tips without filters
+    const tips = await Tip.find().limit(100).lean() as unknown as (TipPinLean | TipTextLean)[];
+    const pins: MapPin[] = [];
+    const nonPins: TextTip[] = [];
+    
+    for (const tip of tips) {
+      if (tip.type === "pin") {
+        pins.push(transformTipToMapPin(tip as TipPinLean));
+      } else {
+        nonPins.push(transformTipToTipText(tip as TipTextLean));
+      }
+    }
+    
+    return NextResponse.json({
+      pins,
+      nonPins,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },

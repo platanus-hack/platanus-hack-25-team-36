@@ -27,6 +27,8 @@ type Props = {
   onChangeCenter?: (longitude: number, latitude: number) => void;
 };
 
+type MarkerMap = globalThis.Map<string, mapboxgl.Marker>;
+
 /**
  * Creates popup HTML content with image, title, and description
  * @param marker - Marker data including optional image URLs
@@ -84,15 +86,15 @@ const createPopupContent = (marker: Marker): string => {
 const Map = ({ markers = [], onChangeCenter }: Props) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<MarkerMap>(new globalThis.Map<string, mapboxgl.Marker>());
+  const lastValidMarkersRef = useRef<Marker[]>([]);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [isCreatingPin, setIsCreatingPin] = useState(false);
   const [clickedLocation, setClickedLocation] = useState<{
     lng: number;
     lat: number;
   } | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [renderedMarkers, setRenderedMarkers] = useState<Set<string>>(
-    new Set()
-  );
 
   // React Query hook for creating pins
   const createPinMutation = useCreatePin();
@@ -108,6 +110,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     });
 
     map.on("load", () => {
+      setIsMapLoaded(true);
       map.on("moveend", () => {
         if (onChangeCenter) {
           const center = map.getCenter();
@@ -132,14 +135,23 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
       })
     );
 
-    return () => map.remove();
+    return () => {
+      setIsMapLoaded(false);
+      // Clean up all markers
+      const currentMarkers = markersRef.current;
+      for (const marker of currentMarkers.values()) {
+        marker.remove();
+      }
+      currentMarkers.clear();
+      map.remove();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Separate useEffect to handle click events with updated isCreatingPin state
   useEffect(() => {
     const map = mapRef.current;
-    if (!map) return;
+    if (!map || !isMapLoaded) return;
 
     const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
       if (isCreatingPin) {
@@ -167,41 +179,63 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
       map.off("click", handleMapClick);
       map.off("mousemove", handleMouseMove);
     };
-  }, [isCreatingPin]);
+  }, [isCreatingPin, isMapLoaded]);
 
-  markers.forEach((marker) => {
-    if (!mapRef.current) return;
+  // Effect to add/remove markers when markers prop changes
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isMapLoaded) return;
 
-    if (renderedMarkers.has(marker.id)) return;
+    // Use the new markers if available, otherwise keep the last valid markers
+    // This prevents flickering when data is being fetched
+    const markersToUse = markers.length > 0 ? markers : lastValidMarkersRef.current;
 
-    const popup = new mapboxgl.Popup({
-      offset: {
-        top: [0, 0],
-        "top-left": [0, 0],
-        "top-right": [0, 0],
-        bottom: [0, -40],
-        "bottom-left": [25, -40],
-        "bottom-right": [-25, -40],
-        left: [10, -20],
-        right: [-10, -20],
-      },
-      closeButton: true,
-      closeOnClick: true,
-      maxWidth: "300px",
-    }).setHTML(createPopupContent(marker));
-
-    new mapboxgl.Marker({
-      color: marker.color,
-    })
-      .setLngLat([marker.longitude, marker.latitude])
-      .setPopup(popup)
-      .addTo(mapRef.current);
-
-    const markerKey = marker.id;
-    if (!renderedMarkers.has(markerKey)) {
-      setRenderedMarkers((prev) => new Set(prev).add(markerKey));
+    // Update lastValidMarkersRef if we have new valid data
+    if (markers.length > 0) {
+      lastValidMarkersRef.current = markers;
     }
-  });
+
+    // Create a Set of current marker IDs from the data we're using
+    const currentMarkerIds = new Set(markersToUse.map((m) => m.id));
+
+    // Remove markers that are no longer in the current data
+    for (const [id, marker] of markersRef.current.entries()) {
+      if (!currentMarkerIds.has(id)) {
+        marker.remove();
+        markersRef.current.delete(id);
+      }
+    }
+
+    // Add new markers
+    for (const marker of markersToUse) {
+      if (!markersRef.current.has(marker.id)) {
+        const popup = new mapboxgl.Popup({
+          offset: {
+            top: [0, 0],
+            "top-left": [0, 0],
+            "top-right": [0, 0],
+            bottom: [0, -40],
+            "bottom-left": [25, -40],
+            "bottom-right": [-25, -40],
+            left: [10, -20],
+            right: [-10, -20],
+          },
+          closeButton: true,
+          closeOnClick: true,
+          maxWidth: "300px",
+        }).setHTML(createPopupContent(marker));
+
+        const mapMarker = new mapboxgl.Marker({
+          color: marker.color,
+        })
+          .setLngLat([marker.longitude, marker.latitude])
+          .setPopup(popup)
+          .addTo(map);
+
+        markersRef.current.set(marker.id, mapMarker);
+      }
+    }
+  }, [markers, isMapLoaded]);
 
   // Helper: Create marker popup HTML (for newly created pins)
   const createPopupHTML = (

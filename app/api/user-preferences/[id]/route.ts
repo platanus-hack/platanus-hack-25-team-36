@@ -4,11 +4,12 @@ import { UserPreferences } from "@/backend/database/models";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await initializeMongoDb({});
-    const userPreference = await UserPreferences.findById(params.id);
+    const { id } = await params;
+    const userPreference = await UserPreferences.findById(id);
     if (!userPreference) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(userPreference);
   } catch (error) {
@@ -21,12 +22,13 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await initializeMongoDb({});
+    const { id } = await params;
     const body = await request.json();
-    const userPreference = await UserPreferences.findByIdAndUpdate(params.id, body, { new: true });
+    const userPreference = await UserPreferences.findByIdAndUpdate(id, body, { new: true });
     if (!userPreference) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(userPreference);
   } catch (error) {
@@ -39,11 +41,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await initializeMongoDb({});
-    await UserPreferences.findByIdAndDelete(params.id);
+    const { id } = await params;
+    await UserPreferences.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
