@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../lib/axios";
+import { MapPin, MapPinType } from "@/types/app";
+import type { PinFormData, PinLocation } from "../services/pins";
 
 // Example types - replace with your actual data types
 interface User {
@@ -13,6 +15,23 @@ interface Post {
   title: string;
   content: string;
   userId: string;
+}
+
+interface MapResponse {
+  data: MapPin[];
+  success?: boolean;
+  error?: string;
+}
+
+interface CreatePinRequest {
+  formData: PinFormData;
+  location: PinLocation;
+}
+
+interface TipResponse {
+  success: boolean;
+  data: MapPin;
+  error?: string;
 }
 
 // API functions
@@ -32,6 +51,53 @@ const postApi = {
   createPost: (postData: Omit<Post, "id">): Promise<Post> =>
     api.post("/posts", postData),
 };
+
+const mapApi = {
+  getMapData: (): Promise<MapResponse> => api.get("/map"),
+};
+
+const tipsApi = {
+  createTip: (pinData: CreatePinRequest): Promise<TipResponse> => {
+    const requestBody = {
+      type: MapPinType.PIN,
+      title: pinData.formData.title,
+      description: pinData.formData.description || "No description provided",
+      address: pinData.formData.address,
+      location: {
+        point: {
+          type: "Point" as const,
+          coordinates: [pinData.location.lng, pinData.location.lat],
+        },
+        radius: pinData.location.radius,
+      },
+      colour: pinData.formData.colour,
+      picture: pinData.formData.picture || "",
+      contact: {},
+      comments: [],
+      likedBy: [],
+      dislikedBy: [],
+      // Generate valid ObjectIds as temporary placeholders
+      authorId: generateObjectId(),
+      communityId: generateObjectId(),
+    };
+
+    return api.post("/tips", requestBody);
+  },
+};
+
+/**
+ * Generates a valid MongoDB ObjectId
+ * This is a temporary placeholder until we implement proper authentication
+ */
+function generateObjectId(): string {
+  const timestamp = Math.floor(Date.now() / 1000)
+    .toString(16)
+    .padStart(8, "0");
+  const randomHex = Array.from({ length: 16 }, () =>
+    Math.floor(Math.random() * 16).toString(16)
+  ).join("");
+  return timestamp + randomHex;
+}
 
 // React Query hooks for users
 export const useUsers = () => {
@@ -113,6 +179,55 @@ export const useCreatePost = () => {
     mutationFn: postApi.createPost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+};
+
+// React Query hooks for map
+export const useMapData = () => {
+  return useQuery({
+    queryKey: ["map"],
+    queryFn: mapApi.getMapData,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+  });
+};
+
+// React Query hooks for tips/pins
+export const useCreateTip = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: tipsApi.createTip,
+    onSuccess: () => {
+      // Invalidate map data to refresh pins on the map
+      queryClient.invalidateQueries({ queryKey: ["map"] });
+    },
+    onError: (error) => {
+      console.error("Failed to create tip:", error);
+    },
+  });
+};
+
+/**
+ * Alternative hook that uses the existing pins service function
+ * This maintains compatibility with your existing savePinToDatabase function
+ */
+export const useCreatePin = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ formData, location }: CreatePinRequest) => {
+      // Use the existing savePinToDatabase function from pins service
+      const { savePinToDatabase } = await import("../services/pins");
+      return savePinToDatabase(formData, location);
+    },
+    onSuccess: () => {
+      // Invalidate map data to refresh pins on the map
+      queryClient.invalidateQueries({ queryKey: ["map"] });
+    },
+    onError: (error) => {
+      console.error("Failed to create pin:", error);
     },
   });
 };

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Map from "./components/ui/Map";
+import Map from "./components/Map";
 import SearchBox from "./components/SearchBox";
 import ChipFilters from "./components/ChipFilter";
 import TipCard from "./components/TipCard";
