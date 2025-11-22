@@ -67,6 +67,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
         address: formData.address.trim(),
         picture: pictureUrl || undefined,
         colour: formData.colour,
+        tags: [],
         contact: {},
         comments: [],
         likedBy: [],
