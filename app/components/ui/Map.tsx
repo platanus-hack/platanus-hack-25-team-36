@@ -3,6 +3,7 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import Image from "next/image";
 import { useCreatePin } from "@/app/hooks/api";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -293,11 +294,11 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
 
       {/* Floating Add Pin Button */}
       <button
-        className={`absolute bottom-4 right-4 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110 active:scale-95 ${
+        className={`absolute bottom-4 right-4 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110 active:scale-95 flex items-center justify-center ${
           isCreatingPin
-            ? "bg-red-500 hover:bg-red-600"
-            : "bg-green-500 hover:bg-green-600"
-        } text-white flex items-center justify-center`}
+            ? "bg-gray-200 hover:bg-gray-300"
+            : "bg-white hover:bg-gray-50"
+        }`}
         onClick={() => {
           if (isCreatingPin) {
             setIsCreatingPin(false);
@@ -312,19 +313,24 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
         }}
         title={isCreatingPin ? "Cancel pin creation" : "Add new pin"}
       >
-        <svg
-          className="w-6 h-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          {isCreatingPin ? (
+        {isCreatingPin ? (
+          <svg
+            className="w-6 h-6 text-gray-900"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M18 6L6 18M6 6L18 18" />
-          ) : (
-            <path d="M12 5v14m-7-7h14" />
-          )}
-        </svg>
+          </svg>
+        ) : (
+          <Image
+            src="/assets/pin_2.png"
+            alt="Add Pin"
+            width={36}
+            height={36}
+          />
+        )}
       </button>
 
       {/* Pin Creation Mode Indicator */}

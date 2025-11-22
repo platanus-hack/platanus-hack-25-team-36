@@ -57,7 +57,9 @@ const mapApi = {
 };
 
 const tipsApi = {
-  createTip: (pinData: CreatePinRequest): Promise<TipResponse> => {
+  createTip: (
+    pinData: CreatePinRequest & { userId?: string }
+  ): Promise<TipResponse> => {
     const requestBody = {
       type: MapPinType.PIN,
       title: pinData.formData.title,
@@ -78,9 +80,9 @@ const tipsApi = {
       comments: [],
       likedBy: [],
       dislikedBy: [],
-      // Generate valid ObjectIds as temporary placeholders
-      authorId: generateObjectId(),
-      communityId: generateObjectId(),
+      // Use authenticated user ID or generate temporary ID
+      authorId: pinData.userId || generateObjectId(),
+      communityId: generateObjectId(), // TODO: Implement community selection
     };
 
     return api.post("/tips", requestBody);
@@ -200,7 +202,35 @@ export const useCreateTip = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: tipsApi.createTip,
+    mutationFn: (pinData: CreatePinRequest & { userId?: string }) =>
+      tipsApi.createTip(pinData),
+    onSuccess: () => {
+      // Invalidate map data to refresh pins on the map
+      queryClient.invalidateQueries({ queryKey: ["map"] });
+    },
+    onError: (error) => {
+      console.error("Failed to create tip:", error);
+    },
+  });
+};
+
+/**
+ * Hook that automatically includes the authenticated user ID
+ */
+export const useCreateTipWithAuth = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (pinData: CreatePinRequest) => {
+      // Dynamically import to avoid SSR issues
+      const { getSession } = await import("next-auth/react");
+      const session = await getSession();
+
+      return tipsApi.createTip({
+        ...pinData,
+        userId: session?.user?.id,
+      });
+    },
     onSuccess: () => {
       // Invalidate map data to refresh pins on the map
       queryClient.invalidateQueries({ queryKey: ["map"] });

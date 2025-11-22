@@ -126,7 +126,124 @@ type TipBaseDocument = mongoose.HydratedDocument<InferSchemaType<typeof TipBaseS
 type TipPinDocument = mongoose.HydratedDocument<InferSchemaType<typeof TipPinSchema> & InferSchemaType<typeof TipBaseSchema>>;
 type TipTextDocument = mongoose.HydratedDocument<InferSchemaType<typeof TipTextSchema> & InferSchemaType<typeof TipBaseSchema>>;
 
-export const Tip = mongoose.models.Tip || mongoose.model("Tip", TipBaseSchema);
+interface SearchTipsParams {
+  searchQuery?: string;
+  updatedAt?: Date;
+  communityIds: mongoose.Types.ObjectId[];
+}
+
+interface SearchTipsResult {
+  pins: TipPinDocument[];
+  nonPins: TipTextDocument[];
+}
+
+interface TipStatics extends mongoose.Model<TipBaseDocument> {
+  searchTips(params: SearchTipsParams): Promise<SearchTipsResult>;
+}
+
+const TipModel = (mongoose.models.Tip || mongoose.model("Tip", TipBaseSchema)) as TipStatics;
+
+TipModel.searchTips = async function(params: SearchTipsParams): Promise<SearchTipsResult> {
+  const { searchQuery, updatedAt, communityIds } = params;
+
+  const matchFilters: mongoose.FilterQuery<TipBaseDocument> = {};
+  
+  if (updatedAt) {
+    matchFilters.updatedAt = { $gte: updatedAt };
+  }
+  
+  if (communityIds && communityIds.length > 0) {
+    matchFilters.communityId = { $in: communityIds };
+  }
+
+  let results: TipBaseDocument[];
+
+  if (searchQuery?.trim()) {
+    const searchStage: mongoose.PipelineStage = {
+      $search: {
+        index: "tips_search_index",
+        compound: {
+          should: [
+            {
+              text: {
+                query: searchQuery,
+                path: "title",
+                fuzzy: {
+                  maxEdits: 2,
+                  prefixLength: 2,
+                  maxExpansions: 50,
+                },
+              },
+            },
+            {
+              text: {
+                query: searchQuery,
+                path: "description",
+                fuzzy: {
+                  maxEdits: 2,
+                  prefixLength: 2,
+                  maxExpansions: 50,
+                },
+              },
+            },
+            {
+              text: {
+                query: searchQuery,
+                path: "tags",
+                fuzzy: {
+                  maxEdits: 1,
+                  prefixLength: 1,
+                  maxExpansions: 100,
+                },
+              },
+            },
+            {
+              text: {
+                query: searchQuery,
+                path: "address",
+                fuzzy: {
+                  maxEdits: 2,
+                  prefixLength: 2,
+                  maxExpansions: 50,
+                },
+              },
+            },
+          ],
+          minimumShouldMatch: 1,
+        },
+      },
+    };
+
+    const pipeline: mongoose.PipelineStage[] = [searchStage];
+
+    if (Object.keys(matchFilters).length > 0) {
+      pipeline.push({
+        $match: matchFilters,
+      });
+    }
+
+    const aggregationResults = await this.aggregate(pipeline);
+    const tipIds = aggregationResults.map((result) => result._id);
+    results = await this.find({ _id: { $in: tipIds } }).exec();
+  } else {
+    results = await this.find(matchFilters).exec();
+  }
+
+  const pins: TipPinDocument[] = [];
+  const nonPins: TipTextDocument[] = [];
+
+  for (const tip of results) {
+    if (tip.type === "pin") {
+      pins.push(tip as TipPinDocument);
+    } else {
+      nonPins.push(tip);
+    }
+  }
+
+  return { pins, nonPins };
+};
+
+export const Tip = TipModel;
 export const TipPin = Tip.discriminators?.pin || Tip.discriminator("pin", TipPinSchema);
 export const TipText = Tip.discriminators?.text || Tip.discriminator("text", TipTextSchema);
 

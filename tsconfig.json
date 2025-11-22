@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
-, "app/components/MapBox.ttsx"  ],
+    "**/*.mts",
+    "app/components/MapBox.ttsx"
+  ],
   "exclude": ["node_modules"]
 }

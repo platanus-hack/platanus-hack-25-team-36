@@ -171,3 +171,31 @@ export interface MapPin {
   createdAt: string;
   updatedAt: string;
 }
+
+/**
+ * Represents a text tip (non-pin tip) created by a user.
+ * Aligned with TipTextSchema MongoDB model.
+ */
+export interface TextTip {
+  id: string; // Unique ID for the tip
+  authorId: string; // Author: User (reference to User.id)
+  communityId: string; // Community: Community (reference to Community.id) - required
+  
+  // Tip Attributes
+  type: 'text'; // Discriminator type for TipText
+  title: string;
+  description: string; // Main content
+  tags: string[]; // Tags for categorization and search
+  
+  // Media & Visual
+  background_image?: string; // AI-generated background image URL (S3 key)
+  
+  // User Interactions (aligned with MongoDB arrays)
+  comments: string[]; // References to Message.id documents
+  likedBy: string[]; // References to User.id who liked this tip
+  dislikedBy: string[]; // References to User.id who disliked this tip
+  
+  // Standard fields
+  createdAt: string;
+  updatedAt: string;
+}
