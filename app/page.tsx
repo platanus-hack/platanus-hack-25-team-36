@@ -28,7 +28,7 @@ export default function Home() {
           alt="Pasa el dato"
           width={200}
           height={70}
-          className="absolute left-1/2 transform -translate-x-1/2"
+          className="absolute left-1/2 transform -translate-x-1/2 md:w-[300px] w-[200px]"
         />
         <div className="w-12"></div>
       </header>
