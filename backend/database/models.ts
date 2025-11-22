@@ -210,6 +210,10 @@ const TipBaseSchema = new mongoose.Schema({
     type: String,
     trim: true,
   }],
+  background_image: {
+    type: String,
+    trim: true,
+  },
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Message",

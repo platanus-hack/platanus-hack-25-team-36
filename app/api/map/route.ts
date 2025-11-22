@@ -46,6 +46,7 @@ function transformTipToMapPin(tip: TipPinLean | TipPinDocument): MapPin {
     title: (tipObj.title as string) || '',
     description: (tipObj.description as string) || '',
     tags,
+    background_image: tipObj.background_image as string | undefined,
     location: {
       point: location?.point || { type: 'Point', coordinates: [0, 0] },
       radius: location?.radius || 0,

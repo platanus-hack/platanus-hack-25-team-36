@@ -6,6 +6,7 @@
     "title": "Farmacia Ahumada 24 Horas",
     "description": "Farmacia abierta las 24 horas en Avenida Providencia cerca del Costanera Center. Muy útil para emergencias y medicamentos.",
     "tags": ["farmacia", "24 horas", "emergencias", "medicamentos", "salud"],
+    "background_image": "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -26,6 +27,7 @@
     "title": "Feria de Productores Locales",
     "description": "Feria de productores locales todos los sábados de 9:00 a 14:00 horas en la Plaza Ñuñoa. Frutas, verduras frescas y productos orgánicos de la región.",
     "tags": ["feria", "productos locales", "frutas", "verduras", "orgánico", "sábados"],
+    "background_image": "https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=800",
     "startDate": "2024-12-21T09:00:00.000Z",
     "duration": 18000000,
     "location": {
@@ -48,6 +50,7 @@
     "title": "Tips de Seguridad",
     "description": "Recordatorio: siempre estar atentos en las calles, especialmente de noche. Recomiendo caminar en grupo cuando sea posible y evitar calles mal iluminadas. En Las Condes hay buena seguridad pero siempre es mejor prevenir.",
     "tags": ["seguridad", "consejos", "prevención", "noche"],
+    "background_image": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800",
     "likedBy": ["user1", "user3", "user4"],
     "dislikedBy": [],
     "comments": []
@@ -59,6 +62,7 @@
     "title": "Mejor Café del Sector",
     "description": "El café en Avenida Providencia cerca del Costanera Center tiene el mejor café del sector. Ambiente tranquilo, WiFi rápido y excelente atención. Perfecto para trabajar.",
     "tags": ["café", "trabajo", "WiFi", "restaurante"],
+    "background_image": "https://images.unsplash.com/photo-1501339847302-ac426a4c7c6f?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -79,6 +83,7 @@
     "title": "Festival de Música en Vivo",
     "description": "Festival de música en vivo este viernes a las 20:00 horas en el Parque de las Esculturas. Entrada gratuita. Artistas locales y nacionales.",
     "tags": ["música", "festival", "evento", "gratis", "arte", "entretenimiento"],
+    "background_image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
     "startDate": "2024-12-20T20:00:00.000Z",
     "duration": 10800000,
     "location": {
@@ -101,6 +106,7 @@
     "title": "Estación de Metro El Golf",
     "description": "Estación de metro El Golf, línea 1. Muy bien conectada y con buena frecuencia de trenes. Ideal para desplazarse por la ciudad.",
     "tags": ["transporte", "metro", "línea 1", "movilidad"],
+    "background_image": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -121,6 +127,7 @@
     "title": "Supermercado Lider",
     "description": "Supermercado Lider en Avenida Irarrázaval. Buen surtido, precios competitivos y estacionamiento disponible. Abierto hasta tarde.",
     "tags": ["supermercado", "compras", "estacionamiento"],
+    "background_image": "https://images.unsplash.com/photo-1556910096-6f5e72db6803?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -141,6 +148,7 @@
     "title": "Parque de las Esculturas - Ruta Running",
     "description": "Excelente ruta de running de 3km alrededor del Parque de las Esculturas. Pista plana, bien iluminada y con buena seguridad. Ideal para correr temprano en la mañana o al atardecer.",
     "tags": ["running", "ejercicio", "parque", "deporte", "cardio"],
+    "background_image": "https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -161,6 +169,7 @@
     "title": "Gimnasio Smart Fit",
     "description": "Gimnasio bien equipado en Avenida Providencia. Precios accesibles, buena variedad de máquinas y clases grupales. Abierto desde las 6:00 hasta las 23:00.",
     "tags": ["gimnasio", "ejercicio", "fitness", "clases grupales"],
+    "background_image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -181,6 +190,7 @@
     "title": "Grupo de Running Dominical",
     "description": "Grupo de running todos los domingos a las 8:00 AM. Salimos desde el Costanera Center y hacemos una ruta de 5-8km. Todos los niveles son bienvenidos.",
     "tags": ["running", "grupo", "domingo", "ejercicio", "comunidad"],
+    "background_image": "https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800",
     "startDate": "2024-12-22T08:00:00.000Z",
     "duration": 5400000,
     "location": {
@@ -203,6 +213,7 @@
     "title": "¿Buscas compañero de entrenamiento?",
     "description": "Busco alguien para entrenar en las mañanas antes del trabajo. Preferiblemente cerca de Providencia. Entreno fuerza y cardio. ¿Alguien interesado?",
     "tags": ["ejercicio", "entrenamiento", "compañero", "fuerza", "cardio"],
+    "background_image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
     "likedBy": ["user6"],
     "dislikedBy": [],
     "comments": []
@@ -214,6 +225,7 @@
     "title": "Tienda de Cartas El Dragón",
     "description": "Tienda especializada en Magic the Gathering y otros juegos de cartas. Tienen buen surtido de cartas sueltas, boosters y organizan torneos los viernes. Ubicada en Providencia.",
     "tags": ["Magic the Gathering", "juegos de cartas", "tienda", "torneos"],
+    "background_image": "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -234,6 +246,7 @@
     "title": "Torneo Commander - Viernes",
     "description": "Torneo de Commander todos los viernes a las 19:00 horas. Inscripción $5.000. Premios en cartas y boosters. Todos los niveles bienvenidos.",
     "tags": ["Magic the Gathering", "torneo", "Commander", "viernes", "competencia"],
+    "background_image": "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=800",
     "startDate": "2024-12-20T19:00:00.000Z",
     "duration": 10800000,
     "location": {
@@ -256,6 +269,7 @@
     "title": "¿Buscas carta Black Lotus?",
     "description": "Busco una carta Black Lotus para completar mi deck vintage. Tengo varias cartas raras para intercambiar o puedo comprar. ¿Alguien tiene una disponible?",
     "tags": ["Magic the Gathering", "intercambio", "cartas raras", "vintage"],
+    "background_image": "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=800",
     "likedBy": ["user5", "user6"],
     "dislikedBy": [],
     "comments": ["msg6"]
@@ -267,6 +281,7 @@
     "title": "Intercambio de Cartas",
     "description": "Tengo varias cartas de ediciones recientes que busco intercambiar. Especialmente busco cartas de Commander. ¿Alguien interesado en hacer intercambios?",
     "tags": ["Magic the Gathering", "intercambio", "Commander", "cartas"],
+    "background_image": "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=800",
     "likedBy": ["user1", "user7"],
     "dislikedBy": [],
     "comments": []
@@ -278,6 +293,7 @@
     "title": "Lanas del Sur",
     "description": "Tienda especializada en lanas y materiales para tejido. Tienen excelente variedad de lanas merino, alpaca y sintéticas. Precios justos y atención personalizada.",
     "tags": ["tejido", "lanas", "manualidades", "merino", "alpaca"],
+    "background_image": "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800",
     "location": {
       "point": {
         "type": "Point",
@@ -298,6 +314,7 @@
     "title": "Encuentro de Tejedoras",
     "description": "Encuentro mensual de tejedoras en el Centro Cultural de Ñuñoa. Trae tu proyecto, compartimos tips y aprendemos nuevas técnicas. Café y conversación incluidos.",
     "tags": ["tejido", "manualidades", "encuentro", "comunidad", "aprendizaje"],
+    "background_image": "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800",
     "startDate": "2024-12-28T15:00:00.000Z",
     "duration": 9000000,
     "location": {
@@ -320,6 +337,7 @@
     "title": "¿Dónde comprar lana merino?",
     "description": "Busco lana merino de buena calidad en Ñuñoa o cerca. Necesito para un proyecto especial. ¿Alguien conoce alguna tienda o tiene recomendaciones?",
     "tags": ["tejido", "lanas", "merino", "compras", "recomendaciones"],
+    "background_image": "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800",
     "likedBy": ["user2", "user4"],
     "dislikedBy": [],
     "comments": ["msg7"]
@@ -331,6 +349,7 @@
     "title": "Comparto Patrón de Gorro",
     "description": "Comparto un patrón gratuito de gorro que hice. Es fácil y queda muy lindo. Lo pueden encontrar en mi perfil. ¡Espero que les guste!",
     "tags": ["tejido", "patrón", "gratis", "gorro", "manualidades"],
+    "background_image": "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800",
     "likedBy": ["user2", "user4", "user7"],
     "dislikedBy": [],
     "comments": []
