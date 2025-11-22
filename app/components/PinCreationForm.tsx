@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, LocationModel, MapPinType } from '../../types/app';
+import { MapPin, LocationModel, MapPinType } from '@/types/app';
 
 interface PinCreationFormProps {
   location: LocationModel;

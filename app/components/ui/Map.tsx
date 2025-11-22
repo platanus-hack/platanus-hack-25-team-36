@@ -15,11 +15,11 @@ type Marker = {
 };
 
 type Props = {
-  markers: Marker[];
+  markers?: Marker[];
   onChangeBounds?: (newBounds: mapboxgl.LngLatBounds) => void;
 };
 
-const Map = ({ markers, onChangeBounds }: Props) => {
+const Map = ({ markers = [], onChangeBounds }: Props) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [isCreatingPin, setIsCreatingPin] = useState(false);
@@ -224,9 +224,9 @@ const Map = ({ markers, onChangeBounds }: Props) => {
       const pinData = {
         type: 'pin',
         authorId: '6921d07f466304c0cc484380', // TODO: Get from auth context
-        communityId: '6921d07f466304c0cc484380', // TODO: Get from context or props  
+        communityId: '6921d07f466304c0cc484380', // TODO: Get from context or props
         title: formData.title,
-        description: formData.description || '',
+        description: formData.description && formData.description.trim() ? formData.description.trim() : 'No description provided',
         location: {
           point: {
             type: 'Point',
@@ -235,12 +235,14 @@ const Map = ({ markers, onChangeBounds }: Props) => {
           radius: 100
         },
         address: formData.address,
-        picture: pictureUrl || undefined,
+        picture: pictureUrl || '',
         colour: '#ef4444',
         comments: [],
         likedBy: [],
         dislikedBy: []
       };
+
+      console.log('Pin data to be sent:', JSON.stringify(pinData, null, 2));
 
       try {
         const response = await fetch('/api/tips', {
@@ -252,13 +254,20 @@ const Map = ({ markers, onChangeBounds }: Props) => {
         if (response.ok) {
           const savedPin = await response.json();
           console.log('Pin saved to MongoDB:', savedPin);
-          
+
           // Show success message
           alert('Pin created and saved successfully!');
         } else {
-          const error = await response.json();
-          console.error('Failed to save pin to MongoDB:', error);
-          alert('Pin created on map but failed to save to database');
+          const errorText = await response.text();
+          console.error('Failed to save pin to MongoDB. Status:', response.status);
+          console.error('Error response:', errorText);
+          try {
+            const errorJson = JSON.parse(errorText);
+            console.error('Parsed error:', errorJson);
+            alert(`Failed to save to database: ${errorJson.error || 'Unknown error'}`);
+          } catch (e) {
+            alert(`Failed to save to database. Status: ${response.status}`);
+          }
         }
       } catch (dbError) {
         console.error('Database error:', dbError);
@@ -292,12 +301,12 @@ const Map = ({ markers, onChangeBounds }: Props) => {
   };
 
   return (
-    <div className="relative w-150 h-150">
+    <div className="relative w-full h-full">
       <div ref={mapContainerRef} className="w-full h-full" />
       
       {/* Floating Add Pin Button */}
       <button
-        className={`absolute bottom-4 right-4 z-10 w-14 h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110 active:scale-95 ${
+        className={`absolute bottom-4 right-4 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110 active:scale-95 ${
           isCreatingPin ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
         } text-white flex items-center justify-center`}
         onClick={() => {
@@ -330,9 +339,9 @@ const Map = ({ markers, onChangeBounds }: Props) => {
 
       {/* Simple Pin Creation Form Modal */}
       {showForm && clickedLocation && (
-        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 pointer-events-auto">
-            <h2 className="text-xl font-bold mb-4">Create New Pin</h2>
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none p-4 overflow-auto">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full max-h-full overflow-y-auto pointer-events-auto border-2 border-gray-800">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Create New Pin</h2>
             <form onSubmit={(e) => {
               e.preventDefault();
               console.log('Form submission started');
@@ -370,30 +379,32 @@ const Map = ({ markers, onChangeBounds }: Props) => {
               });
             }}>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Title *</label>
-                <input name="title" required className="w-full p-2 border rounded" placeholder="Pin title" />
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Title *</label>
+                <input name="title" required className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900" placeholder="Pin title" />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Description (optional)</label>
-                <textarea name="description" className="w-full p-2 border rounded" rows={3} placeholder="Describe this location..." />
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Description (optional)</label>
+                <textarea name="description" className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900" rows={3} placeholder="Describe this location..." />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Address *</label>
-                <input name="address" required className="w-full p-2 border rounded" placeholder="Enter address" />
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Address *</label>
+                <input name="address" required className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900" placeholder="Enter address" />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Picture (optional)</label>
-                <input name="picture" type="file" accept="image/*" className="w-full p-2 border rounded" />
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Picture (optional)</label>
+                <input name="picture" type="file" accept="image/*" className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-600 file:text-white file:font-semibold file:cursor-pointer hover:file:bg-blue-700" />
               </div>
-              <div className="mb-4 text-sm text-gray-600">
-                Location: {clickedLocation.lat.toFixed(6)}, {clickedLocation.lng.toFixed(6)}
+              <div className="mb-4 p-3 bg-gray-100 border-2 border-gray-800 rounded-lg">
+                <p className="text-sm text-gray-900 font-medium">
+                  <strong>Location:</strong> {clickedLocation.lat.toFixed(6)}, {clickedLocation.lng.toFixed(6)}
+                </p>
               </div>
-              <div className="flex space-x-2">
-                <button type="button" onClick={() => { setShowForm(false); setIsCreatingPin(false); }} 
-                  className="flex-1 px-4 py-2 text-gray-600 border rounded hover:bg-gray-50">
+              <div className="flex space-x-3">
+                <button type="button" onClick={() => { setShowForm(false); setIsCreatingPin(false); }}
+                  className="flex-1 px-4 py-3 text-gray-900 bg-gray-200 border-2 border-gray-800 rounded-lg hover:bg-gray-300 font-semibold">
                   Cancel
                 </button>
-                <button type="submit" className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <button type="submit" className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">
                   Create Pin
                 </button>
               </div>
