@@ -1,78 +1,303 @@
 [
   {
     "type": "pin",
-    "communityName": "Barrio Norte",
-    "title": "Farmacia 24hs",
-    "description": "Farmacia abierta las 24 horas en la esquina de Corrientes y Pueyrredón. Muy útil para emergencias.",
+    "communityName": "Providencia Centro",
+    "authorEmail": "juan@example.com",
+    "title": "Farmacia Ahumada 24 Horas",
+    "description": "Farmacia abierta las 24 horas en Avenida Providencia cerca del Costanera Center. Muy útil para emergencias y medicamentos.",
     "location": {
       "point": {
         "type": "Point",
-        "coordinates": [-58.3900, -34.6000]
+        "coordinates": [-70.6020, -33.4180]
       },
       "radius": 50
     },
+    "address": "Avenida Providencia, Providencia, Santiago",
     "colour": "#FF5733",
-    "likedBy": ["maria@example.com", "carlos@example.com"],
+    "likedBy": ["user2", "user3"],
     "dislikedBy": [],
     "comments": []
   },
   {
     "type": "event",
-    "communityName": "Villa Crespo",
-    "title": "Feria de Productores",
-    "description": "Feria de productores locales todos los sábados de 9 a 14hs. Frutas, verduras y productos orgánicos.",
+    "communityName": "Ñuñoa",
+    "authorEmail": "maria@example.com",
+    "title": "Feria de Productores Locales",
+    "description": "Feria de productores locales todos los sábados de 9:00 a 14:00 horas en la Plaza Ñuñoa. Frutas, verduras frescas y productos orgánicos de la región.",
     "startDate": "2024-12-21T09:00:00.000Z",
     "location": {
       "point": {
         "type": "Point",
-        "coordinates": [-58.4378, -34.5950]
+        "coordinates": [-70.5950, -33.4560]
       },
       "radius": 100
     },
-    "likedBy": ["maria@example.com", "ana@example.com", "luis@example.com"],
+    "likedBy": ["user2", "user4", "user5"],
     "dislikedBy": [],
     "comments": []
   },
   {
     "type": "text",
-    "communityName": "Palermo",
+    "communityName": "Las Condes",
+    "authorEmail": "carlos@example.com",
     "title": "Tips de Seguridad",
-    "description": "Recordatorio: siempre estar atentos en las calles, especialmente de noche. Recomiendo caminar en grupo cuando sea posible y evitar calles mal iluminadas.",
-    "likedBy": ["juan@example.com", "carlos@example.com", "ana@example.com"],
+    "description": "Recordatorio: siempre estar atentos en las calles, especialmente de noche. Recomiendo caminar en grupo cuando sea posible y evitar calles mal iluminadas. En Las Condes hay buena seguridad pero siempre es mejor prevenir.",
+    "likedBy": ["user1", "user3", "user4"],
     "dislikedBy": [],
     "comments": []
   },
   {
     "type": "pin",
-    "communityName": "Palermo",
-    "title": "Mejor Café del Barrio",
-    "description": "El café en la esquina de Armenia y Costa Rica tiene el mejor café del barrio. Ambiente tranquilo y WiFi rápido.",
+    "communityName": "Providencia Centro",
+    "authorEmail": "maria@example.com",
+    "title": "Mejor Café del Sector",
+    "description": "El café en Avenida Providencia cerca del Costanera Center tiene el mejor café del sector. Ambiente tranquilo, WiFi rápido y excelente atención. Perfecto para trabajar.",
     "location": {
       "point": {
         "type": "Point",
-        "coordinates": [-58.4250, -34.5900]
+        "coordinates": [-70.6015, -33.4165]
       },
       "radius": 30
     },
-    "colour": "#9B59B6",
-    "likedBy": ["maria@example.com", "luis@example.com"],
+    "address": "Avenida Providencia, Providencia, Santiago",
+    "colour": "#FF5733",
+    "likedBy": ["user2", "user5"],
     "dislikedBy": [],
     "comments": []
   },
   {
     "type": "event",
-    "communityName": "Barrio Norte",
-    "title": "Festival de Música",
-    "description": "Festival de música en vivo este viernes a las 20hs en el parque central. Entrada gratuita.",
+    "communityName": "Providencia Centro",
+    "authorEmail": "ana@example.com",
+    "title": "Festival de Música en Vivo",
+    "description": "Festival de música en vivo este viernes a las 20:00 horas en el Parque de las Esculturas. Entrada gratuita. Artistas locales y nacionales.",
     "startDate": "2024-12-20T20:00:00.000Z",
     "location": {
       "point": {
         "type": "Point",
-        "coordinates": [-58.3816, -34.6037]
+        "coordinates": [-70.6009, -33.4173]
       },
       "radius": 200
     },
-    "likedBy": ["juan@example.com", "maria@example.com", "carlos@example.com", "ana@example.com"],
+    "likedBy": ["user1", "user2", "user3", "user4"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "pin",
+    "communityName": "Las Condes",
+    "authorEmail": "luis@example.com",
+    "title": "Estación de Metro El Golf",
+    "description": "Estación de metro El Golf, línea 1. Muy bien conectada y con buena frecuencia de trenes. Ideal para desplazarse por la ciudad.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5550, -33.4150]
+      },
+      "radius": 100
+    },
+    "address": "Avenida Apoquindo, Las Condes, Santiago",
+    "colour": "#9B59B6",
+    "likedBy": ["user1", "user2"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "pin",
+    "communityName": "Ñuñoa",
+    "authorEmail": "ana@example.com",
+    "title": "Supermercado Lider",
+    "description": "Supermercado Lider en Avenida Irarrázaval. Buen surtido, precios competitivos y estacionamiento disponible. Abierto hasta tarde.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5900, -33.4500]
+      },
+      "radius": 80
+    },
+    "address": "Avenida Irarrázaval, Ñuñoa, Santiago",
+    "colour": "#33C3F0",
+    "likedBy": ["user4", "user5"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "pin",
+    "communityName": "Ejercicio Providencia",
+    "authorEmail": "carlos@example.com",
+    "title": "Parque de las Esculturas - Ruta Running",
+    "description": "Excelente ruta de running de 3km alrededor del Parque de las Esculturas. Pista plana, bien iluminada y con buena seguridad. Ideal para correr temprano en la mañana o al atardecer.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 150
+    },
+    "address": "Parque de las Esculturas, Providencia, Santiago",
+    "colour": "#E74C3C",
+    "likedBy": ["user3", "user6", "user7"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "pin",
+    "communityName": "Ejercicio Providencia",
+    "authorEmail": "diego@example.com",
+    "title": "Gimnasio Smart Fit",
+    "description": "Gimnasio bien equipado en Avenida Providencia. Precios accesibles, buena variedad de máquinas y clases grupales. Abierto desde las 6:00 hasta las 23:00.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6025, -33.4190]
+      },
+      "radius": 50
+    },
+    "address": "Avenida Providencia, Providencia, Santiago",
+    "colour": "#E74C3C",
+    "likedBy": ["user3", "user6"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "event",
+    "communityName": "Ejercicio Providencia",
+    "authorEmail": "carlos@example.com",
+    "title": "Grupo de Running Dominical",
+    "description": "Grupo de running todos los domingos a las 8:00 AM. Salimos desde el Costanera Center y hacemos una ruta de 5-8km. Todos los niveles son bienvenidos.",
+    "startDate": "2024-12-22T08:00:00.000Z",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 100
+    },
+    "likedBy": ["user3", "user6", "user7"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "text",
+    "communityName": "Ejercicio Providencia",
+    "authorEmail": "diego@example.com",
+    "title": "¿Buscas compañero de entrenamiento?",
+    "description": "Busco alguien para entrenar en las mañanas antes del trabajo. Preferiblemente cerca de Providencia. Entreno fuerza y cardio. ¿Alguien interesado?",
+    "likedBy": ["user6"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "pin",
+    "communityName": "Magic the Gathering Santiago",
+    "authorEmail": "juan@example.com",
+    "title": "Tienda de Cartas El Dragón",
+    "description": "Tienda especializada en Magic the Gathering y otros juegos de cartas. Tienen buen surtido de cartas sueltas, boosters y organizan torneos los viernes. Ubicada en Providencia.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6010, -33.4185]
+      },
+      "radius": 30
+    },
+    "address": "Avenida Providencia, Providencia, Santiago",
+    "colour": "#8E44AD",
+    "likedBy": ["user1", "user5", "user6"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "event",
+    "communityName": "Magic the Gathering Santiago",
+    "authorEmail": "luis@example.com",
+    "title": "Torneo Commander - Viernes",
+    "description": "Torneo de Commander todos los viernes a las 19:00 horas. Inscripción $5.000. Premios en cartas y boosters. Todos los niveles bienvenidos.",
+    "startDate": "2024-12-20T19:00:00.000Z",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6010, -33.4185]
+      },
+      "radius": 50
+    },
+    "likedBy": ["user1", "user5", "user6", "user7"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "text",
+    "communityName": "Magic the Gathering Santiago",
+    "authorEmail": "luis@example.com",
+    "title": "¿Buscas carta Black Lotus?",
+    "description": "Busco una carta Black Lotus para completar mi deck vintage. Tengo varias cartas raras para intercambiar o puedo comprar. ¿Alguien tiene una disponible?",
+    "likedBy": ["user5", "user6"],
+    "dislikedBy": [],
+    "comments": ["msg6"]
+  },
+  {
+    "type": "text",
+    "communityName": "Magic the Gathering Santiago",
+    "authorEmail": "diego@example.com",
+    "title": "Intercambio de Cartas",
+    "description": "Tengo varias cartas de ediciones recientes que busco intercambiar. Especialmente busco cartas de Commander. ¿Alguien interesado en hacer intercambios?",
+    "likedBy": ["user1", "user7"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "pin",
+    "communityName": "Tejido y Manualidades Ñuñoa",
+    "authorEmail": "maria@example.com",
+    "title": "Lanas del Sur",
+    "description": "Tienda especializada en lanas y materiales para tejido. Tienen excelente variedad de lanas merino, alpaca y sintéticas. Precios justos y atención personalizada.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5920, -33.4520]
+      },
+      "radius": 40
+    },
+    "address": "Avenida Irarrázaval, Ñuñoa, Santiago",
+    "colour": "#F39C12",
+    "likedBy": ["user2", "user4", "user7"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "event",
+    "communityName": "Tejido y Manualidades Ñuñoa",
+    "authorEmail": "ana@example.com",
+    "title": "Encuentro de Tejedoras",
+    "description": "Encuentro mensual de tejedoras en el Centro Cultural de Ñuñoa. Trae tu proyecto, compartimos tips y aprendemos nuevas técnicas. Café y conversación incluidos.",
+    "startDate": "2024-12-28T15:00:00.000Z",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5950, -33.4560]
+      },
+      "radius": 100
+    },
+    "likedBy": ["user2", "user4", "user7"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "text",
+    "communityName": "Tejido y Manualidades Ñuñoa",
+    "authorEmail": "camila@example.com",
+    "title": "¿Dónde comprar lana merino?",
+    "description": "Busco lana merino de buena calidad en Ñuñoa o cerca. Necesito para un proyecto especial. ¿Alguien conoce alguna tienda o tiene recomendaciones?",
+    "likedBy": ["user2", "user4"],
+    "dislikedBy": [],
+    "comments": ["msg7"]
+  },
+  {
+    "type": "text",
+    "communityName": "Tejido y Manualidades Ñuñoa",
+    "authorEmail": "maria@example.com",
+    "title": "Comparto Patrón de Gorro",
+    "description": "Comparto un patrón gratuito de gorro que hice. Es fácil y queda muy lindo. Lo pueden encontrar en mi perfil. ¡Espero que les guste!",
+    "likedBy": ["user2", "user4", "user7"],
     "dislikedBy": [],
     "comments": []
   }

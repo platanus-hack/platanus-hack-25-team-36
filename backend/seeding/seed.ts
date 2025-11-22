@@ -64,14 +64,22 @@ async function seedUsers(usersData: any[], User: any, logging: any): Promise<Map
   logging.info(`Seeding ${usersData.length} users...`);
   
   const userMap = new Map<string, any>();
+  const userByIdMap = new Map<string, any>();
   
   for (const userData of usersData) {
     const user = await User.create(userData);
     userMap.set(userData.email, user);
-    logging.info(`Created user: ${user.email}`);
+    if (userData.id) {
+      userByIdMap.set(userData.id, user);
+    }
+    logging.info(`Created user: ${user.email}${userData.id ? ` (id: ${userData.id})` : ""}`);
   }
   
-  return userMap;
+  // Store both maps in the returned map for backward compatibility
+  const combinedMap = userMap as any;
+  combinedMap.byId = userByIdMap;
+  
+  return combinedMap;
 }
 
 async function seedCommunities(communitiesData: any[], userMap: Map<string, any>, Community: any, logging: any): Promise<Map<string, any>> {
@@ -116,13 +124,19 @@ async function seedMessages(messagesData: any[], userMap: Map<string, any>, Mess
     
     if (messageData.likedBy && Array.isArray(messageData.likedBy)) {
       processedData.likedBy = messageData.likedBy
-        .map((email: string) => userMap.get(email)?._id)
+        .map((identifier: string) => {
+          // Try ID first, then email for backward compatibility
+          return (userMap as any).byId?.get(identifier)?._id || userMap.get(identifier)?._id;
+        })
         .filter((id: any) => id !== undefined);
     }
     
     if (messageData.dislikedBy && Array.isArray(messageData.dislikedBy)) {
       processedData.dislikedBy = messageData.dislikedBy
-        .map((email: string) => userMap.get(email)?._id)
+        .map((identifier: string) => {
+          // Try ID first, then email for backward compatibility
+          return (userMap as any).byId?.get(identifier)?._id || userMap.get(identifier)?._id;
+        })
         .filter((id: any) => id !== undefined);
     }
     
@@ -139,6 +153,16 @@ async function seedTips(tipsData: any[], userMap: Map<string, any>, communityMap
   
   for (const tipData of tipsData) {
     const processedData = { ...tipData };
+    
+    if (tipData.authorEmail) {
+      const author = userMap.get(tipData.authorEmail);
+      if (!author) {
+        logging.warn(`Author ${tipData.authorEmail} not found, skipping tip`);
+        continue;
+      }
+      processedData.authorId = author._id;
+      delete processedData.authorEmail;
+    }
     
     if (tipData.communityName) {
       const community = communityMap.get(tipData.communityName);
@@ -161,13 +185,19 @@ async function seedTips(tipsData: any[], userMap: Map<string, any>, communityMap
     
     if (tipData.likedBy && Array.isArray(tipData.likedBy)) {
       processedData.likedBy = tipData.likedBy
-        .map((email: string) => userMap.get(email)?._id)
+        .map((identifier: string) => {
+          // Try ID first, then email for backward compatibility
+          return (userMap as any).byId?.get(identifier)?._id || userMap.get(identifier)?._id;
+        })
         .filter((id: any) => id !== undefined);
     }
     
     if (tipData.dislikedBy && Array.isArray(tipData.dislikedBy)) {
       processedData.dislikedBy = tipData.dislikedBy
-        .map((email: string) => userMap.get(email)?._id)
+        .map((identifier: string) => {
+          // Try ID first, then email for backward compatibility
+          return (userMap as any).byId?.get(identifier)?._id || userMap.get(identifier)?._id;
+        })
         .filter((id: any) => id !== undefined);
     }
     

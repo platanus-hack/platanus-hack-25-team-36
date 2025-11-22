@@ -1,22 +1,37 @@
 [
   {
+    "id": "user1",
     "name": "Juan Pérez",
     "email": "juan@example.com"
   },
   {
-    "name": "María García",
+    "id": "user2",
+    "name": "María González",
     "email": "maria@example.com"
   },
   {
-    "name": "Carlos Rodríguez",
+    "id": "user3",
+    "name": "Carlos Silva",
     "email": "carlos@example.com"
   },
   {
-    "name": "Ana Martínez",
+    "id": "user4",
+    "name": "Ana Muñoz",
     "email": "ana@example.com"
   },
   {
-    "name": "Luis Fernández",
+    "id": "user5",
+    "name": "Luis Torres",
     "email": "luis@example.com"
+  },
+  {
+    "id": "user6",
+    "name": "Diego Ramírez",
+    "email": "diego@example.com"
+  },
+  {
+    "id": "user7",
+    "name": "Camila Herrera",
+    "email": "camila@example.com"
   }
 ]

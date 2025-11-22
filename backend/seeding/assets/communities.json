@@ -1,44 +1,86 @@
 [
   {
-    "name": "Barrio Norte",
-    "description": "Comunidad del barrio norte de la ciudad. Compartimos información sobre eventos locales, seguridad y servicios.",
+    "name": "Providencia Centro",
+    "description": "Comunidad de Providencia cerca del Costanera Center. Compartimos información sobre eventos locales, seguridad, servicios y recomendaciones del barrio.",
     "location": {
       "point": {
         "type": "Point",
-        "coordinates": [-58.3816, -34.6037]
+        "coordinates": [-70.6009, -33.4173]
       },
       "radius": 2000
     },
-    "tags": ["barrio", "norte", "comunidad"],
+    "tags": ["providencia", "costanera", "centro", "comunidad"],
     "colour": "#FF5733",
     "members": ["juan@example.com", "maria@example.com", "carlos@example.com"]
   },
   {
-    "name": "Villa Crespo",
-    "description": "Vecinos de Villa Crespo unidos. Tips sobre restaurantes, transporte y vida barrial.",
+    "name": "Ñuñoa",
+    "description": "Vecinos de Ñuñoa unidos. Tips sobre restaurantes, transporte público, vida barrial y actividades culturales.",
     "location": {
       "point": {
         "type": "Point",
-        "coordinates": [-58.4378, -34.5950]
+        "coordinates": [-70.5950, -33.4560]
       },
-      "radius": 1500
+      "radius": 2500
     },
-    "tags": ["villa-crespo", "restaurantes", "transporte"],
+    "tags": ["ñuñoa", "restaurantes", "transporte", "cultura"],
     "colour": "#33C3F0",
     "members": ["maria@example.com", "ana@example.com", "luis@example.com"]
   },
   {
-    "name": "Palermo",
-    "description": "Comunidad de Palermo. Eventos, recomendaciones y noticias del barrio.",
+    "name": "Las Condes",
+    "description": "Comunidad de Las Condes. Eventos, recomendaciones gastronómicas, tips de seguridad y noticias del sector.",
     "location": {
       "point": {
         "type": "Point",
-        "coordinates": [-58.4238, -34.5885]
+        "coordinates": [-70.5500, -33.4100]
       },
-      "radius": 2500
+      "radius": 3000
     },
-    "tags": ["palermo", "eventos", "recomendaciones"],
+    "tags": ["las-condes", "eventos", "gastronomía", "recomendaciones"],
     "colour": "#9B59B6",
     "members": ["juan@example.com", "carlos@example.com", "ana@example.com", "luis@example.com"]
+  },
+  {
+    "name": "Ejercicio Providencia",
+    "description": "Comunidad de personas que hacen ejercicio en Providencia. Compartimos rutas de running, gimnasios, parques para entrenar y tips de entrenamiento.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 2000
+    },
+    "tags": ["ejercicio", "running", "gimnasio", "fitness", "providencia"],
+    "colour": "#E74C3C",
+    "members": ["carlos@example.com", "diego@example.com", "camila@example.com"]
+  },
+  {
+    "name": "Magic the Gathering Santiago",
+    "description": "Comunidad de jugadores de Magic the Gathering en Santiago. Intercambiamos cartas, organizamos torneos y compartimos información sobre tiendas y eventos.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 10000
+    },
+    "tags": ["magic", "mtg", "cartas", "torneos", "juegos"],
+    "colour": "#8E44AD",
+    "members": ["juan@example.com", "luis@example.com", "diego@example.com", "camila@example.com"]
+  },
+  {
+    "name": "Tejido y Manualidades Ñuñoa",
+    "description": "Comunidad de tejedoras y manualistas en Ñuñoa. Compartimos patrones, tips, lugares para comprar lana y organizamos encuentros de tejido.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5950, -33.4560]
+      },
+      "radius": 3000
+    },
+    "tags": ["tejido", "manualidades", "lana", "crochet", "ñuñoa"],
+    "colour": "#F39C12",
+    "members": ["maria@example.com", "ana@example.com", "camila@example.com"]
   }
 ]

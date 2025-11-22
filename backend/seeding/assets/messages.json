@@ -2,29 +2,50 @@
   {
     "id": "msg1",
     "authorEmail": "juan@example.com",
-    "text": "¡Excelente evento el sábado pasado! Gracias a todos los que participaron.",
-    "likedBy": ["maria@example.com", "carlos@example.com"],
+    "text": "¡Excelente evento el sábado pasado en el Costanera Center! Gracias a todos los que participaron.",
+    "likedBy": ["user2", "user3"],
     "dislikedBy": []
   },
   {
     "id": "msg2",
     "authorEmail": "maria@example.com",
-    "text": "Alguien sabe si hay algún buen lugar para trabajar con WiFi cerca de la plaza?",
-    "likedBy": ["ana@example.com"],
+    "text": "¿Alguien sabe si hay algún buen lugar para trabajar con WiFi cerca de la Plaza Ñuñoa?",
+    "likedBy": ["user4"],
     "dislikedBy": []
   },
   {
     "id": "msg3",
     "authorEmail": "carlos@example.com",
-    "text": "Recomiendo el nuevo restaurante en la esquina, tiene muy buena comida y precios accesibles.",
-    "likedBy": ["juan@example.com", "maria@example.com", "luis@example.com"],
+    "text": "Recomiendo el nuevo restaurante en Avenida Providencia, tiene muy buena comida y precios razonables.",
+    "likedBy": ["user1", "user2", "user5"],
     "dislikedBy": []
   },
   {
     "id": "msg4",
     "authorEmail": "ana@example.com",
-    "text": "Hay una feria de artesanías este domingo en el parque. ¡No se la pierdan!",
-    "likedBy": ["maria@example.com", "carlos@example.com"],
+    "text": "Hay una feria de artesanías este domingo en el Parque Bustamante. ¡No se la pierdan!",
+    "likedBy": ["user2", "user3"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg5",
+    "authorEmail": "diego@example.com",
+    "text": "¿Alguien conoce una buena ruta de running de 5km cerca de Providencia? Preferiblemente con poco tráfico.",
+    "likedBy": ["user3", "user7"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg6",
+    "authorEmail": "luis@example.com",
+    "text": "Busco una carta Black Lotus para mi deck. ¿Alguien tiene una para intercambiar o sabe dónde conseguirla?",
+    "likedBy": ["user1", "user6"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg7",
+    "authorEmail": "camila@example.com",
+    "text": "¿Dónde puedo comprar lana de buena calidad en Ñuñoa? Busco específicamente lana merino.",
+    "likedBy": ["user2", "user4"],
     "dislikedBy": []
   }
 ]
