@@ -17,8 +17,7 @@ const SANTIAGO_CENTER: ViewState = {
   longitude: -70.6483,
   zoom: 11,
   pitch: 0,
-  bearing: 0,
-  padding: {top: 0, bottom: 0, left: 0, right: 0}
+  bearing: 0
 };
 
 /**
