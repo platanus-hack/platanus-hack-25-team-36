@@ -1,6 +1,6 @@
 import React from 'react';
 import { Marker } from 'react-map-gl';
-import { MapPin } from '../types/app';
+import { MapPin, MapPinType } from '../../types/app';
 
 interface PinProps {
   pin: MapPin;
@@ -62,7 +62,7 @@ const Pin: React.FC<PinProps> = ({ pin, onClick }) => {
           strokeLinejoin="round"
         >
           <path d={getIcon(pin.type)} />
-          {pin.type === 'default' && <circle cx="12" cy="10" r="3" />}
+          {pin.type === MapPinType.PIN && <circle cx="12" cy="10" r="3" />}
         </svg>
       </div>
     </Marker>

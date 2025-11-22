@@ -121,6 +121,9 @@ export interface User {
 
 // --- 5. Map Pin Data ---
 
+enum MapPinType {
+  PIN = 'pin' // New type for user-created pins
+}
 /**
  * Represents a single dynamic pin placed on the map by a user (Point of Interest).
  * Aligned with TipPinSchema MongoDB model.
@@ -131,7 +134,7 @@ export interface MapPin {
   communityId: string; // Community: Community (reference to Community.id) - required
   
   // Pin Attributes
-  type: 'pin'; // Discriminator type for TipPin
+  type: MapPinType; // Discriminator type for TipPin
   title: string;
   description: string; // Main content for MVP (replaces contact and dynamic fields)
   
