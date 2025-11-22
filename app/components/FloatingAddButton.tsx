@@ -15,6 +15,12 @@ const FloatingAddButton: React.FC<FloatingAddButtonProps> = ({ isCreatingPin, on
       } text-white flex items-center justify-center`}
       onClick={onClick}
       title={isCreatingPin ? 'Cancel pin creation' : 'Add new pin'}
+      style={{
+        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+        borderBottom: '1px solid var(--foreground)',
+        borderBottomLeftRadius: '50px',
+        borderBottomRightRadius: '50px'
+      }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

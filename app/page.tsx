@@ -16,13 +16,21 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 bg-white z-50 px-6 py-4 border-b border-gray-200">
+      <header className="fixed top-0 left-0 right-0 bg-white z-50 px-6 py-4 flex justify-between items-center" style={{ borderBottom: '2px solid #000' }}>
         <Image
           src="/web-app-manifest-512x512.png"
           alt="Pasa el dato"
           width={48}
           height={48}
         />
+        <Image
+          src="/header-min.png"
+          alt="Pasa el dato"
+          width={200}
+          height={70}
+          className="absolute left-1/2 transform -translate-x-1/2"
+        />
+        <div className="w-12"></div>
       </header>
 
       {/* Main Content */}
@@ -34,7 +42,7 @@ export default function Home() {
         </section>
 
         {/* Map Section */}
-        <section className="w-full h-[400px] -mx-6 px-6 rounded-lg overflow-hidden">
+        <section className="w-full h-[400px] rounded-lg overflow-hidden">
           <Map />
         </section>
 

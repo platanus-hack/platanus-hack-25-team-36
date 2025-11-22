@@ -8,12 +8,18 @@ interface AddPinButtonProps {
 const AddPinButton: React.FC<AddPinButtonProps> = ({ isCreatingPin, onClick }) => {
   return (
     <button 
-      className={`w-full font-semibold py-3 px-4 rounded-xl transition-colors shadow-md transform hover:scale-[1.02] active:scale-[0.98] ${
+      className={`w-full font-semibold py-3 px-4 transition-colors shadow-md transform hover:scale-[1.02] active:scale-[0.98] ${
         isCreatingPin 
           ? 'bg-red-500 text-white hover:bg-red-600' 
           : 'bg-green-500 text-white hover:bg-green-600'
       }`}
       onClick={onClick}
+      style={{
+        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+        borderBottom: '1px solid var(--foreground)',
+        borderBottomLeftRadius: '50px',
+        borderBottomRightRadius: '50px'
+      }}
     >
       <svg 
         xmlns="http://www.w3.org/2000/svg" 

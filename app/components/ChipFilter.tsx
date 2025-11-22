@@ -21,8 +21,14 @@ export function ChipFilter({ label, colorClass, onToggle }: ChipFilterProps) {
     <button
       onClick={handleClick}
       className={`px-6 py-3 rounded-full font-medium transition-all ${colorClass} ${
-        isActive ? "border border-gray-800 shadow-lg" : "border border-transparent"
+        isActive ? "shadow-lg" : ""
       }`}
+      style={{ 
+        color: 'var(--foreground)', 
+        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+        border: '1.5px solid rgb(0, 0, 0)',
+        boxShadow: '3px 3px 0px rgba(0, 0, 0, 0.7)'
+      }}
     >
       {label}
     </button>
@@ -31,10 +37,10 @@ export function ChipFilter({ label, colorClass, onToggle }: ChipFilterProps) {
 
 export default function ChipFilters() {
   const filters = [
-    { label: "Servicios", colorClass: "bg-[#E9B63B]" },
-    { label: "Tips", colorClass: "bg-[#AAC4F5]" },
-    { label: "Comunidades", colorClass: "bg-[#E9B63B]" },
-    { label: "Negocios", colorClass: "bg-[#A1BC98]" },
+    { label: "Servicios", colorClass: "bg-[var(--color-chip-3)]" },
+    { label: "Tips", colorClass: "bg-[var(--color-chip-2)]" },
+    { label: "Comunidades", colorClass: "bg-[var(--color-chip-4)]" },
+    { label: "Negocios", colorClass: "bg-[var(--color-chip-1)]" },
   ];
 
   return (
