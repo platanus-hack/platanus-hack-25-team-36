@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, LocationModel, MapPinType, PinSubtype } from '@/types/app';
 import { convertFileToBase64 } from '@/app/services/s3';
 import { generateBackgroundImage } from '@/app/services/imageGeneration';
+import { getAvailableCategories, getCategoryColor } from '@/app/utils/categoryColors';
 
 interface PinCreationFormProps {
   location: LocationModel;
@@ -16,7 +17,6 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
     address: '',
     subtype: '' as PinSubtype | '',
     picture: '',
-    colour: '#ef4444', // Default red color
   });
   const [pictureFile, setPictureFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -44,8 +44,8 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.title.trim() || !formData.description.trim() || !formData.address.trim()) {
-      alert('Por favor completa todos los campos requeridos');
+    if (!formData.title.trim() || !formData.description.trim() || !formData.address.trim() || !formData.subtype) {
+      alert('Por favor completa todos los campos requeridos (Título, Descripción, Dirección y Categoría)');
       return;
     }
 
@@ -54,6 +54,9 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
     try {
       // Generate unique ID for this pin
       const uniqueId = `pin_${Date.now()}`;
+
+      // Get the color based on the selected category
+      const categoryColor = getCategoryColor(formData.subtype as PinSubtype);
 
       // Step 1: Generate AI background from description
       console.log('Generating AI background image...');
@@ -109,14 +112,14 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
         authorId: 'current-user', // TODO: Get from auth context
         communityId: 'default-community', // TODO: Get from context or props
         type: MapPinType.PIN,
-        subtype: formData.subtype || undefined,
+        subtype: formData.subtype as PinSubtype,
         title: formData.title.trim(),
         description: formData.description.trim(),
         location,
         address: formData.address.trim(),
         picture: pictureUrl || undefined,
         background_image: backgroundImageUrl,
-        colour: formData.colour,
+        colour: categoryColor,
         tags: [],
         contact: {},
         comments: [],
@@ -191,21 +194,24 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
               />
             </div>
 
-            {/* Subtype */}
+            {/* Category/Subtype */}
             <div>
               <label htmlFor="subtype" className="block text-base font-semibold text-gray-900 mb-2">
-                Subtipo (opcional)
+                Categoría *
               </label>
               <select
                 id="subtype"
                 value={formData.subtype}
                 onChange={(e) => setFormData({ ...formData, subtype: e.target.value as PinSubtype | '' })}
                 className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
               >
-                <option value="">Ninguno</option>
-                <option value={PinSubtype.SERVICE}>Servicio</option>
-                <option value={PinSubtype.BUSINESS}>Negocio</option>
-                <option value={PinSubtype.EVENT}>Evento</option>
+                <option value="">Selecciona una categoría</option>
+                {getAvailableCategories().map((category) => (
+                  <option key={category.value} value={category.value}>
+                    {category.label}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -226,20 +232,6 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                   Seleccionada: {pictureFile.name} ({(pictureFile.size / 1024 / 1024).toFixed(2)} MB)
                 </p>
               )}
-            </div>
-
-            {/* Color Picker */}
-            <div>
-              <label htmlFor="colour" className="block text-base font-semibold text-gray-900 mb-2">
-                Color del Pin
-              </label>
-              <input
-                type="color"
-                id="colour"
-                value={formData.colour}
-                onChange={(e) => setFormData({ ...formData, colour: e.target.value })}
-                className="w-24 h-12 bg-white border-2 border-gray-800 rounded-lg cursor-pointer"
-              />
             </div>
 
             {/* Location Info */}

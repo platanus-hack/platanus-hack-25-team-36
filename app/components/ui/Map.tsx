@@ -6,6 +6,8 @@ import mapboxgl from "mapbox-gl";
 import Image from "next/image";
 import { useCreatePin } from "@/app/hooks/api";
 import { PinSubtype } from "@/types/app";
+import { getAvailableCategories, getCategoryColor } from "@/app/utils/categoryColors";
+import { getS3Url } from "@/app/services/s3";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -118,52 +120,6 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
 
     mapRef.current = map;
 
-    // Add click handler for pin creation
-    map.on("click", (e) => {
-      if (isCreatingPin) {
-        setClickedLocation({ lng: e.lngLat.lng, lat: e.lngLat.lat });
-        setShowForm(true);
-        console.log("Map clicked at:", e.lngLat.lng, e.lngLat.lat);
-      }
-    });
-
-    // Change cursor when in creation mode
-    map.on("mouseenter", () => {
-      if (isCreatingPin) {
-        map.getCanvas().style.cursor = "crosshair";
-      }
-    });
-
-    map.on("mouseleave", () => {
-      map.getCanvas().style.cursor = "";
-    });
-
-    markers.forEach((marker) => {
-      // Create popup with image, title, and description
-      // Configure offset to position popup to the right and slightly above the marker
-      const popup = new mapboxgl.Popup({
-        offset: {
-          top: [0, 0],
-          "top-left": [0, 0],
-          "top-right": [0, 0],
-          bottom: [0, -40],
-          "bottom-left": [25, -40],
-          "bottom-right": [-25, -40],
-          left: [10, -20],
-          right: [-10, -20],
-        },
-        closeButton: true,
-        closeOnClick: true,
-        maxWidth: "300px",
-      }).setHTML(createPopupContent(marker));
-
-      // Use default colored marker
-      new mapboxgl.Marker({ color: marker.color })
-        .setLngLat([marker.longitude, marker.latitude])
-        .setPopup(popup)
-        .addTo(map);
-    });
-
     map.addControl(new mapboxgl.NavigationControl());
 
     map.addControl(
@@ -180,14 +136,59 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Separate useEffect to handle click events with updated isCreatingPin state
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
+      if (isCreatingPin) {
+        setClickedLocation({ lng: e.lngLat.lng, lat: e.lngLat.lat });
+        setShowForm(true);
+        console.log("Map clicked at:", e.lngLat.lng, e.lngLat.lat);
+      }
+    };
+
+    const handleMouseMove = () => {
+      if (isCreatingPin) {
+        map.getCanvas().style.cursor = "crosshair";
+      } else {
+        map.getCanvas().style.cursor = "";
+      }
+    };
+
+    map.on("click", handleMapClick);
+    map.on("mousemove", handleMouseMove);
+
+    // Set initial cursor
+    handleMouseMove();
+
+    return () => {
+      map.off("click", handleMapClick);
+      map.off("mousemove", handleMouseMove);
+    };
+  }, [isCreatingPin]);
+
   markers.forEach((marker) => {
     if (!mapRef.current) return;
 
     if (renderedMarkers.has(marker.id)) return;
 
-    const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-      `<strong>${marker.title}</strong><p>${marker.description}</p>`
-    );
+    const popup = new mapboxgl.Popup({
+      offset: {
+        top: [0, 0],
+        "top-left": [0, 0],
+        "top-right": [0, 0],
+        bottom: [0, -40],
+        "bottom-left": [25, -40],
+        "bottom-right": [-25, -40],
+        left: [10, -20],
+        right: [-10, -20],
+      },
+      closeButton: true,
+      closeOnClick: true,
+      maxWidth: "300px",
+    }).setHTML(createPopupContent(marker));
 
     new mapboxgl.Marker({
       color: marker.color,
@@ -202,32 +203,84 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     }
   });
 
-  // Helper: Create marker popup HTML
+  // Helper: Create marker popup HTML (for newly created pins)
   const createPopupHTML = (
     title: string,
     description: string,
     address: string,
     pictureUrl: string
   ) => {
-    return `<div>
-      <strong>${title}</strong>
-      ${description ? `<p>${description}</p>` : ""}
-      <p><small>📍 ${address}</small></p>
-      ${pictureUrl ? `<p><small>📷 Image uploaded</small></p>` : ""}
-    </div>`;
+    const imageHtml = pictureUrl
+      ? `<img src="${pictureUrl}" alt="${title}" style="
+          width: 100%;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 8px;
+          margin-bottom: 12px;
+          display: block;
+        " />`
+      : '';
+
+    // Truncate description if longer than 20 characters
+    const truncatedDescription = description.length > 20
+      ? description.substring(0, 20) + '. . .'
+      : description;
+
+    return `
+      <div style="
+        max-width: 280px;
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      ">
+        ${imageHtml}
+        <h3 style="
+          margin: 0 0 8px 0;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 1.4;
+        ">${title}</h3>
+        <a style="
+          margin: 0;
+          font-size: 14px;
+          color: #2563eb;
+          line-height: 1.5;
+          display: block;
+          text-decoration: underline;
+          cursor: pointer;
+          font-weight: 600;
+          transition: color 0.2s;
+        " onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#2563eb'">${truncatedDescription}</a>
+      </div>
+    `;
   };
 
   // Helper: Add marker to map
   const addMarkerToMap = (
     location: { lng: number; lat: number },
-    popupHTML: string
+    popupHTML: string,
+    color: string
   ) => {
     if (!mapRef.current) {
       throw new Error("Map not ready");
     }
 
-    const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML);
-    const marker = new mapboxgl.Marker({ color: "#ef4444" })
+    const popup = new mapboxgl.Popup({
+      offset: {
+        top: [0, 0],
+        "top-left": [0, 0],
+        "top-right": [0, 0],
+        bottom: [0, -40],
+        "bottom-left": [25, -40],
+        "bottom-right": [-25, -40],
+        left: [10, -20],
+        right: [-10, -20],
+      },
+      closeButton: true,
+      closeOnClick: true,
+      maxWidth: "300px",
+    }).setHTML(popupHTML);
+    const marker = new mapboxgl.Marker({ color })
       .setLngLat([location.lng, location.lat])
       .setPopup(popup)
       .addTo(mapRef.current);
@@ -249,7 +302,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     title: string;
     description: string;
     address: string;
-    subtype?: PinSubtype;
+    subtype: PinSubtype;
     picture?: File;
   }) => {
     if (!clickedLocation) return;
@@ -319,15 +372,20 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
         }
       }
 
-      // Step 3: Add marker to map
+      // Step 3: Get the color based on the selected category
+      const categoryColor = getCategoryColor(formData.subtype);
+
+      // Step 4: Add marker to map
+      // Convert S3 key to accessible URL
+      const pictureDisplayUrl = pictureUrl ? getS3Url(pictureUrl) || "" : "";
       const popupHTML = createPopupHTML(
         formData.title,
         formData.description,
         formData.address,
-        pictureUrl
+        pictureDisplayUrl
       );
       try {
-        addMarkerToMap(clickedLocation, popupHTML);
+        addMarkerToMap(clickedLocation, popupHTML, categoryColor);
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "Error desconocido";
@@ -335,7 +393,8 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
         return;
       }
 
-      // Step 4: Save to database using React Query
+      // Step 5: Save to database using React Query
+
       try {
         await createPinMutation.mutateAsync({
           formData: {
@@ -343,7 +402,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
             description: formData.description,
             address: formData.address,
             subtype: formData.subtype,
-            colour: "#ef4444",
+            colour: categoryColor,
             picture: pictureUrl,
             background_image: backgroundImageUrl,
           },
@@ -455,9 +514,9 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                 console.log("- Clicked location:", clickedLocation);
 
                 // Validate required fields
-                if (!title || !address) {
+                if (!title || !address || !subtype) {
                   alert(
-                    "Por favor completa todos los campos requeridos (Título y Dirección)"
+                    "Por favor completa todos los campos requeridos (Título, Dirección y Categoría)"
                   );
                   return;
                 }
@@ -473,7 +532,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                   title: title.trim(),
                   description: description?.trim() || "",
                   address: address.trim(),
-                  subtype: subtype ? (subtype as PinSubtype) : undefined,
+                  subtype: subtype as PinSubtype,
                   picture:
                     pictureFile && pictureFile.size > 0
                       ? pictureFile
@@ -516,16 +575,19 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Subtipo (opcional)
+                  Categoría *
                 </label>
                 <select
                   name="subtype"
+                  required
                   className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
                 >
-                  <option value="">Ninguno</option>
-                  <option value={PinSubtype.SERVICE}>Servicio</option>
-                  <option value={PinSubtype.BUSINESS}>Negocio</option>
-                  <option value={PinSubtype.EVENT}>Evento</option>
+                  <option value="">Selecciona una categoría</option>
+                  {getAvailableCategories().map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.label}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="mb-4">
