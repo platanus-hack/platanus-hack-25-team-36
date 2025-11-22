@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import { updateTimestampPreSave } from "../utils/schema-helpers";
 
 export const UserSchema = new mongoose.Schema({
@@ -25,6 +25,8 @@ export const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+type UserDocument = mongoose.HydratedDocument<InferSchemaType<typeof UserSchema>>;
 
 UserSchema.pre("save", updateTimestampPreSave);
 

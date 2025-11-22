@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import { updateTimestampPreSave, deduplicateObjectIds } from "../utils/schema-helpers";
 
 export const MessageSchema = new mongoose.Schema({
@@ -31,6 +31,8 @@ export const MessageSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+type MessageDocument = mongoose.HydratedDocument<InferSchemaType<typeof MessageSchema>>;
 
 MessageSchema.index({ authorId: 1, createdAt: -1 });
 MessageSchema.index({ createdAt: -1 });

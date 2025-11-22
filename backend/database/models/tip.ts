@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import { LocationSchema } from "../schemas/location";
 import { updateTimestampPreSave, deduplicateObjectIds, deduplicateStrings } from "../utils/schema-helpers";
 
@@ -121,6 +121,10 @@ TipPinSchema.index({ "location.point": "2dsphere" });
 TipPinSchema.index({ startDate: 1 });
 
 const TipTextSchema = new mongoose.Schema({});
+
+type TipBaseDocument = mongoose.HydratedDocument<InferSchemaType<typeof TipBaseSchema>>;
+type TipPinDocument = mongoose.HydratedDocument<InferSchemaType<typeof TipPinSchema> & InferSchemaType<typeof TipBaseSchema>>;
+type TipTextDocument = mongoose.HydratedDocument<InferSchemaType<typeof TipTextSchema> & InferSchemaType<typeof TipBaseSchema>>;
 
 export const Tip = mongoose.models.Tip || mongoose.model("Tip", TipBaseSchema);
 export const TipPin = Tip.discriminators?.pin || Tip.discriminator("pin", TipPinSchema);
