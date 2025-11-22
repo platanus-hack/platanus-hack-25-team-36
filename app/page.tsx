@@ -7,10 +7,10 @@ import UsersExample from "./components/UsersExample";
 
 export default function Home() {
   const mockTips = [
-    { id: 1, title: "Titulo lorem ipsum lorem ipsum" },
-    { id: 2, title: "Titulo lorem ipsum lorem ipsum" },
-    { id: 3, title: "Titulo lorem ipsum lorem ipsum" },
-    { id: 4, title: "Titulo lorem ipsum lorem ipsum" },
+    { id: 1, title: "Tengo dato de gasfiter cerca del costanera" },
+    { id: 2, title: "Vendo una bici" },
+    { id: 3, title: "Quien sabe jugar bridge para unas partidas?" },
+    { id: 4, title: "Estoy empezando un taller de costura gratis !" },
   ];
 
   return (
