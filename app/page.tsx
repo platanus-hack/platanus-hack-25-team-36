@@ -14,7 +14,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: '#FCF5EB' }}>
       {/* Fixed Header */}
       <header className="fixed top-0 left-0 right-0 bg-white z-50 px-6 py-4 flex justify-between items-center" style={{ borderBottom: '1px solid #000' }}>
         <Image

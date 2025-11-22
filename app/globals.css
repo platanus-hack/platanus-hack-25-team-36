@@ -17,14 +17,16 @@
   --color-third: #DDC57A;
   --color-details: #CE7E5A;
 
-  --color-chip-1: #9ECAD6;
-  --color-chip-2: #A7AAE1;
-  --color-chip-3: #D9E9CF;
-  --color-chip-4: #D6A99D;
-  --color-chip-5: #FFA4A4;
-  --color-chip-6: #A7AAE1;
-  --color-chip-7: #F08787;
-  --color-chip-8: #98A1BC; 
+  --color-chip-1: #9ECAD6; /* blue */
+  --color-chip-2: #A7AAE1; /* lila */
+  --color-chip-3: #D9E9CF; /* green */
+  --color-chip-4: #D6A99D; /* peach */
+  --color-chip-5: #FFA4A4; /* light red */
+  --color-chip-6: #A7AAE1; /* olivia rodrigo */
+  --color-chip-7: #F08787; /* coral */
+  --color-chip-8: #98A1BC; /* street fog */
+
+  --color-light-grey: #ffffff;
 }
 
 body {
