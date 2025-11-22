@@ -1,14 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../lib/axios";
-import { MapPin, MapPinType, TextTip } from "@/types/app";
+import { MapPin, MapPinType, TextTip, UserPreferences } from "@/types/app";
 import type { PinFormData, PinLocation } from "../services/pins";
-
-// Example types - replace with your actual data types
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
 
 interface Post {
   id: string;
@@ -40,14 +33,14 @@ interface GetTipsResponse {
 }
 
 // API functions
-const userApi = {
-  getUsers: (): Promise<User[]> => api.get("/users"),
-  getUser: (id: string): Promise<User> => api.get(`/users/${id}`),
-  createUser: (userData: Omit<User, "id">): Promise<User> =>
-    api.post("/users", userData),
-  updateUser: (id: string, userData: Partial<User>): Promise<User> =>
-    api.put(`/users/${id}`, userData),
-  deleteUser: (id: string): Promise<void> => api.delete(`/users/${id}`),
+const userPreferencesApi = {
+  getUserPreferences: (): Promise<UserPreferences[]> => api.get("/user-preferences"),
+  getUserPreference: (id: string): Promise<UserPreferences> => api.get(`/user-preferences/${id}`),
+  createUserPreference: (userPreferenceData: Omit<UserPreferences, "id">): Promise<UserPreferences> =>
+    api.post("/user-preferences", userPreferenceData),
+  updateUserPreference: (id: string, userPreferenceData: Partial<UserPreferences>): Promise<UserPreferences> =>
+    api.put(`/user-preferences/${id}`, userPreferenceData),
+  deleteUserPreference: (id: string): Promise<void> => api.delete(`/user-preferences/${id}`),
 };
 
 const postApi = {
@@ -121,59 +114,59 @@ function generateObjectId(): string {
   return timestamp + randomHex;
 }
 
-// React Query hooks for users
-export const useUsers = () => {
+// React Query hooks for user preferences
+export const useUserPreferences = () => {
   return useQuery({
-    queryKey: ["users"],
-    queryFn: userApi.getUsers,
+    queryKey: ["user-preferences"],
+    queryFn: userPreferencesApi.getUserPreferences,
   });
 };
 
-export const useUser = (id: string) => {
+export const useUserPreference = (id: string) => {
   return useQuery({
-    queryKey: ["users", id],
-    queryFn: () => userApi.getUser(id),
+    queryKey: ["user-preferences", id],
+    queryFn: () => userPreferencesApi.getUserPreference(id),
     enabled: !!id, // Only run query if id exists
   });
 };
 
-export const useCreateUser = () => {
+export const useCreateUserPreference = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: userApi.createUser,
+    mutationFn: userPreferencesApi.createUserPreference,
     onSuccess: () => {
-      // Invalidate and refetch users list
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      // Invalidate and refetch user preferences list
+      queryClient.invalidateQueries({ queryKey: ["user-preferences"] });
     },
   });
 };
 
-export const useUpdateUser = () => {
+export const useUpdateUserPreference = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, userData }: { id: string; userData: Partial<User> }) =>
-      userApi.updateUser(id, userData),
+    mutationFn: ({ id, userPreferenceData }: { id: string; userPreferenceData: Partial<UserPreferences> }) =>
+      userPreferencesApi.updateUserPreference(id, userPreferenceData),
     onSuccess: (data, variables) => {
-      // Update the specific user in cache
-      queryClient.setQueryData(["users", variables.id], data);
-      // Invalidate users list
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      // Update the specific user preference in cache
+      queryClient.setQueryData(["user-preferences", variables.id], data);
+      // Invalidate user preferences list
+      queryClient.invalidateQueries({ queryKey: ["user-preferences"] });
     },
   });
 };
 
-export const useDeleteUser = () => {
+export const useDeleteUserPreference = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: userApi.deleteUser,
+    mutationFn: userPreferencesApi.deleteUserPreference,
     onSuccess: (_, id) => {
-      // Remove user from cache
-      queryClient.removeQueries({ queryKey: ["users", id] });
-      // Invalidate users list
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      // Remove user preference from cache
+      queryClient.removeQueries({ queryKey: ["user-preferences", id] });
+      // Invalidate user preferences list
+      queryClient.invalidateQueries({ queryKey: ["user-preferences"] });
     },
   });
 };

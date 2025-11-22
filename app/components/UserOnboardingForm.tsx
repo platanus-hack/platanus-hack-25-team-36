@@ -58,16 +58,20 @@ export default function UserOnboardingForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/users", {
+      // TODO: Convert region/commune to latitude/longitude using geocoding service
+      // For now, using placeholder coordinates (Santiago, Chile)
+      // You should implement geocoding to convert region/commune to actual coordinates
+      const placeholderLatitude = -33.4489; // Santiago, Chile latitude
+      const placeholderLongitude = -70.6693; // Santiago, Chile longitude
+
+      const response = await fetch("/api/user-preferences", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
-          email: `${name.toLowerCase().replace(/\s+/g, "")}@pasaeldato.cl`, // Generate a temporary email
-          region: selectedRegion,
-          commune: selectedCommune,
+          latitude: placeholderLatitude,
+          longitude: placeholderLongitude,
           interests: selectedInterests,
         }),
       });

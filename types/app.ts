@@ -120,6 +120,19 @@ export interface User {
   interests: string[]; // Corresponds to Interests: string[]
 }
 
+/**
+ * Represents user preferences stored separately from OAuth user data.
+ * This model stores location and interests preferences.
+ */
+export interface UserPreferences {
+  id: string; // Unique user preferences ID
+  latitude: number; // User's latitude coordinate
+  longitude: number; // User's longitude coordinate
+  interests: string[]; // Array of user interests (strings)
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 
 // --- 5. Map Pin Data ---
 

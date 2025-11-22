@@ -42,7 +42,7 @@ console.log(`MONGODB_CLUSTER_NAME: ${process.env.MONGODB_CLUSTER_NAME || "NOT SE
 console.log(`MONGODB_CLUSTER_URL_ID: ${process.env.MONGODB_CLUSTER_URL_ID || "NOT SET"}`);
 
 interface SeedData {
-  users?: any[];
+  users?: any[]; // Note: This is now used for UserPreferences seeding
   communities?: any[];
   messages?: any[];
   tips?: any[];
@@ -60,29 +60,42 @@ function loadJsonFile(filename: string): any {
   return JSON.parse(fileContent);
 }
 
-async function seedUsers(usersData: any[], User: any, logging: any): Promise<Map<string, any>> {
-  logging.info(`Seeding ${usersData.length} users...`);
+async function seedUserPreferences(userPreferencesData: any[], UserPreferences: any, logging: any): Promise<Map<string, any>> {
+  logging.info(`Seeding ${userPreferencesData.length} user preferences...`);
   
-  const userMap = new Map<string, any>();
-  const userByIdMap = new Map<string, any>();
+  const userPreferencesMap = new Map<string, any>();
+  const userPreferencesByIdMap = new Map<string, any>();
   
-  for (const userData of usersData) {
-    const user = await User.create(userData);
-    userMap.set(userData.email, user);
-    if (userData.id) {
-      userByIdMap.set(userData.id, user);
+  for (const userPreferenceData of userPreferencesData) {
+    // Check if data has the required fields for UserPreferences
+    if (userPreferenceData.latitude === undefined || userPreferenceData.longitude === undefined) {
+      // Skip old user data format (name/email) since OAuth handles users
+      // UserPreferences requires latitude/longitude, so we'll skip entries without them
+      logging.warn(`Skipping user preference entry (missing latitude/longitude): ${userPreferenceData.id || userPreferenceData.email || 'unknown'}`);
+      continue;
     }
-    logging.info(`Created user: ${user.email}${userData.id ? ` (id: ${userData.id})` : ""}`);
+    
+    const processedData = {
+      latitude: userPreferenceData.latitude,
+      longitude: userPreferenceData.longitude,
+      interests: userPreferenceData.interests || [],
+    };
+    
+    const userPreference = await UserPreferences.create(processedData);
+    if (userPreferenceData.id) {
+      userPreferencesByIdMap.set(userPreferenceData.id, userPreference);
+    }
+    logging.info(`Created user preference: ${userPreferenceData.id || userPreference._id}`);
   }
   
   // Store both maps in the returned map for backward compatibility
-  const combinedMap = userMap as any;
-  combinedMap.byId = userByIdMap;
+  const combinedMap = userPreferencesMap as any;
+  combinedMap.byId = userPreferencesByIdMap;
   
   return combinedMap;
 }
 
-async function seedCommunities(communitiesData: any[], userMap: Map<string, any>, Community: any, logging: any): Promise<Map<string, any>> {
+async function seedCommunities(communitiesData: any[], userPreferencesMap: Map<string, any>, Community: any, logging: any): Promise<Map<string, any>> {
   logging.info(`Seeding ${communitiesData.length} communities...`);
   
   const communityMap = new Map<string, any>();
@@ -90,7 +103,13 @@ async function seedCommunities(communitiesData: any[], userMap: Map<string, any>
   for (const communityData of communitiesData) {
     const processedData = { ...communityData };
     
-    processedData.members = communityData.members.map((email: string) => userMap.get(email)._id);
+    // Note: Communities may reference users by ID now instead of email
+    // This assumes the seed data uses IDs that match userPreferencesMap.byId
+    if (communityData.members) {
+      processedData.members = communityData.members.map((identifier: string) => {
+        return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+      }).filter(Boolean);
+    }
     
     const community = await Community.create(processedData);
     communityMap.set(communityData.name, community);
@@ -100,25 +119,49 @@ async function seedCommunities(communitiesData: any[], userMap: Map<string, any>
   return communityMap;
 }
 
-async function seedMessages(messagesData: any[], userMap: Map<string, any>, Message: any, logging: any): Promise<Map<string, any>> {
+async function seedMessages(messagesData: any[], userPreferencesMap: Map<string, any>, Message: any, logging: any): Promise<Map<string, any>> {
   logging.info(`Seeding ${messagesData.length} messages...`);
   
   const messageMap = new Map<string, any>();
   
   for (const messageData of messagesData) {
-    const processedData = { ...messageData };
+    let authorId: any = null;
     
-    const author = userMap.get(messageData.authorEmail);
-    processedData.authorId = author._id;
-    delete processedData.authorEmail;
+    // Try to find author by email or ID
+    if (messageData.authorEmail) {
+      // Try to find by email first (for backward compatibility)
+      const author = userPreferencesMap.get(messageData.authorEmail);
+      if (author) {
+        authorId = author._id;
+      }
+    } else if (messageData.authorId) {
+      // Use authorId directly if provided
+      const author = (userPreferencesMap as any).byId?.get(messageData.authorId);
+      if (author) {
+        authorId = author._id;
+      }
+    }
     
-    processedData.likedBy = messageData.likedBy.map((identifier: string) => {
-      return (userMap as any).byId?.get(identifier)?._id || userMap.get(identifier)?._id;
-    });
+    // Skip message if author not found (since UserPreferences entries may not exist)
+    if (!authorId) {
+      logging.warn(`Author not found for message ${messageData.id || 'unknown'}, skipping...`);
+      continue;
+    }
     
-    processedData.dislikedBy = messageData.dislikedBy.map((identifier: string) => {
-      return (userMap as any).byId?.get(identifier)?._id || userMap.get(identifier)?._id;
-    });
+    const processedData: any = {
+      authorId: authorId,
+      text: messageData.text,
+      likes: 0,
+      dislikes: 0,
+    };
+    
+    processedData.likedBy = (messageData.likedBy || []).map((identifier: string) => {
+      return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+    }).filter(Boolean);
+    
+    processedData.dislikedBy = (messageData.dislikedBy || []).map((identifier: string) => {
+      return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+    }).filter(Boolean);
     
     const message = await Message.create(processedData);
     messageMap.set(messageData.id || message._id.toString(), message);
@@ -128,12 +171,22 @@ async function seedMessages(messagesData: any[], userMap: Map<string, any>, Mess
   return messageMap;
 }
 
-async function seedTips(tipsData: any[], userMap: Map<string, any>, communityMap: Map<string, any>, messageMap: Map<string, any>, Tip: any, logging: any): Promise<void> {
+async function seedTips(tipsData: any[], userPreferencesMap: Map<string, any>, communityMap: Map<string, any>, messageMap: Map<string, any>, Tip: any, logging: any): Promise<void> {
   logging.info(`Seeding ${tipsData.length} tips...`);
   
   for (const tipData of tipsData) {
-    const author = (userMap as any).byId.get(tipData.authorId);
+    const author = (userPreferencesMap as any).byId?.get(tipData.authorId);
     const community = communityMap.get(tipData.communityId);
+    
+    if (!author) {
+      logging.warn(`Author not found for tip ${tipData.title}, skipping...`);
+      continue;
+    }
+    
+    if (!community) {
+      logging.warn(`Community not found for tip ${tipData.title}, skipping...`);
+      continue;
+    }
     
     const processedData: any = {
       authorId: author._id,
@@ -143,13 +196,13 @@ async function seedTips(tipsData: any[], userMap: Map<string, any>, communityMap
       description: tipData.description,
       tags: tipData.tags || [],
       background_image: tipData.background_image,
-      comments: (tipData.comments || []).map((commentId: string) => messageMap.get(commentId)._id),
+      comments: (tipData.comments || []).map((commentId: string) => messageMap.get(commentId)?._id).filter(Boolean),
       likedBy: (tipData.likedBy || []).map((identifier: string) => {
-        return (userMap as any).byId.get(identifier)?._id || userMap.get(identifier)?._id;
-      }),
+        return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+      }).filter(Boolean),
       dislikedBy: (tipData.dislikedBy || []).map((identifier: string) => {
-        return (userMap as any).byId.get(identifier)?._id || userMap.get(identifier)?._id;
-      }),
+        return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+      }).filter(Boolean),
     };
     
     if (tipData.type === 'pin') {
@@ -169,7 +222,7 @@ async function seedTips(tipsData: any[], userMap: Map<string, any>, communityMap
 
 async function seed() {
   const { initializeMongoDb } = await import("../database/connection");
-  const { User, Message, Community, Tip } = await import("../database/models");
+  const { UserPreferences, Message, Community, Tip } = await import("../database/models");
   const { logging } = await import("../logging");
   
   try {
@@ -203,7 +256,7 @@ async function seed() {
     await Message.deleteMany({});
     await Tip.deleteMany({});
     await Community.deleteMany({});
-    await User.deleteMany({});
+    await UserPreferences.deleteMany({});
     
     logging.info("Database reset complete");
     
@@ -214,25 +267,26 @@ async function seed() {
       tips: loadJsonFile("tips.json"),
     };
     
-    if (!seedData.users || seedData.users.length === 0) {
-      logging.error("No users data found. Please provide users.json");
-      process.exit(1);
+    // Note: UserPreferences seeding is optional since OAuth handles user creation
+    // The users.json file may contain old format (name/email) which will be skipped
+    // Only entries with latitude/longitude will be seeded as UserPreferences
+    const userPreferencesMap = await seedUserPreferences(seedData.users || [], UserPreferences, logging);
+    if ((userPreferencesMap as any).byId?.size === 0) {
+      logging.info("No valid UserPreferences entries found in users.json (requires latitude/longitude). Messages and tips that reference users will be skipped.");
     }
-    
-    const userMap = await seedUsers(seedData.users, User, logging);
     
     let communityMap = new Map<string, any>();
     if (seedData.communities && seedData.communities.length > 0) {
-      communityMap = await seedCommunities(seedData.communities, userMap, Community, logging);
+      communityMap = await seedCommunities(seedData.communities, userPreferencesMap, Community, logging);
     }
     
     let messageMap = new Map<string, any>();
     if (seedData.messages && seedData.messages.length > 0) {
-      messageMap = await seedMessages(seedData.messages, userMap, Message, logging);
+      messageMap = await seedMessages(seedData.messages, userPreferencesMap, Message, logging);
     }
     
     if (seedData.tips && seedData.tips.length > 0) {
-      await seedTips(seedData.tips, userMap, communityMap, messageMap, Tip, logging);
+      await seedTips(seedData.tips, userPreferencesMap, communityMap, messageMap, Tip, logging);
     }
     
     logging.info("Database seeding completed successfully!");
@@ -245,3 +299,4 @@ async function seed() {
 }
 
 seed();
+
