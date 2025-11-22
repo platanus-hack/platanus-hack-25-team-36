@@ -135,6 +135,10 @@ export const CommunitySchema = new mongoose.Schema({
     type: String,
     trim: true,
   }],
+  colour: {
+    type: String,
+    trim: true,
+  },
   members: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -260,6 +264,10 @@ const TipPinSchema = new mongoose.Schema({
   location: {
     type: LocationSchema,
     required: true,
+  },
+  colour: {
+    type: String,
+    trim: true,
   },
 });
 
