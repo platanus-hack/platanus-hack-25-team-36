@@ -10,6 +10,7 @@ import { PinSubtype } from "@/types/app";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 type Marker = {
+  id: string;
   title: string;
   description: string;
   longitude: number;
@@ -21,7 +22,7 @@ type Marker = {
 
 type Props = {
   markers?: Marker[];
-  onChangeBounds?: (newBounds: mapboxgl.LngLatBounds) => void;
+  onChangeCenter?: (longitude: number, latitude: number) => void;
 };
 
 /**
@@ -41,12 +42,13 @@ const createPopupContent = (marker: Marker): string => {
         margin-bottom: 12px;
         display: block;
       " />`
-    : '';
+    : "";
 
   // Truncate description if longer than 20 characters
-  const truncatedDescription = marker.description.length > 20
-    ? marker.description.substring(0, 20) + '. . .'
-    : marker.description;
+  const truncatedDescription =
+    marker.description.length > 20
+      ? marker.description.substring(0, 20) + ". . ."
+      : marker.description;
 
   return `
     <div style="
@@ -77,7 +79,7 @@ const createPopupContent = (marker: Marker): string => {
   `;
 };
 
-const Map = ({ markers = [], onChangeBounds }: Props) => {
+const Map = ({ markers = [], onChangeCenter }: Props) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [isCreatingPin, setIsCreatingPin] = useState(false);
@@ -86,6 +88,9 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
     lat: number;
   } | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [renderedMarkers, setRenderedMarkers] = useState<Set<string>>(
+    new Set()
+  );
 
   // React Query hook for creating pins
   const createPinMutation = useCreatePin();
@@ -102,13 +107,10 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
 
     map.on("load", () => {
       map.on("moveend", () => {
-        console.log("Map moved, checking bounds...");
-        if (onChangeBounds) {
-          console.log("Calling onChangeBounds with new bounds");
-          const bounds = map.getBounds();
-          console.log("New bounds:", bounds);
-          if (bounds) {
-            onChangeBounds(bounds);
+        if (onChangeCenter) {
+          const center = map.getCenter();
+          if (center) {
+            onChangeCenter(center.lng, center.lat);
           }
         }
       });
@@ -141,18 +143,18 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
       // Configure offset to position popup to the right and slightly above the marker
       const popup = new mapboxgl.Popup({
         offset: {
-          'top': [0, 0],
-          'top-left': [0, 0],
-          'top-right': [0, 0],
-          'bottom': [0, -40],
-          'bottom-left': [25, -40],
-          'bottom-right': [-25, -40],
-          'left': [10, -20],
-          'right': [-10, -20]
+          top: [0, 0],
+          "top-left": [0, 0],
+          "top-right": [0, 0],
+          bottom: [0, -40],
+          "bottom-left": [25, -40],
+          "bottom-right": [-25, -40],
+          left: [10, -20],
+          right: [-10, -20],
         },
         closeButton: true,
         closeOnClick: true,
-        maxWidth: '300px'
+        maxWidth: "300px",
       }).setHTML(createPopupContent(marker));
 
       // Use default colored marker
@@ -174,22 +176,31 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
       })
     );
 
-    // Test marker to verify marker functionality works
-    map.on("load", () => {
-      console.log("Map loaded, adding test marker...");
-      new mapboxgl.Marker({ color: "#00ff00" })
-        .setLngLat([-70.6009, -33.4173])
-        .setPopup(
-          new mapboxgl.Popup().setHTML(
-            "<div><strong>Test Marker</strong><p>This marker tests if markers work</p></div>"
-          )
-        )
-        .addTo(map);
-      console.log("Test marker added successfully");
-    });
-
     return () => map.remove();
-  }, [markers, onChangeBounds, isCreatingPin]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  markers.forEach((marker) => {
+    if (!mapRef.current) return;
+
+    if (renderedMarkers.has(marker.id)) return;
+
+    const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+      `<strong>${marker.title}</strong><p>${marker.description}</p>`
+    );
+
+    new mapboxgl.Marker({
+      color: marker.color,
+    })
+      .setLngLat([marker.longitude, marker.latitude])
+      .setPopup(popup)
+      .addTo(mapRef.current);
+
+    const markerKey = marker.id;
+    if (!renderedMarkers.has(markerKey)) {
+      setRenderedMarkers((prev) => new Set(prev).add(markerKey));
+    }
+  });
 
   // Helper: Create marker popup HTML
   const createPopupHTML = (
@@ -248,20 +259,24 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
       const uniqueId = `pin_${Date.now()}`;
 
       // Step 1: Generate AI background from description
-      console.log('Generating AI background image...');
-      const { generateBackgroundImage } = await import('@/app/services/imageGeneration');
-      const { convertFileToBase64 } = await import('@/app/services/s3');
+      console.log("Generating AI background image...");
+      const { generateBackgroundImage } = await import(
+        "@/app/services/imageGeneration"
+      );
+      const { convertFileToBase64 } = await import("@/app/services/s3");
 
-      const backgroundImage = await generateBackgroundImage(formData.description.trim());
+      const backgroundImage = await generateBackgroundImage(
+        formData.description.trim()
+      );
 
       if (!backgroundImage.b64_json) {
-        throw new Error('Failed to generate background image');
+        throw new Error("Failed to generate background image");
       }
 
       // Upload background to pins/background_image/
-      const backgroundResponse = await fetch('/api/s3', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const backgroundResponse = await fetch("/api/s3", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           filename: `pins/background_image/${uniqueId}.png`,
           imageBase64: `data:image/png;base64,${backgroundImage.b64_json}`,
@@ -269,23 +284,23 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
       });
 
       if (!backgroundResponse.ok) {
-        throw new Error('Failed to upload background image');
+        throw new Error("Failed to upload background image");
       }
 
       const backgroundResult = await backgroundResponse.json();
       const backgroundImageUrl = backgroundResult.s3Key;
-      console.log('Background uploaded:', backgroundImageUrl);
+      console.log("Background uploaded:", backgroundImageUrl);
 
       // Step 2: Upload user picture if provided
       let pictureUrl = "";
       if (formData.picture && formData.picture.size > 0) {
         try {
-          console.log('Uploading user picture...');
+          console.log("Uploading user picture...");
           const imageBase64 = await convertFileToBase64(formData.picture);
 
-          const imageResponse = await fetch('/api/s3', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const imageResponse = await fetch("/api/s3", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               filename: `pins/image/${uniqueId}.png`,
               imageBase64,
@@ -293,12 +308,12 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
           });
 
           if (!imageResponse.ok) {
-            throw new Error('Failed to upload user image');
+            throw new Error("Failed to upload user image");
           }
 
           const imageResult = await imageResponse.json();
           pictureUrl = imageResult.s3Key;
-          console.log('User image uploaded:', pictureUrl);
+          console.log("User image uploaded:", pictureUrl);
         } catch {
           alert("Falló la carga de la imagen, pero el pin se creará sin imagen");
         }
@@ -395,12 +410,7 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
             <path d="M18 6L6 18M6 6L18 18" />
           </svg>
         ) : (
-          <Image
-            src="/assets/pin_2.png"
-            alt="Add Pin"
-            width={36}
-            height={36}
-          />
+          <Image src="/assets/pin_2.png" alt="Add Pin" width={36} height={36} />
         )}
       </button>
 

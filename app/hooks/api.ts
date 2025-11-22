@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../lib/axios";
-import { MapPin, MapPinType } from "@/types/app";
+import { MapPin, MapPinType, TextTip } from "@/types/app";
 import type { PinFormData, PinLocation } from "../services/pins";
 
 // Example types - replace with your actual data types
@@ -32,6 +32,11 @@ interface TipResponse {
   success: boolean;
   data: MapPin;
   error?: string;
+}
+
+interface GetTipsResponse {
+  pins: MapPin[];
+  nonPins: TextTip[];
 }
 
 // API functions
@@ -87,6 +92,18 @@ const tipsApi = {
     };
 
     return api.post("/tips", requestBody);
+  },
+  getTips: (
+    search?: string,
+    longitudeParam?: number,
+    latitudeParam?: number
+  ): Promise<GetTipsResponse> => {
+    const params: Record<string, string | number> = {};
+    if (search) params.search = search;
+    if (longitudeParam !== undefined) params.longitude = longitudeParam;
+    if (latitudeParam !== undefined) params.latitude = latitudeParam;
+
+    return api.get("/tips", { params });
   },
 };
 
@@ -262,5 +279,22 @@ export const useCreatePin = () => {
     onError: (error) => {
       console.error("Failed to create pin:", error);
     },
+  });
+};
+
+export const useGetTips = ({
+  search,
+  longitude,
+  latitude,
+}: {
+  search?: string;
+  longitude?: number;
+  latitude?: number;
+}) => {
+  return useQuery({
+    queryKey: ["tips", { search, longitude, latitude }],
+    queryFn: () => tipsApi.getTips(search, longitude, latitude),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
