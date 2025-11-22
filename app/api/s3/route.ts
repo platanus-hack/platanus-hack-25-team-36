@@ -27,8 +27,9 @@ const clientConfig: S3ClientConfig = {
 const s3Client = new S3Client(clientConfig);
 
 /**
- * Handles GET requests to retrieve data or a signed URL for an object.
- * Example URL: /api/s3-data-route?key=my-file.txt
+ * Handles GET requests to retrieve PNG icons from S3.
+ * Example URL: /api/s3?key=restaurant.png (will look in icons/ folder)
+ * Example URL: /api/s3?key=icons/restaurant.png (explicit path)
  *
  * @param request The incoming Next.js request object.
  */
@@ -41,24 +42,71 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Missing 'key' parameter" }, { status: 400 });
     }
 
-    // Command to get the object metadata or content.
+    // Prepend 'icons/' if not already present and if it's just a filename
+    const iconKey = key.startsWith("icons/") ? key : `icons/${key}`;
+
+    // Command to get the PNG image from S3
     const getCommand = new GetObjectCommand({
       Bucket: BUCKET_NAME,
-      Key: key,
+      Key: iconKey,
     });
 
-    // We proceed to generate a signed URL. Since the bucket is public, 
-    // the anonymous client can successfully execute this command for public objects.
-    const signedUrl = await getSignedUrl(s3Client, getCommand, { expiresIn: 3600 }); // URL expires in 1 hour
+    try {
+      // Try to get the actual object data for PNG images
+      const response = await s3Client.send(getCommand);
+      
+      if (response.Body) {
+        // Convert the stream to a buffer
+        const chunks: Uint8Array[] = [];
+        const reader = response.Body.transformToWebStream().getReader();
+        
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value);
+        }
+        
+        const buffer = new Uint8Array(chunks.reduce((acc, chunk) => acc + chunk.length, 0));
+        let offset = 0;
+        for (const chunk of chunks) {
+          buffer.set(chunk, offset);
+          offset += chunk.length;
+        }
 
-    return NextResponse.json({ key, signedUrl, source: "signed-url" }, { status: 200 });
+        // Return the PNG image with proper headers
+        return new NextResponse(buffer, {
+          status: 200,
+          headers: {
+            'Content-Type': response.ContentType || 'image/png',
+            'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+            'Content-Length': buffer.length.toString(),
+          },
+        });
+      }
+    } catch (directAccessError) {
+      console.log("Direct access failed, falling back to signed URL:", directAccessError);
+      
+      // Fallback: Generate a signed URL if direct access fails
+      const signedUrl = await getSignedUrl(s3Client, getCommand, { expiresIn: 3600 });
+      
+      return NextResponse.json({ 
+        key: iconKey, 
+        signedUrl, 
+        source: "signed-url",
+        message: "Direct access failed, returning signed URL"
+      }, { status: 200 });
+    }
+
+    return NextResponse.json({ error: "No data received from S3" }, { status: 404 });
 
   } catch (error) {
     console.error("S3 GET Error:", error);
-    // Be more specific if the error is due to a policy denial (which would happen
-    // if the object is NOT public, even with anonymous access).
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json({ error: "Failed to retrieve object from S3. Check bucket policy and key.", details: errorMessage }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Failed to retrieve PNG icon from S3", 
+      details: errorMessage,
+      suggestion: "Check if the icon exists in s3://pasaeldato-s3/icons/"
+    }, { status: 500 });
   }
 }
 
