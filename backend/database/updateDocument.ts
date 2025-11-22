@@ -1,9 +1,9 @@
-import { MONGO_COLLECTION } from "../constants";
 import { logging } from "../logging";
 import { getMongoDbConnection } from "./connection";
 import { Document } from "mongodb";
 
 async function updateDocument<T extends Document>(
+  collectionName: string,
   identifier: string,
   filter: Partial<T> | Record<string, unknown>,
   document: T,
@@ -13,7 +13,7 @@ async function updateDocument<T extends Document>(
   try {
     logging.info(`Updating document with upsert: ${upsert} and filter: ${JSON.stringify(filter)}`);
     const result = await databaseConnection.db
-      ?.collection(MONGO_COLLECTION)
+      ?.collection(collectionName)
       .updateOne({ identifier, ...filter}, { $set: document }, { upsert });
 
     logging.info(`Update document response: ${JSON.stringify(result)}`);
@@ -23,7 +23,7 @@ async function updateDocument<T extends Document>(
     }
 
     const updatedDocument = await databaseConnection.db
-      ?.collection(MONGO_COLLECTION)
+      ?.collection(collectionName)
       .findOne({ identifier });
 
     logging.info(`Retrieved updated document: ${JSON.stringify(updatedDocument)}`);

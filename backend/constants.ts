@@ -4,4 +4,4 @@ export const MONGO_DATABASE_NAME = process.env.MONGO_DATABASE_NAME || "pasaeldat
 export const MONGODB_USERNAME = process.env.MONGODB_USERNAME || "";
 export const MONGODB_CLUSTER_URL_ID = process.env.MONGODB_CLUSTER_URL_ID || "";
 export const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD || "";
-export const MONGO_COLLECTION = process.env.MONGO_COLLECTION || "events";
+export const MONGODB_CLUSTER_NAME = process.env.MONGODB_CLUSTER_NAME || "pasa-el-dato";

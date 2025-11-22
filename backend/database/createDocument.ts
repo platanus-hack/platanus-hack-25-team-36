@@ -1,13 +1,12 @@
-import { MONGO_COLLECTION } from "../constants";
 import { logging } from "../logging";
 import { getMongoDbConnection } from "./connection";
 import { Document } from "mongodb";
 
-async function createDocument<T extends Document>(document: T) {
+async function createDocument<T extends Document>(document: T, collectionName: string): Promise<any> {
   const databaseConnection = await getMongoDbConnection();
   try {
     const result = await databaseConnection.db
-      ?.collection(MONGO_COLLECTION)
+      ?.collection(collectionName)
       .insertOne(document);
 
       logging.info(`Document create response: ${JSON.stringify(result) }`);

@@ -4,14 +4,9 @@ import pinoLogger from "pino-http";
 import { IS_LOCAL } from "./constants";
 
 function _getPino() {
-  if (!IS_LOCAL) {
-    return pino();
-  }
-
+  // Use basic pino without worker threads to avoid Next.js compatibility issues
   return pino({
-    transport: {
-      target: "pino-pretty",
-    },
+    level: IS_LOCAL ? "debug" : "info",
   });
 }
 

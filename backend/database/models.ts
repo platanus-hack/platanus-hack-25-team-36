@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-export const pacEventSchema = new mongoose.Schema({
-  sessionId: {
+export const testSchema = new mongoose.Schema({
+  identifier: {
     type: String,
     required: true,
     index: true,
@@ -15,4 +15,4 @@ export const pacEventSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-export const pacEvent = mongoose.model("PacEvent", pacEventSchema, "pac-event");
+export const testModel = mongoose.model("TestSchema", testSchema, "test-schema");

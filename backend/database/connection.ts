@@ -6,6 +6,7 @@ import {
   MONGODB_USERNAME,
   MONGODB_CLUSTER_URL_ID,
   MONGODB_PASSWORD,
+  MONGODB_CLUSTER_NAME,
 } from "../constants";
 import { logging } from "../logging";
 
@@ -37,7 +38,7 @@ async function initializeMongoDb ({
 
   if (!IS_LOCAL) {
     const clusterId = MONGODB_CLUSTER_URL_ID || "";
-    host = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@main-cluster-pri.${clusterId}.mongodb.net`;
+    host = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER_NAME}.${clusterId}.mongodb.net`;
   } else if (IS_CONTAINER) {
     host = "mongodb://local:local@mongo:27017";
   } else {
