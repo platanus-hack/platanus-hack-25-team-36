@@ -1,6 +1,6 @@
 import React from 'react';
 import { Marker } from 'react-map-gl';
-import { MapPin } from '../types/app';
+import { MapPin } from '../../types/app';
 
 interface PinProps {
   pin: MapPin;
