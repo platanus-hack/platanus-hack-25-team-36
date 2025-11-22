@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
-import { User } from "@/backend/database/models";
+import { Community } from "@/backend/database/models";
 
 export async function GET(request: Request) {
   try {
@@ -9,13 +9,13 @@ export async function GET(request: Request) {
     const id = searchParams.get("id");
     
     if (id) {
-      const user = await User.findById(id);
-      if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
-      return NextResponse.json(user);
+      const community = await Community.findById(id);
+      if (!community) return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json(community);
     }
     
-    const users = await User.find().limit(100);
-    return NextResponse.json(users);
+    const communities = await Community.find().limit(100);
+    return NextResponse.json(communities);
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -28,8 +28,8 @@ export async function POST(request: Request) {
   try {
     await initializeMongoDb({});
     const body = await request.json();
-    const user = await User.create(body);
-    return NextResponse.json(user, { status: 201 });
+    const community = await Community.create(body);
+    return NextResponse.json(community, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -46,9 +46,9 @@ export async function PUT(request: Request) {
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     
     const body = await request.json();
-    const user = await User.findByIdAndUpdate(id, body, { new: true });
-    if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json(user);
+    const community = await Community.findByIdAndUpdate(id, body, { new: true });
+    if (!community) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(community);
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -64,7 +64,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     
-    await User.findByIdAndDelete(id);
+    await Community.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
@@ -73,3 +73,4 @@ export async function DELETE(request: Request) {
     );
   }
 }
+

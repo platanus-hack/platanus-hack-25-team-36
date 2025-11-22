@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
-import { User } from "@/backend/database/models";
+import { Message } from "@/backend/database/models";
 
 export async function GET(request: Request) {
   try {
@@ -9,13 +9,13 @@ export async function GET(request: Request) {
     const id = searchParams.get("id");
     
     if (id) {
-      const user = await User.findById(id);
-      if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
-      return NextResponse.json(user);
+      const message = await Message.findById(id);
+      if (!message) return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json(message);
     }
     
-    const users = await User.find().limit(100);
-    return NextResponse.json(users);
+    const messages = await Message.find().limit(100);
+    return NextResponse.json(messages);
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -28,8 +28,8 @@ export async function POST(request: Request) {
   try {
     await initializeMongoDb({});
     const body = await request.json();
-    const user = await User.create(body);
-    return NextResponse.json(user, { status: 201 });
+    const message = await Message.create(body);
+    return NextResponse.json(message, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -46,9 +46,9 @@ export async function PUT(request: Request) {
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     
     const body = await request.json();
-    const user = await User.findByIdAndUpdate(id, body, { new: true });
-    if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json(user);
+    const message = await Message.findByIdAndUpdate(id, body, { new: true });
+    if (!message) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(message);
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -64,7 +64,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     
-    await User.findByIdAndDelete(id);
+    await Message.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
@@ -73,3 +73,4 @@ export async function DELETE(request: Request) {
     );
   }
 }
+

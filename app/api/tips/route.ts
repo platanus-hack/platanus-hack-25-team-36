@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
-import { User } from "@/backend/database/models";
+import { Tip, TipPin, TipEvent, TipText } from "@/backend/database/models";
 
 export async function GET(request: Request) {
   try {
@@ -9,13 +9,13 @@ export async function GET(request: Request) {
     const id = searchParams.get("id");
     
     if (id) {
-      const user = await User.findById(id);
-      if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
-      return NextResponse.json(user);
+      const tip = await Tip.findById(id);
+      if (!tip) return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json(tip);
     }
     
-    const users = await User.find().limit(100);
-    return NextResponse.json(users);
+    const tips = await Tip.find().limit(100);
+    return NextResponse.json(tips);
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -28,8 +28,20 @@ export async function POST(request: Request) {
   try {
     await initializeMongoDb({});
     const body = await request.json();
-    const user = await User.create(body);
-    return NextResponse.json(user, { status: 201 });
+    const { type } = body;
+    
+    let tip;
+    if (type === "pin") {
+      tip = await TipPin.create(body);
+    } else if (type === "event") {
+      tip = await TipEvent.create(body);
+    } else if (type === "text") {
+      tip = await TipText.create(body);
+    } else {
+      return NextResponse.json({ error: "Invalid type. Must be pin, event, or text" }, { status: 400 });
+    }
+    
+    return NextResponse.json(tip, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -46,9 +58,9 @@ export async function PUT(request: Request) {
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     
     const body = await request.json();
-    const user = await User.findByIdAndUpdate(id, body, { new: true });
-    if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json(user);
+    const tip = await Tip.findByIdAndUpdate(id, body, { new: true });
+    if (!tip) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(tip);
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -64,7 +76,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     
-    await User.findByIdAndDelete(id);
+    await Tip.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
@@ -73,3 +85,4 @@ export async function DELETE(request: Request) {
     );
   }
 }
+
