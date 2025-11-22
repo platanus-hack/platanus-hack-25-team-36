@@ -151,7 +151,8 @@ export interface MapPin {
   reviewIds?: string[]; // References to ReviewModel.id documents
   
   // Media & Visual
-  picture?: string; // Base64 image (renamed from imageBase64)
+  picture?: string; // User-uploaded image URL (S3 key)
+  background_image?: string; // AI-generated background image URL (S3 key)
   colour?: string; // Pin color
   
   // Event fields (optional)

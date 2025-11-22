@@ -142,7 +142,9 @@ export async function POST(request: Request) {
     const contentType = contentTypeMatch ? contentTypeMatch[1] : 'image/png';
 
     // Create the S3 key (path in bucket)
-    const s3Key = `pins/${filename}`;
+    // If filename already contains a folder path, use it as-is
+    // Otherwise, default to pins folder
+    const s3Key = filename.includes('/') ? filename : `pins/${filename}`;
 
     const putCommand = new PutObjectCommand({
       Bucket: BUCKET_NAME,
