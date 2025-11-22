@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, LocationModel } from '../../types/app';
+import { MapPin, LocationModel, MapPinType } from '../../types/app';
 
 interface PinCreationFormProps {
   location: LocationModel;
@@ -92,13 +92,14 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
       const pinData: Omit<MapPin, 'id' | 'createdAt' | 'updatedAt'> = {
         authorId: 'current-user', // TODO: Get from auth context
         communityId: 'default-community', // TODO: Get from context or props
-        type: 'pin',
+        type: MapPinType.PIN,
         title: formData.title.trim(),
         description: formData.description.trim(),
         location,
         address: formData.address.trim(),
         picture: pictureUrl || undefined,
         colour: formData.colour,
+        contact: {},
         comments: [],
         likedBy: [],
         dislikedBy: [],

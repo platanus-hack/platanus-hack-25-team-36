@@ -23,6 +23,7 @@ function transformTipToMapPin(tip: TipPinDocument): MapPin {
     colour: tip.colour,
     startDate: tip.startDate?.toISOString(),
     duration: tip.duration,
+    contact: tip.contact || {},
     comments: (tip.comments || []).map((id: mongoose.Types.ObjectId) => id?.toString() || ''),
     likedBy: (tip.likedBy || []).map((id: mongoose.Types.ObjectId) => id?.toString() || ''),
     dislikedBy: (tip.dislikedBy || []).map((id: mongoose.Types.ObjectId) => id?.toString() || ''),

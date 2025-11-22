@@ -215,7 +215,8 @@ const Map = ({ markers, onChangeBounds }: Props) => {
       } catch (markerError) {
         console.error('Error creating/adding marker:', markerError);
         console.error('Error details:', markerError);
-        alert('Failed to add marker to map: ' + markerError.message);
+        const errorMessage = markerError instanceof Error ? markerError.message : 'Unknown error';
+        alert('Failed to add marker to map: ' + errorMessage);
         return;
       }
       // Save pin to MongoDB

@@ -121,8 +121,11 @@ export interface User {
 
 // --- 5. Map Pin Data ---
 
-enum MapPinType {
-  PIN = 'pin' // New type for user-created pins
+export enum MapPinType {
+  PIN = 'pin', // New type for user-created pins
+  SHOPPING = 'shopping',
+  LANDMARK = 'landmark',
+  RESIDENTIAL = 'residential',
 }
 /**
  * Represents a single dynamic pin placed on the map by a user (Point of Interest).
@@ -141,6 +144,9 @@ export interface MapPin {
   // Location Details
   location: LocationModel; // Embedded Location information
   address: string; // Single address field (replaces street + municipality)
+  street?: string; // Optional street name
+  municipality?: string; // Optional municipality name
+  reviewIds?: string[]; // References to ReviewModel.id documents
   
   // Media & Visual
   picture?: string; // Base64 image (renamed from imageBase64)
@@ -149,6 +155,8 @@ export interface MapPin {
   // Event fields (optional)
   startDate?: string; // ISO date string for event start
   duration?: number; // Duration in milliseconds
+  contact: ContactInfo; // Embedded contact information
+  dynamicFields?: Record<string, any>; // Flexible dynamic fields for future use
   
   // User Interactions (aligned with MongoDB arrays)
   comments: string[]; // References to Message.id documents

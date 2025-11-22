@@ -6,7 +6,7 @@ import Pin from './Pin';
 import PinCreationForm from './PinCreationForm';
 import AddPinButton from './AddPinButton';
 import FloatingAddButton from './FloatingAddButton';
-import { MapPin, LocationModel } from '../../types/app';
+import { MapPin, LocationModel, MapPinType } from '../../types/app';
 
 // The Mapbox token provided by the user
 const MAPBOX_TOKEN: string = 'sk.eyJ1IjoidmljdG9ycGF0byIsImEiOiJjbWk5c3R1OWswcm12MnFweDlrbzczeG51In0.H7c4HwPZkhydNiTQ3idjgA';
@@ -33,14 +33,19 @@ const MapApp: React.FC = () => {
     {
       id: '1',
       authorId: 'user1',
+      communityId: 'community1',
       location: { point: { type: 'Point', coordinates: [-70.6737, -33.4474] }, radius: 100 },
+      address: 'Plaza de Armas, Santiago Centro',
       street: 'Plaza de Armas',
       municipality: 'Santiago Centro',
       title: 'Plaza de Armas',
       description: 'Historic central square.',
-      type: 'landmark',
+      type: MapPinType.LANDMARK,
       reviewIds: [],
       contact: {},
+      comments: [],
+      likedBy: [],
+      dislikedBy: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       dynamicFields: {}
@@ -48,14 +53,19 @@ const MapApp: React.FC = () => {
     {
       id: '2',
       authorId: 'user2',
+      communityId: 'community1',
       location: { point: { type: 'Point', coordinates: [-70.5750, -33.4215] }, radius: 200 },
+      address: 'Avenida Providencia, Providencia',
       street: 'Avenida Providencia',
       municipality: 'Providencia',
       title: 'Costanera Center',
       description: 'Tallest building in South America.',
-      type: 'shopping',
+      type: MapPinType.SHOPPING,
       reviewIds: [],
       contact: {},
+      comments: [],
+      likedBy: [],
+      dislikedBy: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       dynamicFields: {}
@@ -63,14 +73,19 @@ const MapApp: React.FC = () => {
     {
       id: '3',
       authorId: 'user3',
+      communityId: 'community1',
       location: { point: { type: 'Point', coordinates: [-70.7500, -33.4680] }, radius: 150 },
+      address: 'Avenida Las Torres, Maipú',
       street: 'Avenida Las Torres',
       municipality: 'Maipú',
       title: 'Ciudad Satélite',
       description: 'Residential area to the west.',
-      type: 'residential',
+      type: MapPinType.RESIDENTIAL,
       reviewIds: [],
       contact: {},
+      comments: [],
+      likedBy: [],
+      dislikedBy: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       dynamicFields: {}
@@ -149,16 +164,17 @@ const MapApp: React.FC = () => {
         <div className="lg:w-3/4 flex-grow rounded-xl shadow-2xl overflow-hidden h-full">
           <Map
             {...viewState}
-            onMove={evt => setViewState(evt.viewState)}
+            onViewStateChange={evt => setViewState(evt.viewState)}
             onClick={handleMapClick}
-            mapboxAccessToken={MAPBOX_TOKEN}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            width="100%"
+            height="100%"
             style={{ width: '100%', height: '100%' }}
             mapStyle="mapbox://styles/mapbox/streets-v12"
-            cursor={isCreatingPin ? 'crosshair' : 'auto'}
           >
             {/* Map Controls */}
-            <GeolocateControl position="top-left" positionOptions={{ enableHighAccuracy: true }} trackUserLocation={true} showUserHeading={true} />
-            <NavigationControl position="top-left" />
+            <GeolocateControl positionOptions={{ enableHighAccuracy: true }} trackUserLocation={true} />
+            <NavigationControl />
 
             {/* Render Pins */}
             {renderMarkers}
