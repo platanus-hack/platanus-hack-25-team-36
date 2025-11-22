@@ -36,14 +36,9 @@ async function initializeMongoDb ({
   logging.info('Initializing MongoDB connection...');
   let host: string;
 
-  if (!IS_LOCAL) {
-    const clusterId = MONGODB_CLUSTER_URL_ID || "";
-    host = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER_NAME}.${clusterId}.mongodb.net`;
-  } else if (IS_CONTAINER) {
-    host = "mongodb://local:local@mongo:27017";
-  } else {
-    host = "mongodb://local:local@localhost:27017";
-  }
+  const clusterId = MONGODB_CLUSTER_URL_ID || "";
+  host = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER_NAME}.${clusterId}.mongodb.net`;
+  logging.info(`Connecting to MongoDB cluster at ${host}`);
 
   // Add options to the connection string
   if (options && Object.keys(options).length > 0) {
@@ -55,6 +50,13 @@ async function initializeMongoDb ({
   }
 
   try {
+    // If already connected
+    if (mongoose.connection.readyState === 1) {
+      logging.info('MongoDB already connected');
+      mongoConnection = mongoose.connection;
+      return;
+    }
+    
     await mongoose.connect(host, {
       dbName: MONGO_DATABASE_NAME,
     });
@@ -67,7 +69,7 @@ async function initializeMongoDb ({
 };
 
 async function getMongoDbConnection() {
-  if (!mongoConnection) {
+  if (!mongoConnection || mongoose.connection.readyState === 0) {
     await initializeMongoDb({});
   }
   return mongoConnection;
