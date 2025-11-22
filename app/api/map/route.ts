@@ -129,7 +129,8 @@ export async function GET(request: Request) {
       }
     }
     
-    const pinTips = await TipPin.find(query).lean();
+    // @ts-expect-error - TypeScript union type issue with mongoose lean()
+    const pinTips = await TipPin.find(query).lean() as unknown as TipPinLean[];
     
     const pins: MapPin[] = pinTips
       .filter((tip) => tip != null)

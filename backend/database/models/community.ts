@@ -2,11 +2,9 @@ import mongoose, { InferSchemaType } from "mongoose";
 import { LocationSchema } from "../schemas/location";
 import { updateTimestampPreSave, deduplicateObjectIds, deduplicateStrings } from "../utils/schema-helpers";
 
-interface Location {
-  point: {
-    type: string;
-    coordinates: [number, number];
-  };
+interface Point {
+  type: string;
+  coordinates: [number, number];
 }
 
 export const CommunitySchema = new mongoose.Schema({
@@ -52,9 +50,7 @@ type CommunityDocument = mongoose.HydratedDocument<InferSchemaType<typeof Commun
 
 interface CommunityStatics extends mongoose.Model<CommunityDocument> {
   findIntersectingWithLocation(
-    location: Location,
-    radius: number,
-    maxDistance?: number
+    point: Point
   ): Promise<CommunityDocument[]>;
 }
 
@@ -75,43 +71,32 @@ CommunitySchema.pre("save", function (next) {
 });
 
 /**
- * Finds communities that intersect with a given location.
- * Two circles intersect if the distance between their centers is less than or equal to the sum of their radii.
+ * Finds communities whose circles contain a given point.
+ * A point is contained in a circle if the distance from the circle's center to the point
+ * is less than or equal to the circle's radius.
  *
- * @param location - The location point to check intersection with
- * @param radius - The radius in meters of the location to check intersection with
- * @param maxDistance - Optional maximum distance in meters to search (defaults to query radius + 50000m to account for community radii)
- * @returns Array of communities that intersect with the given location
+ * @param point - The point to check if it's contained within any community's circle
+ * @returns Array of communities whose circles contain the given point
  */
-CommunitySchema.statics.findIntersectingWithLocation = async function(
-  location: Location,
-  radius: number,
-  maxDistance?: number
-) {
-  const queryRadius = radius;
-  const searchRadius = maxDistance ?? queryRadius + 50000;
-
+const findIntersectingWithLocation = async function(
+  this: mongoose.Model<CommunityDocument>,
+  point: Point
+): Promise<CommunityDocument[]> {
   const results = await this.aggregate([
     {
       $geoNear: {
         near: {
           type: "Point",
-          coordinates: location.point.coordinates,
+          coordinates: point.coordinates,
         },
         distanceField: "distance",
         spherical: true,
-        maxDistance: searchRadius,
-      },
-    },
-    {
-      $addFields: {
-        totalRadius: { $add: [queryRadius, "$location.radius"] },
       },
     },
     {
       $match: {
         $expr: {
-          $lte: ["$distance", "$totalRadius"],
+          $lte: ["$distance", "$location.radius"],
         },
       },
     },
@@ -120,5 +105,14 @@ CommunitySchema.statics.findIntersectingWithLocation = async function(
   return results;
 };
 
-export const Community = (mongoose.models.Community || mongoose.model("Community", CommunitySchema)) as CommunityStatics;
+CommunitySchema.statics.findIntersectingWithLocation = findIntersectingWithLocation;
+
+const Community = (mongoose.models.Community || mongoose.model("Community", CommunitySchema)) as CommunityStatics;
+
+// Ensure static method is attached even if model was cached (for hot reloading)
+if (!Community.findIntersectingWithLocation) {
+  (Community as unknown as CommunityStatics).findIntersectingWithLocation = findIntersectingWithLocation;
+}
+
+export { Community };
 
