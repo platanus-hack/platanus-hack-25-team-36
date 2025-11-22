@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, LocationModel, MapPinType } from '@/types/app';
+import { uploadPictureToS3 } from '@/app/services/s3';
 
 interface PinCreationFormProps {
   location: LocationModel;
@@ -17,15 +18,6 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
   });
   const [pictureFile, setPictureFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
 
   const handlePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -45,30 +37,6 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
       
       setPictureFile(file);
     }
-  };
-
-  const uploadPictureToS3 = async (file: File): Promise<string> => {
-    const base64 = await convertFileToBase64(file);
-    const filename = `pin_${Date.now()}_${file.name}`;
-    
-    const response = await fetch('/api/s3', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        filename,
-        imageBase64: base64,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to upload image');
-    }
-
-    const result = await response.json();
-    return result.s3Key; // Returns "location/filename.ext"
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

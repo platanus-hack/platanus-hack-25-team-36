@@ -7,6 +7,8 @@ import PinCreationForm from './PinCreationForm';
 import AddPinButton from './AddPinButton';
 import FloatingAddButton from './FloatingAddButton';
 import { MapPin, LocationModel, MapPinType } from '../../types/app';
+import { savePinToDatabase } from '@/app/services/pins';
+import { uploadPictureToS3 } from '@/app/services/s3';
 
 // The Mapbox token from environment variables
 const MAPBOX_TOKEN: string = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
@@ -120,20 +122,36 @@ const MapApp: React.FC = () => {
   };
 
   // Handle pin creation
-  const handleCreatePin = (pinData: Omit<MapPin, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const newPin: MapPin = {
-      ...pinData,
-      id: `pin_${Date.now()}`, // Generate temporary ID
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    
-    setPins(prevPins => [...prevPins, newPin]);
-    setIsCreatingPin(false);
-    setNewPinLocation(null);
-    
-    console.log('New pin created:', newPin);
-    // TODO: Send to backend API
+  const handleCreatePin = async (pinData: Omit<MapPin, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      // Save pin to MongoDB via API
+      const savedPin = await savePinToDatabase(
+        {
+          title: pinData.title,
+          description: pinData.description,
+          address: pinData.address,
+          colour: pinData.colour || '#ef4444',
+          picture: pinData.picture
+        },
+        {
+          lng: pinData.location.point.coordinates[0],
+          lat: pinData.location.point.coordinates[1],
+          radius: pinData.location.radius
+        }
+      );
+
+      console.log('Pin saved to MongoDB:', savedPin);
+
+      // Add the saved pin to local state
+      setPins(prevPins => [...prevPins, savedPin]);
+      setIsCreatingPin(false);
+      setNewPinLocation(null);
+
+      alert('Pin created and saved successfully!');
+    } catch (error) {
+      console.error('Error saving pin:', error);
+      alert(`Failed to save pin: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   };
 
   // Handle pin creation cancellation

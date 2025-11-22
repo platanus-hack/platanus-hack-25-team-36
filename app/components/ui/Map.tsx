@@ -3,6 +3,8 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import { uploadPictureToS3 } from "@/app/services/s3";
+import { savePinToDatabase, type PinFormData, type PinLocation } from "@/app/services/pins";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -107,6 +109,41 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
     return () => map.remove();
   }, [markers, onChangeBounds, isCreatingPin]);
 
+  // Helper: Create marker popup HTML
+  const createPopupHTML = (title: string, description: string, address: string, pictureUrl: string) => {
+    return `<div>
+      <strong>${title}</strong>
+      ${description ? `<p>${description}</p>` : ''}
+      <p><small>📍 ${address}</small></p>
+      ${pictureUrl ? `<p><small>📷 Image uploaded</small></p>` : ''}
+    </div>`;
+  };
+
+  // Helper: Add marker to map
+  const addMarkerToMap = (location: { lng: number; lat: number }, popupHTML: string) => {
+    if (!mapRef.current) {
+      throw new Error('Map not ready');
+    }
+
+    const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML);
+    const marker = new mapboxgl.Marker({ color: '#ef4444' })
+      .setLngLat([location.lng, location.lat])
+      .setPopup(popup)
+      .addTo(mapRef.current);
+
+    // Pan to marker
+    setTimeout(() => {
+      mapRef.current!.flyTo({
+        center: [location.lng, location.lat],
+        zoom: Math.max(mapRef.current!.getZoom(), 16),
+        duration: 1500
+      });
+    }, 100);
+
+    return marker;
+  };
+
+  // Main handler
   const handleCreatePin = async (formData: {
     title: string;
     description: string;
@@ -115,189 +152,58 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
   }) => {
     if (!clickedLocation) return;
 
-    console.log('Creating pin with data:', formData);
-    console.log('Location:', clickedLocation);
-
     try {
-      // Upload picture ONLY if provided and has content
+      // Step 1: Upload picture if provided
       let pictureUrl = '';
       if (formData.picture && formData.picture.size > 0) {
-        console.log('Uploading picture:', formData.picture.name, formData.picture.size);
-        
-        const base64 = await convertFileToBase64(formData.picture);
-        const filename = `pin_${Date.now()}_${formData.picture.name}`;
-        
-        const response = await fetch('/api/s3', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filename, imageBase64: base64 }),
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          pictureUrl = result.s3Key;
-          console.log('Picture uploaded successfully:', pictureUrl);
-        } else {
-          const error = await response.json();
-          console.error('Picture upload failed:', error);
+        try {
+          pictureUrl = await uploadPictureToS3(formData.picture);
+        } catch (error) {
           alert('Picture upload failed, but pin will be created without image');
         }
-      } else {
-        console.log('No picture provided, creating pin without image');
       }
 
-      // Create new marker on the map
-      console.log('Adding marker to map at:', clickedLocation.lng, clickedLocation.lat);
-      console.log('Map reference exists:', !!mapRef.current);
-      console.log('Map loaded:', mapRef.current?.loaded());
-      
-      if (!mapRef.current) {
-        console.error('Map reference is null!');
-        alert('Map not ready, please try again');
-        return;
-      }
-
-      const popupHTML = `<div>
-        <strong>${formData.title}</strong>
-        ${formData.description ? `<p>${formData.description}</p>` : ''}
-        <p><small>📍 ${formData.address}</small></p>
-        ${pictureUrl ? `<p><small>📷 Image uploaded</small></p>` : ''}
-      </div>`;
-
-      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML);
-
-      console.log('Creating marker with popup HTML...');
-      console.log('Popup HTML content:', popupHTML);
-      
+      // Step 2: Add marker to map
+      const popupHTML = createPopupHTML(formData.title, formData.description, formData.address, pictureUrl);
       try {
-        // First try a simple marker without popup to test
-        console.log('Creating simple test marker first...');
-        const simpleMarker = new mapboxgl.Marker({ color: '#ff0000' })
-          .setLngLat([clickedLocation.lng, clickedLocation.lat])
-          .addTo(mapRef.current);
-        console.log('Simple marker added successfully');
-        
-        // Now try the full marker with popup
-        console.log('Step 1: Creating marker object...');
-        const marker = new mapboxgl.Marker({ 
-          color: '#ef4444' // Red color for new pins
-        });
-        
-        console.log('Step 2: Setting marker position...');
-        marker.setLngLat([clickedLocation.lng, clickedLocation.lat]);
-        
-        console.log('Step 3: Setting popup...');
-        marker.setPopup(popup);
-        
-        console.log('Step 4: Adding marker to map...');
-        console.log('Map instance:', mapRef.current);
-        
-        const addedMarker = marker.addTo(mapRef.current);
-        
-        console.log('Step 5: Marker added successfully');
-        console.log('Added marker:', addedMarker);
-        console.log('Marker LngLat:', addedMarker.getLngLat());
-        console.log('Current map zoom:', mapRef.current.getZoom());
-        console.log('Current map center:', mapRef.current.getCenter());
-        
-        // Small delay before panning to ensure marker is rendered
-        setTimeout(() => {
-          console.log('Step 6: Panning to marker...');
-          mapRef.current!.flyTo({
-            center: [clickedLocation.lng, clickedLocation.lat],
-            zoom: Math.max(mapRef.current!.getZoom(), 16),
-            duration: 1500
-          });
-        }, 100);
-        
-        console.log('Map will pan to new marker location');
-        
-      } catch (markerError) {
-        console.error('Error creating/adding marker:', markerError);
-        console.error('Error details:', markerError);
-        const errorMessage = markerError instanceof Error ? markerError.message : 'Unknown error';
+        addMarkerToMap(clickedLocation, popupHTML);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         alert('Failed to add marker to map: ' + errorMessage);
         return;
       }
-      // Save pin to MongoDB
-      console.log('Saving pin to MongoDB...');
-      const pinData = {
-        type: 'pin',
-        authorId: '6921d07f466304c0cc484380', // TODO: Get from auth context
-        communityId: '6921d07f466304c0cc484380', // TODO: Get from context or props
-        title: formData.title,
-        description: formData.description && formData.description.trim() ? formData.description.trim() : 'No description provided',
-        location: {
-          point: {
-            type: 'Point',
-            coordinates: [clickedLocation.lng, clickedLocation.lat]
-          },
-          radius: 100
-        },
-        address: formData.address,
-        picture: pictureUrl || '',
-        colour: '#ef4444',
-        comments: [],
-        likedBy: [],
-        dislikedBy: []
-      };
 
-      console.log('Pin data to be sent:', JSON.stringify(pinData, null, 2));
-
+      // Step 3: Save to database
       try {
-        const response = await fetch('/api/tips', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(pinData),
-        });
-
-        if (response.ok) {
-          const savedPin = await response.json();
-          console.log('Pin saved to MongoDB:', savedPin);
-
-          // Show success message
-          alert('Pin created and saved successfully!');
-        } else {
-          const errorText = await response.text();
-          console.error('Failed to save pin to MongoDB. Status:', response.status);
-          console.error('Error response:', errorText);
-          try {
-            const errorJson = JSON.parse(errorText);
-            console.error('Parsed error:', errorJson);
-            alert(`Failed to save to database: ${errorJson.error || 'Unknown error'}`);
-          } catch (e) {
-            alert(`Failed to save to database. Status: ${response.status}`);
+        await savePinToDatabase(
+          {
+            title: formData.title,
+            description: formData.description,
+            address: formData.address,
+            colour: '#ef4444',
+            picture: pictureUrl
+          },
+          {
+            lng: clickedLocation.lng,
+            lat: clickedLocation.lat,
+            radius: 100
           }
-        }
-      } catch (dbError) {
-        console.error('Database error:', dbError);
-        alert('Pin created on map but database error occurred');
+        );
+        alert('Pin created and saved successfully!');
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        alert(`Pin created on map but failed to save: ${errorMessage}`);
       }
 
-      console.log('Pin created successfully:', { 
-        ...formData, 
-        location: clickedLocation, 
-        picture: pictureUrl || 'none' 
-      });
-      
-      // Reset states
+      // Step 4: Reset states
       setShowForm(false);
       setClickedLocation(null);
       setIsCreatingPin(false);
-      
+
     } catch (error) {
       console.error('Error creating pin:', error);
       alert(`Failed to create pin: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
-  };
-
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
   };
 
   return (
