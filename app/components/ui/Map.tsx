@@ -330,8 +330,8 @@ const Map = ({ markers, onChangeBounds }: Props) => {
 
       {/* Simple Pin Creation Form Modal */}
       {showForm && clickedLocation && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 pointer-events-auto">
             <h2 className="text-xl font-bold mb-4">Create New Pin</h2>
             <form onSubmit={(e) => {
               e.preventDefault();

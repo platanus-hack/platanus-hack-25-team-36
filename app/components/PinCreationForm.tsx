@@ -115,15 +115,15 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none">
+      <div className="bg-white rounded-lg shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border-2 border-gray-800 pointer-events-auto">
         <div className="p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Create New Pin</h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Create New Pin</h2>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="title" className="block text-base font-semibold text-gray-900 mb-2">
                 Title *
               </label>
               <input
@@ -131,7 +131,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 id="title"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                 placeholder="Enter pin title"
                 maxLength={200}
                 required
@@ -140,16 +140,16 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
 
             {/* Description */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="description" className="block text-base font-semibold text-gray-900 mb-2">
                 Description *
               </label>
               <textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                 placeholder="Describe this location..."
-                rows={3}
+                rows={4}
                 maxLength={5000}
                 required
               />
@@ -157,7 +157,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
 
             {/* Address */}
             <div>
-              <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="address" className="block text-base font-semibold text-gray-900 mb-2">
                 Address *
               </label>
               <input
@@ -165,7 +165,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 id="address"
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
                 placeholder="Enter the address"
                 maxLength={500}
                 required
@@ -174,7 +174,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
 
             {/* Picture Upload */}
             <div>
-              <label htmlFor="picture" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="picture" className="block text-base font-semibold text-gray-900 mb-2">
                 Picture (optional)
               </label>
               <input
@@ -182,10 +182,10 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 id="picture"
                 accept="image/*"
                 onChange={handlePictureChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-600 file:text-white file:font-semibold file:cursor-pointer hover:file:bg-blue-700"
               />
               {pictureFile && (
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-base text-gray-900 mt-2 font-medium">
                   Selected: {pictureFile.name} ({(pictureFile.size / 1024 / 1024).toFixed(2)} MB)
                 </p>
               )}
@@ -193,7 +193,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
 
             {/* Color Picker */}
             <div>
-              <label htmlFor="colour" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="colour" className="block text-base font-semibold text-gray-900 mb-2">
                 Pin Color
               </label>
               <input
@@ -201,33 +201,33 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 id="colour"
                 value={formData.colour}
                 onChange={(e) => setFormData({ ...formData, colour: e.target.value })}
-                className="w-20 h-10 border border-gray-300 rounded-md cursor-pointer"
+                className="w-24 h-12 bg-white border-2 border-gray-800 rounded-lg cursor-pointer"
               />
             </div>
 
             {/* Location Info */}
-            <div className="bg-gray-50 p-3 rounded-md">
-              <p className="text-sm text-gray-600">
-                <strong>Location:</strong> {location.point.coordinates[1].toFixed(6)}, {location.point.coordinates[0].toFixed(6)}
+            <div className="bg-gray-100 border-2 border-gray-800 p-4 rounded-lg">
+              <p className="text-base text-gray-900 font-medium mb-1">
+                <strong className="font-bold">Location:</strong> {location.point.coordinates[1].toFixed(6)}, {location.point.coordinates[0].toFixed(6)}
               </p>
-              <p className="text-sm text-gray-600">
-                <strong>Radius:</strong> {location.radius}m
+              <p className="text-base text-gray-900 font-medium">
+                <strong className="font-bold">Radius:</strong> {location.radius}m
               </p>
             </div>
 
             {/* Buttons */}
-            <div className="flex space-x-3 pt-4">
+            <div className="flex space-x-4 pt-4">
               <button
                 type="button"
                 onClick={onCancel}
-                className="flex-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+                className="flex-1 px-6 py-3 text-gray-900 text-base font-semibold bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors border-2 border-gray-800"
                 disabled={isUploading}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+                className="flex-1 px-6 py-3 text-white text-base font-semibold bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
                 disabled={isUploading}
               >
                 {isUploading ? 'Creating...' : 'Create Pin'}
