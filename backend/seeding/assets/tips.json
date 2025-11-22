@@ -19,12 +19,13 @@
     "comments": []
   },
   {
-    "type": "event",
+    "type": "pin",
     "communityName": "Ñuñoa",
     "authorEmail": "maria@example.com",
     "title": "Feria de Productores Locales",
     "description": "Feria de productores locales todos los sábados de 9:00 a 14:00 horas en la Plaza Ñuñoa. Frutas, verduras frescas y productos orgánicos de la región.",
     "startDate": "2024-12-21T09:00:00.000Z",
+    "duration": 18000000,
     "location": {
       "point": {
         "type": "Point",
@@ -32,6 +33,8 @@
       },
       "radius": 100
     },
+    "address": "Plaza Ñuñoa, Ñuñoa, Santiago",
+    "colour": "#27AE60",
     "likedBy": ["user2", "user4", "user5"],
     "dislikedBy": [],
     "comments": []
@@ -66,12 +69,13 @@
     "comments": []
   },
   {
-    "type": "event",
+    "type": "pin",
     "communityName": "Providencia Centro",
     "authorEmail": "ana@example.com",
     "title": "Festival de Música en Vivo",
     "description": "Festival de música en vivo este viernes a las 20:00 horas en el Parque de las Esculturas. Entrada gratuita. Artistas locales y nacionales.",
     "startDate": "2024-12-20T20:00:00.000Z",
+    "duration": 10800000,
     "location": {
       "point": {
         "type": "Point",
@@ -79,6 +83,8 @@
       },
       "radius": 200
     },
+    "address": "Parque de las Esculturas, Providencia, Santiago",
+    "colour": "#E67E22",
     "likedBy": ["user1", "user2", "user3", "user4"],
     "dislikedBy": [],
     "comments": []
@@ -160,12 +166,13 @@
     "comments": []
   },
   {
-    "type": "event",
+    "type": "pin",
     "communityName": "Ejercicio Providencia",
     "authorEmail": "carlos@example.com",
     "title": "Grupo de Running Dominical",
     "description": "Grupo de running todos los domingos a las 8:00 AM. Salimos desde el Costanera Center y hacemos una ruta de 5-8km. Todos los niveles son bienvenidos.",
     "startDate": "2024-12-22T08:00:00.000Z",
+    "duration": 5400000,
     "location": {
       "point": {
         "type": "Point",
@@ -173,6 +180,8 @@
       },
       "radius": 100
     },
+    "address": "Costanera Center, Providencia, Santiago",
+    "colour": "#E74C3C",
     "likedBy": ["user3", "user6", "user7"],
     "dislikedBy": [],
     "comments": []
@@ -207,12 +216,13 @@
     "comments": []
   },
   {
-    "type": "event",
+    "type": "pin",
     "communityName": "Magic the Gathering Santiago",
     "authorEmail": "luis@example.com",
     "title": "Torneo Commander - Viernes",
     "description": "Torneo de Commander todos los viernes a las 19:00 horas. Inscripción $5.000. Premios en cartas y boosters. Todos los niveles bienvenidos.",
     "startDate": "2024-12-20T19:00:00.000Z",
+    "duration": 10800000,
     "location": {
       "point": {
         "type": "Point",
@@ -220,6 +230,8 @@
       },
       "radius": 50
     },
+    "address": "Avenida Providencia, Providencia, Santiago",
+    "colour": "#8E44AD",
     "likedBy": ["user1", "user5", "user6", "user7"],
     "dislikedBy": [],
     "comments": []
@@ -264,12 +276,13 @@
     "comments": []
   },
   {
-    "type": "event",
+    "type": "pin",
     "communityName": "Tejido y Manualidades Ñuñoa",
     "authorEmail": "ana@example.com",
     "title": "Encuentro de Tejedoras",
     "description": "Encuentro mensual de tejedoras en el Centro Cultural de Ñuñoa. Trae tu proyecto, compartimos tips y aprendemos nuevas técnicas. Café y conversación incluidos.",
     "startDate": "2024-12-28T15:00:00.000Z",
+    "duration": 9000000,
     "location": {
       "point": {
         "type": "Point",
@@ -277,6 +290,8 @@
       },
       "radius": 100
     },
+    "address": "Centro Cultural de Ñuñoa, Ñuñoa, Santiago",
+    "colour": "#F39C12",
     "likedBy": ["user2", "user4", "user7"],
     "dislikedBy": [],
     "comments": []

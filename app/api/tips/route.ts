@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
-import { Tip, TipPin, TipEvent, TipText } from "@/backend/database/models";
+import { Tip, TipPin, TipText } from "@/backend/database/models";
 
 export async function GET(request: Request) {
   try {
@@ -33,12 +33,10 @@ export async function POST(request: Request) {
     let tip;
     if (type === "pin") {
       tip = await TipPin.create(body);
-    } else if (type === "event") {
-      tip = await TipEvent.create(body);
     } else if (type === "text") {
       tip = await TipText.create(body);
     } else {
-      return NextResponse.json({ error: "Invalid type. Must be pin, event, or text" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid type. Must be pin or text" }, { status: 400 });
     }
     
     return NextResponse.json(tip, { status: 201 });

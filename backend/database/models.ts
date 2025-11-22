@@ -190,7 +190,7 @@ const TipBaseSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["pin", "event", "text"],
+    enum: ["pin", "text"],
     required: true,
     index: true,
   },
@@ -285,23 +285,19 @@ const TipPinSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  startDate: {
+    type: Date,
+    required: false,
+  },
+  duration: {
+    type: Number,
+    required: false,
+    min: 0,
+  },
 });
 
 TipPinSchema.index({ "location.point": "2dsphere" });
-
-const TipEventSchema = new mongoose.Schema({
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  location: {
-    type: LocationSchema,
-    required: true,
-  },
-});
-
-TipEventSchema.index({ "location.point": "2dsphere" });
-TipEventSchema.index({ startDate: 1 });
+TipPinSchema.index({ startDate: 1 });
 
 const TipTextSchema = new mongoose.Schema({});
 
@@ -310,5 +306,4 @@ export const Message = mongoose.models.Message || mongoose.model("Message", Mess
 export const Community = mongoose.models.Community || mongoose.model("Community", CommunitySchema);
 export const Tip = mongoose.models.Tip || mongoose.model("Tip", TipBaseSchema);
 export const TipPin = Tip.discriminators?.pin || Tip.discriminator("pin", TipPinSchema);
-export const TipEvent = Tip.discriminators?.event || Tip.discriminator("event", TipEventSchema);
 export const TipText = Tip.discriminators?.text || Tip.discriminator("text", TipTextSchema);

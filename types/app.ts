@@ -143,6 +143,10 @@ export interface MapPin {
   picture?: string; // Base64 image (renamed from imageBase64)
   colour?: string; // Pin color
   
+  // Event fields (optional)
+  startDate?: string; // ISO date string for event start
+  duration?: number; // Duration in milliseconds
+  
   // User Interactions (aligned with MongoDB arrays)
   comments: string[]; // References to Message.id documents
   likedBy: string[]; // References to User.id who liked this pin
