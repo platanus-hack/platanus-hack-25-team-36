@@ -7,9 +7,10 @@ import { ComponentProps } from "react";
 type Props = {
   mapPins: ComponentProps<typeof Map>["pins"];
   onChangeMapCenter: ComponentProps<typeof Map>["onChangeCenter"];
+  onChangeSearch: (value: string) => void;
 };
 
-const Content = ({ mapPins, onChangeMapCenter }: Props) => {
+const Content = ({ mapPins, onChangeMapCenter, onChangeSearch }: Props) => {
   const mockTips = [
     { id: 1, title: "Tengo dato de gasfiter cerca del costanera" },
     { id: 2, title: "Vendo una bici" },
@@ -21,7 +22,7 @@ const Content = ({ mapPins, onChangeMapCenter }: Props) => {
     <main className="flex flex-col pt-24 px-6 pb-6 gap-6" style={{ background: 'var(--color-background)' }}>
       {/* Search and Filters Section */}
       <section className="flex flex-col gap-4 mt-3">
-        <SearchBox />
+        <SearchBox onChange={onChangeSearch} />
         <ChipFilters />
       </section>
 

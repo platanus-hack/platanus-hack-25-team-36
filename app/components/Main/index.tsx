@@ -16,7 +16,7 @@ const Main = () => {
     isError,
     refetch,
   } = useGetTips({
-    ...(search && { search }),
+    ...(search && search !== "" && { search }),
     ...(latitude && { latitude }),
     ...(longitude && { longitude }),
   });
@@ -26,10 +26,15 @@ const Main = () => {
     setLatitude(newLatitude);
   };
 
+  const handleChangeSearch = (newSearch: string) => {
+    setSearch(newSearch);
+  };
+
   return (
     <Content
       mapPins={tipsData?.pins || []}
       onChangeMapCenter={onChangeMapCenter}
+      onChangeSearch={handleChangeSearch}
     />
   );
 };
