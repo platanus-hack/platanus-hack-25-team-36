@@ -300,7 +300,7 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
           pictureUrl = imageResult.s3Key;
           console.log('User image uploaded:', pictureUrl);
         } catch {
-          alert("Picture upload failed, but pin will be created without image");
+          alert("Falló la carga de la imagen, pero el pin se creará sin imagen");
         }
       }
 
@@ -315,8 +315,8 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
         addMarkerToMap(clickedLocation, popupHTML);
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : "Unknown error";
-        alert("Failed to add marker to map: " + errorMessage);
+          error instanceof Error ? error.message : "Error desconocido";
+        alert("Error al agregar marcador al mapa: " + errorMessage);
         return;
       }
 
@@ -338,11 +338,11 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
             radius: 100,
           },
         });
-        alert("Pin created and saved successfully!");
+        alert("¡Pin creado y guardado exitosamente!");
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : "Unknown error";
-        alert(`Pin created on map but failed to save: ${errorMessage}`);
+          error instanceof Error ? error.message : "Error desconocido";
+        alert(`Pin creado en el mapa pero falló al guardar: ${errorMessage}`);
       }
 
       // Step 5: Reset states
@@ -352,8 +352,8 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
     } catch (error) {
       console.error("Error creating pin:", error);
       alert(
-        `Failed to create pin: ${
-          error instanceof Error ? error.message : "Unknown error"
+        `Error al crear pin: ${
+          error instanceof Error ? error.message : "Error desconocido"
         }`
       );
     }
@@ -407,7 +407,7 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
       {/* Pin Creation Mode Indicator */}
       {isCreatingPin && !showForm && (
         <div className="absolute top-4 left-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-10">
-          📍 Click on the map to place a pin
+          📍 Haz clic en el mapa para colocar un pin
         </div>
       )}
 
@@ -416,7 +416,7 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none p-4 overflow-auto">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full max-h-full overflow-y-auto pointer-events-auto border-2 border-gray-800">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Create New Pin
+              Crear Nuevo Pin
             </h2>
             <form
               onSubmit={(e) => {
@@ -447,14 +447,14 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
                 // Validate required fields
                 if (!title || !address) {
                   alert(
-                    "Please fill in all required fields (Title and Address)"
+                    "Por favor completa todos los campos requeridos (Título y Dirección)"
                   );
                   return;
                 }
 
                 if (!clickedLocation) {
                   alert(
-                    "No location selected. Please try clicking on the map again."
+                    "No se ha seleccionado una ubicación. Por favor haz clic en el mapa nuevamente."
                   );
                   return;
                 }
@@ -473,54 +473,54 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
             >
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Title *
+                  Título *
                 </label>
                 <input
                   name="title"
                   required
                   className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
-                  placeholder="Pin title"
+                  placeholder="Título del pin"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Description (optional)
+                  Descripción (opcional)
                 </label>
                 <textarea
                   name="description"
                   className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
                   rows={3}
-                  placeholder="Describe this location..."
+                  placeholder="Describe esta ubicación..."
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Address *
+                  Dirección *
                 </label>
                 <input
                   name="address"
                   required
                   className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
-                  placeholder="Enter address"
+                  placeholder="Ingresa la dirección"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Subtype (optional)
+                  Subtipo (opcional)
                 </label>
                 <select
                   name="subtype"
                   className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
                 >
-                  <option value="">None</option>
-                  <option value={PinSubtype.SERVICE}>Service</option>
-                  <option value={PinSubtype.BUSINESS}>Business</option>
-                  <option value={PinSubtype.EVENT}>Event</option>
+                  <option value="">Ninguno</option>
+                  <option value={PinSubtype.SERVICE}>Servicio</option>
+                  <option value={PinSubtype.BUSINESS}>Negocio</option>
+                  <option value={PinSubtype.EVENT}>Evento</option>
                 </select>
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Picture (optional)
+                  Imagen (opcional)
                 </label>
                 <input
                   name="picture"
@@ -531,7 +531,7 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
               </div>
               <div className="mb-4 p-3 bg-gray-100 border-2 border-gray-800 rounded-lg">
                 <p className="text-sm text-gray-900 font-medium">
-                  <strong>Location:</strong> {clickedLocation.lat.toFixed(6)},{" "}
+                  <strong>Ubicación:</strong> {clickedLocation.lat.toFixed(6)},{" "}
                   {clickedLocation.lng.toFixed(6)}
                 </p>
               </div>
@@ -544,13 +544,13 @@ const Map = ({ markers = [], onChangeBounds }: Props) => {
                   }}
                   className="flex-1 px-4 py-3 text-gray-900 bg-gray-200 border-2 border-gray-800 rounded-lg hover:bg-gray-300 font-semibold"
                 >
-                  Cancel
+                  Cancelar
                 </button>
                 <button
                   type="submit"
                   className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
                 >
-                  Create Pin
+                  Crear Pin
                 </button>
               </div>
             </form>

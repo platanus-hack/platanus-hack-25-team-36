@@ -27,13 +27,13 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
       // Validate file type
       const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
       if (!validTypes.includes(file.type)) {
-        alert('Please select a valid image file (PNG, JPEG, GIF, or WebP)');
+        alert('Por favor selecciona un archivo de imagen válido (PNG, JPEG, GIF o WebP)');
         return;
       }
       
       // Validate file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB');
+        alert('El tamaño del archivo debe ser menor a 5MB');
         return;
       }
       
@@ -45,7 +45,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
     e.preventDefault();
 
     if (!formData.title.trim() || !formData.description.trim() || !formData.address.trim()) {
-      alert('Please fill in all required fields');
+      alert('Por favor completa todos los campos requeridos');
       return;
     }
 
@@ -60,7 +60,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
       const backgroundImage = await generateBackgroundImage(formData.description.trim());
 
       if (!backgroundImage.b64_json) {
-        throw new Error('Failed to generate background image');
+        throw new Error('Error al generar imagen de fondo');
       }
 
       // Upload background to pins/background_image/
@@ -74,7 +74,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
       });
 
       if (!backgroundResponse.ok) {
-        throw new Error('Failed to upload background image');
+        throw new Error('Error al subir imagen de fondo');
       }
 
       const backgroundResult = await backgroundResponse.json();
@@ -97,7 +97,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
         });
 
         if (!imageResponse.ok) {
-          throw new Error('Failed to upload user image');
+          throw new Error('Error al subir imagen del usuario');
         }
 
         const imageResult = await imageResponse.json();
@@ -127,7 +127,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
       onSave(pinData);
     } catch (error) {
       console.error('Error creating pin:', error);
-      alert(error instanceof Error ? error.message : 'Failed to create pin');
+      alert(error instanceof Error ? error.message : 'Error al crear pin');
     } finally {
       setIsUploading(false);
     }
@@ -137,13 +137,13 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none">
       <div className="bg-white rounded-lg shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border-2 border-gray-800 pointer-events-auto">
         <div className="p-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Create New Pin</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Crear Nuevo Pin</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Title */}
             <div>
               <label htmlFor="title" className="block text-base font-semibold text-gray-900 mb-2">
-                Title *
+                Título *
               </label>
               <input
                 type="text"
@@ -151,7 +151,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
-                placeholder="Enter pin title"
+                placeholder="Título del pin"
                 maxLength={200}
                 required
               />
@@ -160,14 +160,14 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
             {/* Description */}
             <div>
               <label htmlFor="description" className="block text-base font-semibold text-gray-900 mb-2">
-                Description *
+                Descripción *
               </label>
               <textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
-                placeholder="Describe this location..."
+                placeholder="Describe esta ubicación..."
                 rows={4}
                 maxLength={5000}
                 required
@@ -177,7 +177,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
             {/* Address */}
             <div>
               <label htmlFor="address" className="block text-base font-semibold text-gray-900 mb-2">
-                Address *
+                Dirección *
               </label>
               <input
                 type="text"
@@ -185,7 +185,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
-                placeholder="Enter the address"
+                placeholder="Ingresa la dirección"
                 maxLength={500}
                 required
               />
@@ -194,7 +194,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
             {/* Subtype */}
             <div>
               <label htmlFor="subtype" className="block text-base font-semibold text-gray-900 mb-2">
-                Subtype (optional)
+                Subtipo (opcional)
               </label>
               <select
                 id="subtype"
@@ -202,17 +202,17 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 onChange={(e) => setFormData({ ...formData, subtype: e.target.value as PinSubtype | '' })}
                 className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">None</option>
-                <option value={PinSubtype.SERVICE}>Service</option>
-                <option value={PinSubtype.BUSINESS}>Business</option>
-                <option value={PinSubtype.EVENT}>Event</option>
+                <option value="">Ninguno</option>
+                <option value={PinSubtype.SERVICE}>Servicio</option>
+                <option value={PinSubtype.BUSINESS}>Negocio</option>
+                <option value={PinSubtype.EVENT}>Evento</option>
               </select>
             </div>
 
             {/* Picture Upload */}
             <div>
               <label htmlFor="picture" className="block text-base font-semibold text-gray-900 mb-2">
-                Picture (optional)
+                Imagen (opcional)
               </label>
               <input
                 type="file"
@@ -223,7 +223,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
               />
               {pictureFile && (
                 <p className="text-base text-gray-900 mt-2 font-medium">
-                  Selected: {pictureFile.name} ({(pictureFile.size / 1024 / 1024).toFixed(2)} MB)
+                  Seleccionada: {pictureFile.name} ({(pictureFile.size / 1024 / 1024).toFixed(2)} MB)
                 </p>
               )}
             </div>
@@ -231,7 +231,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
             {/* Color Picker */}
             <div>
               <label htmlFor="colour" className="block text-base font-semibold text-gray-900 mb-2">
-                Pin Color
+                Color del Pin
               </label>
               <input
                 type="color"
@@ -245,10 +245,10 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
             {/* Location Info */}
             <div className="bg-gray-100 border-2 border-gray-800 p-4 rounded-lg">
               <p className="text-base text-gray-900 font-medium mb-1">
-                <strong className="font-bold">Location:</strong> {location.point.coordinates[1].toFixed(6)}, {location.point.coordinates[0].toFixed(6)}
+                <strong className="font-bold">Ubicación:</strong> {location.point.coordinates[1].toFixed(6)}, {location.point.coordinates[0].toFixed(6)}
               </p>
               <p className="text-base text-gray-900 font-medium">
-                <strong className="font-bold">Radius:</strong> {location.radius}m
+                <strong className="font-bold">Radio:</strong> {location.radius}m
               </p>
             </div>
 
@@ -260,14 +260,14 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                 className="flex-1 px-6 py-3 text-gray-900 text-base font-semibold bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors border-2 border-gray-800"
                 disabled={isUploading}
               >
-                Cancel
+                Cancelar
               </button>
               <button
                 type="submit"
                 className="flex-1 px-6 py-3 text-white text-base font-semibold bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
                 disabled={isUploading}
               >
-                {isUploading ? 'Creating...' : 'Create Pin'}
+                {isUploading ? 'Creando...' : 'Crear Pin'}
               </button>
             </div>
           </form>
