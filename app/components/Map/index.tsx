@@ -26,7 +26,7 @@ const parseMapDataToMarkers = (mapPins: MapPin[]): MapComponentMarker[] => {
     description: pin.description,
     longitude: pin.location.point.coordinates[0], // GeoJSON format: [longitude, latitude]
     latitude: pin.location.point.coordinates[1],
-    color: pin.colour || "#A1BC98", // Default color if not provided
+    color: pin.colour || "#9ECAD6", // Default color if not provided
   }));
 };
 

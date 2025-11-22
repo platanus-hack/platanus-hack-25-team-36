@@ -110,12 +110,14 @@ export interface Community {
 export interface User {
   id: string; // Unique user ID (e.g., Firebase UID)
   username: string;
+  name: string;
   email: string;
   avatarUrl: string;
   joinedAt: string;
   // Relationships from the diagram
   currentPinId?: string; // Corresponds to MiPin: Pin (reference to MapPin.id)
   communityIds: string[]; // Corresponds to Communities: Community[] (references to Community.id)
+  interests: string[]; // Corresponds to Interests: string[]
 }
 
 

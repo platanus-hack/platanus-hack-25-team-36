@@ -20,7 +20,7 @@ export function ChipFilter({ label, colorClass, onToggle }: ChipFilterProps) {
   return (
     <button
       onClick={handleClick}
-      className={`px-6 py-3 rounded-full font-medium transition-all ${colorClass} ${
+      className={`px-4 py-3 rounded-full font-medium transition-all ${colorClass} ${
         isActive ? "shadow-lg" : ""
       }`}
       style={{ 
@@ -38,19 +38,20 @@ export function ChipFilter({ label, colorClass, onToggle }: ChipFilterProps) {
 export default function ChipFilters() {
   const filters = [
     { label: "Servicios", colorClass: "bg-[var(--color-chip-3)]" },
-    { label: "Tips", colorClass: "bg-[var(--color-chip-2)]" },
+    { label: "Eventos", colorClass: "bg-[var(--color-chip-2)]" },
     { label: "Comunidades", colorClass: "bg-[var(--color-chip-4)]" },
     { label: "Negocios", colorClass: "bg-[var(--color-chip-1)]" },
+    
   ];
 
   return (
-    <div className="w-full flex flex-wrap gap-3">
+    <div className="w-full flex flex-wrap gap-3 justify-between">
       {filters.map((filter) => (
-        <ChipFilter
-          key={filter.label}
-          label={filter.label}
-          colorClass={filter.colorClass}
-        />
+      <ChipFilter
+        key={filter.label}
+        label={filter.label}
+        colorClass={filter.colorClass}
+      />
       ))}
     </div>
   );
