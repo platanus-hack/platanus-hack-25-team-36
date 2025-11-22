@@ -57,7 +57,8 @@ export async function GET(request: Request) {
     console.error("S3 GET Error:", error);
     // Be more specific if the error is due to a policy denial (which would happen
     // if the object is NOT public, even with anonymous access).
-    return NextResponse.json({ error: "Failed to retrieve object from S3. Check bucket policy and key.", details: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: "Failed to retrieve object from S3. Check bucket policy and key.", details: errorMessage }, { status: 500 });
   }
 }
 
@@ -100,6 +101,7 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error("S3 POST Error:", error);
-    return NextResponse.json({ error: "Failed to upload object to S3", details: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: "Failed to upload object to S3", details: errorMessage }, { status: 500 });
   }
 }

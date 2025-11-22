@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Content from "./Content";
 
 const Map = () => {
@@ -12,20 +12,22 @@ const Map = () => {
   );
   const [initialZoom, setInitialZoom] = useState<number | undefined>(undefined);
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setInitialLatitude(position.coords.latitude);
-        setInitialLongitude(position.coords.longitude);
-        setInitialZoom(10);
-      },
-      (error) => {
-        console.error("Error getting user location:", error);
-      }
-    );
-  } else {
-    console.error("Geolocation is not supported by this browser.");
-  }
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setInitialLatitude(position.coords.latitude);
+          setInitialLongitude(position.coords.longitude);
+          setInitialZoom(10);
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   return (
     <Content
