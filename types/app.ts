@@ -123,36 +123,32 @@ export interface User {
 
 /**
  * Represents a single dynamic pin placed on the map by a user (Point of Interest).
- * (Corresponds to the 'Pin' entity in the diagram)
+ * Aligned with TipPinSchema MongoDB model.
  */
 export interface MapPin {
   id: string; // Unique ID for the pin
-  authorId: string; // Corresponds to Author: User (reference to User.id)
+  authorId: string; // Author: User (reference to User.id)
+  communityId: string; // Community: Community (reference to Community.id) - required
+  
+  // Pin Attributes
+  type: 'pin'; // Discriminator type for TipPin
+  title: string;
+  description: string; // Main content for MVP (replaces contact and dynamic fields)
   
   // Location Details
   location: LocationModel; // Embedded Location information
-  street: string; // Corresponds to Calle: String
-  municipality: string; // Corresponds to Comuna: comuna
+  address: string; // Single address field (replaces street + municipality)
   
-  // Pin Attributes
-  title: string;
-  description: string; // Corresponds to Description: User (assuming this was meant to be a string)
-  type: string; // Corresponds to Tipo: String (e.g., 'Event', 'Resource')
+  // Media & Visual
+  picture?: string; // Base64 image (renamed from imageBase64)
+  colour?: string; // Pin color
   
-  // Media & Interaction
-  imageBase64?: string; // Corresponds to Image: Base64 (Warning: large Base64 strings can slow down document retrieval)
-  reviewIds: string[]; // NEW: References to ReviewModel.id documents
-  
-  // Dynamic Contact Info
-  contact: ContactInfo; // Embedded contact block
-  
-  // Relationships & Metadata
-  communityId?: string; // Corresponds to Community: NN (reference to Community.id)
+  // User Interactions (aligned with MongoDB arrays)
+  comments: string[]; // References to Message.id documents
+  likedBy: string[]; // References to User.id who liked this pin
+  dislikedBy: string[]; // References to User.id who disliked this pin
   
   // Standard fields
   createdAt: string;
   updatedAt: string;
-  
-  // Suggestion for Dynamic Fields from the diagram
-  dynamicFields: Record<string, any>; 
 }

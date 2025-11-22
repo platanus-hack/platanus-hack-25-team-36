@@ -176,6 +176,12 @@ CommunitySchema.pre("save", function (next) {
 });
 
 const TipBaseSchema = new mongoose.Schema({
+  authorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    index: true,
+  },
   communityId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Community",
@@ -264,6 +270,16 @@ const TipPinSchema = new mongoose.Schema({
   location: {
     type: LocationSchema,
     required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 500,
+  },
+  picture: {
+    type: String,
+    trim: true,
   },
   colour: {
     type: String,
