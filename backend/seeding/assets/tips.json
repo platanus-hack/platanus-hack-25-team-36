@@ -1,0 +1,79 @@
+[
+  {
+    "type": "pin",
+    "communityName": "Barrio Norte",
+    "title": "Farmacia 24hs",
+    "description": "Farmacia abierta las 24 horas en la esquina de Corrientes y Pueyrredón. Muy útil para emergencias.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-58.3900, -34.6000]
+      },
+      "radius": 50
+    },
+    "colour": "#FF5733",
+    "likedBy": ["maria@example.com", "carlos@example.com"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "event",
+    "communityName": "Villa Crespo",
+    "title": "Feria de Productores",
+    "description": "Feria de productores locales todos los sábados de 9 a 14hs. Frutas, verduras y productos orgánicos.",
+    "startDate": "2024-12-21T09:00:00.000Z",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-58.4378, -34.5950]
+      },
+      "radius": 100
+    },
+    "likedBy": ["maria@example.com", "ana@example.com", "luis@example.com"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "text",
+    "communityName": "Palermo",
+    "title": "Tips de Seguridad",
+    "description": "Recordatorio: siempre estar atentos en las calles, especialmente de noche. Recomiendo caminar en grupo cuando sea posible y evitar calles mal iluminadas.",
+    "likedBy": ["juan@example.com", "carlos@example.com", "ana@example.com"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "pin",
+    "communityName": "Palermo",
+    "title": "Mejor Café del Barrio",
+    "description": "El café en la esquina de Armenia y Costa Rica tiene el mejor café del barrio. Ambiente tranquilo y WiFi rápido.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-58.4250, -34.5900]
+      },
+      "radius": 30
+    },
+    "colour": "#9B59B6",
+    "likedBy": ["maria@example.com", "luis@example.com"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "event",
+    "communityName": "Barrio Norte",
+    "title": "Festival de Música",
+    "description": "Festival de música en vivo este viernes a las 20hs en el parque central. Entrada gratuita.",
+    "startDate": "2024-12-20T20:00:00.000Z",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-58.3816, -34.6037]
+      },
+      "radius": 200
+    },
+    "likedBy": ["juan@example.com", "maria@example.com", "carlos@example.com", "ana@example.com"],
+    "dislikedBy": [],
+    "comments": []
+  }
+]

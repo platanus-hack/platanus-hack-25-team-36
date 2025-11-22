@@ -1,0 +1,30 @@
+[
+  {
+    "id": "msg1",
+    "authorEmail": "juan@example.com",
+    "text": "¡Excelente evento el sábado pasado! Gracias a todos los que participaron.",
+    "likedBy": ["maria@example.com", "carlos@example.com"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg2",
+    "authorEmail": "maria@example.com",
+    "text": "Alguien sabe si hay algún buen lugar para trabajar con WiFi cerca de la plaza?",
+    "likedBy": ["ana@example.com"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg3",
+    "authorEmail": "carlos@example.com",
+    "text": "Recomiendo el nuevo restaurante en la esquina, tiene muy buena comida y precios accesibles.",
+    "likedBy": ["juan@example.com", "maria@example.com", "luis@example.com"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg4",
+    "authorEmail": "ana@example.com",
+    "text": "Hay una feria de artesanías este domingo en el parque. ¡No se la pierdan!",
+    "likedBy": ["maria@example.com", "carlos@example.com"],
+    "dislikedBy": []
+  }
+]

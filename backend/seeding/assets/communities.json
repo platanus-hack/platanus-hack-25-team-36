@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Barrio Norte",
+    "description": "Comunidad del barrio norte de la ciudad. Compartimos información sobre eventos locales, seguridad y servicios.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-58.3816, -34.6037]
+      },
+      "radius": 2000
+    },
+    "tags": ["barrio", "norte", "comunidad"],
+    "colour": "#FF5733",
+    "members": ["juan@example.com", "maria@example.com", "carlos@example.com"]
+  },
+  {
+    "name": "Villa Crespo",
+    "description": "Vecinos de Villa Crespo unidos. Tips sobre restaurantes, transporte y vida barrial.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-58.4378, -34.5950]
+      },
+      "radius": 1500
+    },
+    "tags": ["villa-crespo", "restaurantes", "transporte"],
+    "colour": "#33C3F0",
+    "members": ["maria@example.com", "ana@example.com", "luis@example.com"]
+  },
+  {
+    "name": "Palermo",
+    "description": "Comunidad de Palermo. Eventos, recomendaciones y noticias del barrio.",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-58.4238, -34.5885]
+      },
+      "radius": 2500
+    },
+    "tags": ["palermo", "eventos", "recomendaciones"],
+    "colour": "#9B59B6",
+    "members": ["juan@example.com", "carlos@example.com", "ana@example.com", "luis@example.com"]
+  }
+]
