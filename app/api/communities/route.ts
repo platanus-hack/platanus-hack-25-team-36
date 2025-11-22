@@ -14,6 +14,24 @@ export async function GET(request: Request) {
       return NextResponse.json(community);
     }
     
+    const longitudeParam = searchParams.get("longitude");
+    const latitudeParam = searchParams.get("latitude");
+    
+    if (longitudeParam && latitudeParam) {
+      const longitude = Number.parseFloat(longitudeParam);
+      const latitude = Number.parseFloat(latitudeParam);
+      
+      if (Number.isNaN(longitude) || Number.isNaN(latitude)) {
+        return NextResponse.json({ error: "Invalid longitude or latitude" }, { status: 400 });
+      }
+      
+      const communities = await Community.findIntersectingWithLocation({
+        type: "Point",
+        coordinates: [longitude, latitude],
+      });
+      return NextResponse.json(communities);
+    }
+    
     const communities = await Community.find().limit(100);
     return NextResponse.json(communities);
   } catch (error) {
