@@ -8,8 +8,8 @@ import AddPinButton from './AddPinButton';
 import FloatingAddButton from './FloatingAddButton';
 import { MapPin, LocationModel, MapPinType } from '../../types/app';
 
-// The Mapbox token provided by the user
-const MAPBOX_TOKEN: string = 'sk.eyJ1IjoidmljdG9ycGF0byIsImEiOiJjbWk5c3R1OWswcm12MnFweDlrbzczeG51In0.H7c4HwPZkhydNiTQ3idjgA';
+// The Mapbox token from environment variables
+const MAPBOX_TOKEN: string = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
 
 // Initial coordinates for Santiago, Chile (Lng, Lat)
 const SANTIAGO_CENTER: ViewState = {
