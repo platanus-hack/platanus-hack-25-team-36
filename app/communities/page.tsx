@@ -46,12 +46,17 @@ function CommunityCard({ avatarUrl, portadaUrl, title, isPartOf: initialIsPartOf
   const [isPartOf, setIsPartOf] = useState(initialIsPartOf);
   return (
     <div
-      className="relative flex flex-col w-full min-w-[160px] h-28 rounded-lg shadow-md flex-grow"
+      className="relative flex flex-col w-full min-w-[160px] h-28 rounded-lg shadow-md flex-grow cursor-pointer"
       style={{
         background: "transparent",
         boxShadow: "3px 3px 0px rgba(0,0,0,0.7)",
-        border: "1.5px solid rgb(0,0,0)",
+        border: isPartOf ? "3px solid black" : "1px solid black",
+        cursor: "pointer",
       }}
+      onClick={() => setIsPartOf((prev) => !prev)}
+      tabIndex={0}
+      role="button"
+      aria-pressed={isPartOf}
     >
       {/* Portada */}
       {portadaUrl ? (
@@ -64,7 +69,7 @@ function CommunityCard({ avatarUrl, portadaUrl, title, isPartOf: initialIsPartOf
       ) : (
         <div
           className="absolute top-0 left-0 w-full h-2/5 rounded-t-lg"
-          style={{ background: isPartOf ? "#C94B4B" : "#E2A93B", height: "40%" }}
+          style={{ background: "#C94B4B", height: "40%" }}
         />
       )}
       {/* Avatar and title row */}
@@ -89,8 +94,10 @@ function CommunityCard({ avatarUrl, portadaUrl, title, isPartOf: initialIsPartOf
             style={{
               background: isPartOf ? "#3DDC97" : "#B3D8FF",
               boxShadow: "2px 2px 0px rgba(0,0,0,0.5)",
+              pointerEvents: "none",
+              cursor: "pointer",
             }}
-            onClick={() => setIsPartOf((prev) => !prev)}
+            tabIndex={-1}
             aria-label={isPartOf ? "Ya eres parte" : "Unirse"}
           >
             {isPartOf ? (
