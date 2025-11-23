@@ -63,6 +63,27 @@ curl http://localhost:3000/api/messages
 curl "http://localhost:3000/api/messages?id=MESSAGE_ID_HERE"
 ```
 
+### Get Message by ID (with user name and image populated)
+```bash
+# First, get all messages to find a message ID
+curl http://localhost:3000/api/messages
+
+# Then use one of the _id values from the response to get a specific message
+# Example: Get message with populated author name and image
+curl "http://localhost:3000/api/messages?id=MESSAGE_ID_HERE"
+```
+
+Example workflow to get a seeded message:
+```bash
+# Get all messages and extract the first message ID
+MESSAGE_RESPONSE=$(curl -s http://localhost:3000/api/messages)
+MESSAGE_ID=$(echo $MESSAGE_RESPONSE | grep -o '"_id":"[^"]*' | head -1 | cut -d'"' -f4)
+echo "Message ID: $MESSAGE_ID"
+
+# Get the specific message with populated user data
+curl "http://localhost:3000/api/messages?id=$MESSAGE_ID"
+```
+
 ### Update Message
 ```bash
 curl -X PUT "http://localhost:3000/api/messages?id=MESSAGE_ID_HERE" \

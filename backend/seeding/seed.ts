@@ -131,26 +131,27 @@ async function seedMessages(messagesData: any[], userPreferencesMap: Map<string,
   logging.info(`Seeding ${messagesData.length} messages...`);
   
   const messageMap = new Map<string, any>();
+  const mongoose = await import("mongoose");
   
   for (const messageData of messagesData) {
     let authorId: any = null;
     
-    // Try to find author by email or ID
-    if (messageData.authorEmail) {
-      // Try to find by email first (for backward compatibility)
-      const author = userPreferencesMap.get(messageData.authorEmail);
-      if (author) {
-        authorId = author._id;
+    // Use authorId directly if provided (as MongoDB ObjectId string)
+    if (messageData.authorId) {
+      try {
+        authorId = new mongoose.Types.ObjectId(messageData.authorId);
+      } catch (error) {
+        logging.warn(`Invalid authorId for message ${messageData.id || 'unknown'}: ${messageData.authorId}`);
       }
-    } else if (messageData.authorId) {
-      // Use authorId directly if provided
-      const author = (userPreferencesMap as any).byId?.get(messageData.authorId);
+    } else if (messageData.authorEmail) {
+      // Fallback to email lookup (for backward compatibility)
+      const author = userPreferencesMap.get(messageData.authorEmail);
       if (author) {
         authorId = author._id;
       }
     }
     
-    // Skip message if author not found (since UserPreferences entries may not exist)
+    // Skip message if author not found
     if (!authorId) {
       logging.warn(`Author not found for message ${messageData.id || 'unknown'}, skipping...`);
       continue;
@@ -164,11 +165,19 @@ async function seedMessages(messagesData: any[], userPreferencesMap: Map<string,
     };
     
     processedData.likedBy = (messageData.likedBy || []).map((identifier: string) => {
-      return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+      try {
+        return new mongoose.Types.ObjectId(identifier);
+      } catch {
+        return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+      }
     }).filter(Boolean);
     
     processedData.dislikedBy = (messageData.dislikedBy || []).map((identifier: string) => {
-      return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+      try {
+        return new mongoose.Types.ObjectId(identifier);
+      } catch {
+        return (userPreferencesMap as any).byId?.get(identifier)?._id || userPreferencesMap.get(identifier)?._id;
+      }
     }).filter(Boolean);
     
     const message = await Message.create(processedData);

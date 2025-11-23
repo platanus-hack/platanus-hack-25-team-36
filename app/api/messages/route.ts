@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
-import { Message } from "@/backend/database/models";
+import { Message, User } from "@/backend/database/models";
 import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 
 async function getHandler(request: AuthenticatedRequest) {
@@ -10,15 +10,47 @@ async function getHandler(request: AuthenticatedRequest) {
     const id = searchParams.get("id");
 
     if (id) {
-      const message = await Message.findById(id);
+      const message = await Message.findById(id).populate({
+        path: "authorId",
+        select: "name image",
+        model: User,
+      });
       if (!message)
         return NextResponse.json({ error: "Not found" }, { status: 404 });
-      return NextResponse.json(message);
+      
+      const messageObj = message.toObject();
+      if (messageObj.authorId && typeof messageObj.authorId === "object") {
+        messageObj.authorId = {
+          _id: messageObj.authorId._id.toString(),
+          name: messageObj.authorId.name,
+          image: messageObj.authorId.image,
+        };
+      }
+      
+      return NextResponse.json(messageObj);
     }
 
-    const messages = await Message.find().limit(100);
-    return NextResponse.json(messages);
+    const messages = await Message.find().limit(100).populate({
+      path: "authorId",
+      select: "name image",
+      model: User,
+    });
+    
+    const formattedMessages = messages.map((msg) => {
+      const msgObj = msg.toObject();
+      if (msgObj.authorId && typeof msgObj.authorId === "object") {
+        msgObj.authorId = {
+          _id: msgObj.authorId._id.toString(),
+          name: msgObj.authorId.name,
+          image: msgObj.authorId.image,
+        };
+      }
+      return msgObj;
+    });
+
+    return NextResponse.json(formattedMessages);
   } catch (error) {
+    console.error("[GET /api/messages] Error:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
       { status: 500 }
