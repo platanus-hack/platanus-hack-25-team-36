@@ -3,6 +3,7 @@ import { MapPin, LocationModel, MapPinType, PinSubtype } from '@/types/app';
 import { compressAndConvertImage } from '@/app/services/s3';
 import { generateBackgroundImage } from '@/app/services/imageGeneration';
 import { getAvailableCategories, getCategoryColor } from '@/app/utils/categoryColors';
+import { useGetCommunities } from '@/app/hooks/api';
 
 interface PinCreationFormProps {
   location: LocationModel;
@@ -16,10 +17,22 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
     description: '',
     address: '',
     subtype: '' as PinSubtype | '',
+    communityId: '',
     picture: '',
   });
   const [pictureFile, setPictureFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+
+  // Fetch communities based on pin location
+  const { data: communities = [], isLoading: isLoadingCommunities } = useGetCommunities({
+    longitude: location.point.coordinates[0],
+    latitude: location.point.coordinates[1],
+  });
+
+  // Debug: Log communities data
+  console.log('📍 Pin location:', { lng: location.point.coordinates[0], lat: location.point.coordinates[1] });
+  console.log('🏘️  Communities fetched:', communities);
+  console.log('⏳ Loading communities:', isLoadingCommunities);
 
   const handlePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -44,12 +57,15 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.title.trim() || !formData.description.trim() || !formData.address.trim() || !formData.subtype) {
-      alert('Por favor completa todos los campos requeridos (Título, Descripción, Dirección y Categoría)');
+    if (!formData.title.trim() || !formData.description.trim() || !formData.address.trim() || !formData.subtype || !formData.communityId) {
+      alert('Por favor completa todos los campos requeridos (Título, Descripción, Dirección, Categoría y Comunidad)');
       return;
     }
 
     setIsUploading(true);
+
+    // Small delay to ensure loader displays
+    await new Promise(resolve => setTimeout(resolve, 50));
 
     try {
       // Generate unique ID for this pin
@@ -120,7 +136,7 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
 
       const pinData: Omit<MapPin, 'id' | 'createdAt' | 'updatedAt'> = {
         authorId: 'current-user', // TODO: Get from auth context
-        communityId: 'default-community', // TODO: Get from context or props
+        communityId: formData.communityId,
         type: MapPinType.PIN,
         subtype: formData.subtype as PinSubtype,
         title: formData.title.trim(),
@@ -223,6 +239,35 @@ const PinCreationForm: React.FC<PinCreationFormProps> = ({ location, onSave, onC
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Community Selection */}
+            <div>
+              <label htmlFor="communityId" className="block text-base font-semibold text-gray-900 mb-2">
+                Comunidad *
+              </label>
+              <select
+                id="communityId"
+                value={formData.communityId}
+                onChange={(e) => setFormData({ ...formData, communityId: e.target.value })}
+                className="w-full px-4 py-3 bg-white border-2 border-gray-800 text-gray-900 text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+                disabled={isLoadingCommunities}
+              >
+                <option value="">
+                  {isLoadingCommunities ? 'Cargando comunidades...' : 'Selecciona una comunidad'}
+                </option>
+                {communities.map((community) => (
+                  <option key={community.id} value={community.id}>
+                    {community.title}
+                  </option>
+                ))}
+              </select>
+              {communities.length === 0 && !isLoadingCommunities && (
+                <p className="text-sm text-red-600 mt-2">
+                  No hay comunidades disponibles en esta ubicación
+                </p>
+              )}
             </div>
 
             {/* Picture Upload */}
