@@ -3,6 +3,23 @@ import { initializeMongoDb } from "@/backend/database/connection";
 import { Community } from "@/backend/database/models";
 import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 
+/**
+ * Transform MongoDB community document to frontend format
+ * Maps _id to id and name to title for frontend compatibility
+ */
+function transformCommunity(community: any) {
+  return {
+    id: community._id.toString(),
+    title: community.name,
+    description: community.description,
+    locationId: community.location?._id?.toString() || "",
+    memberIds: community.members?.map((m: any) => m.toString()) || [],
+    pinIds: [], // Not stored in current schema
+    tags: community.tags || [],
+    createdAt: community.createdAt?.toISOString() || new Date().toISOString(),
+  };
+}
+
 async function getHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
@@ -34,11 +51,11 @@ async function getHandler(request: AuthenticatedRequest) {
         type: "Point",
         coordinates: [longitude, latitude],
       });
-      return NextResponse.json(communities);
+      return NextResponse.json(communities.map(transformCommunity));
     }
 
     const communities = await Community.find().limit(100);
-    return NextResponse.json(communities);
+    return NextResponse.json(communities.map(transformCommunity));
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },

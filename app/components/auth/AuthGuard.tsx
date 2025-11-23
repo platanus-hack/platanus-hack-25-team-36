@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+import Loader from "../Loader";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -24,11 +25,11 @@ export default function AuthGuard({ children, fallback }: AuthGuardProps) {
   }, [session, status, router]);
 
   if (status === "loading") {
-    return fallback || <LoadingSpinner />;
+    return fallback || <Loader />;
   }
 
   if (!session) {
-    return fallback || <LoadingSpinner />;
+    return fallback || <Loader />;
   }
 
   return <>{children}</>;

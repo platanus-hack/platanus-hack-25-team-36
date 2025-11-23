@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../lib/axios";
-import { MapPin, MapPinType, TextTip, UserPreferences } from "@/types/app";
+import { MapPin, MapPinType, TextTip, UserPreferences, Community } from "@/types/app";
 import type { PinFormData, PinLocation } from "../services/pins";
 
 interface Post {
@@ -97,6 +97,16 @@ const tipsApi = {
     if (latitudeParam !== undefined) params.latitude = latitudeParam;
 
     return api.get("/tips", { params });
+  },
+};
+
+const communitiesApi = {
+  getCommunities: (longitude?: number, latitude?: number): Promise<Community[]> => {
+    const params: Record<string, string | number> = {};
+    if (longitude !== undefined) params.longitude = longitude;
+    if (latitude !== undefined) params.latitude = latitude;
+
+    return api.get("/communities", { params });
   },
 };
 
@@ -290,5 +300,21 @@ export const useGetTips = ({
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
     placeholderData: (previousData) => previousData, // Keep previous data while fetching
+  });
+};
+
+// React Query hooks for communities
+export const useGetCommunities = ({
+  longitude,
+  latitude,
+}: {
+  longitude?: number;
+  latitude?: number;
+} = {}) => {
+  return useQuery({
+    queryKey: ["communities", { longitude, latitude }],
+    queryFn: () => communitiesApi.getCommunities(longitude, latitude),
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 15 * 60 * 1000, // 15 minutes
   });
 };

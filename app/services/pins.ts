@@ -9,6 +9,7 @@ export interface PinFormData {
   description: string;
   address: string;
   subtype?: PinSubtype;
+  communityId?: string;
   colour: string;
   picture?: string;
   background_image?: string;
@@ -63,10 +64,10 @@ export const savePinToDatabase = async (
     comments: [],
     likedBy: [],
     dislikedBy: [],
-    // Generate valid ObjectIds as temporary placeholders
-    // TODO: Replace with actual user ID from auth and community ID from context
+    // Use provided communityId or generate as fallback
+    // TODO: Replace with actual user ID from auth
     authorId: generateObjectId(),
-    communityId: generateObjectId(),
+    communityId: formData.communityId || generateObjectId(),
   };
 
   const response = await fetch('/api/tips', {

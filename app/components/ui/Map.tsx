@@ -4,7 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
-import { useCreatePin } from "@/app/hooks/api";
+import { useCreatePin, useGetCommunities } from "@/app/hooks/api";
 import { PinSubtype } from "@/types/app";
 import {
   getAvailableCategories,
@@ -103,6 +103,14 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
 
   // React Query hook for creating pins
   const createPinMutation = useCreatePin();
+
+  // React Query hook for fetching communities based on clicked location
+  const { data: communities = [], isLoading: isLoadingCommunities } = useGetCommunities(
+    clickedLocation ? {
+      longitude: clickedLocation.lng,
+      latitude: clickedLocation.lat,
+    } : undefined
+  );
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -344,6 +352,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     description: string;
     address: string;
     subtype: PinSubtype;
+    communityId: string;
     picture?: File;
   }) => {
     if (!clickedLocation) return;
@@ -445,6 +454,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
             description: formData.description,
             address: formData.address,
             subtype: formData.subtype,
+            communityId: formData.communityId,
             colour: categoryColor,
             picture: pictureUrl,
             background_image: backgroundImageUrl,
@@ -540,12 +550,14 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                 const description = formData.get("description") as string;
                 const address = formData.get("address") as string;
                 const subtype = formData.get("subtype") as string;
+                const communityId = formData.get("communityId") as string;
                 const pictureFile = formData.get("picture") as File;
 
                 console.log("Form data extracted:");
                 console.log("- Title:", title);
                 console.log("- Description:", description);
                 console.log("- Address:", address);
+                console.log("- Community ID:", communityId);
                 console.log(
                   "- Picture file:",
                   pictureFile ? pictureFile.name : "none"
@@ -557,9 +569,9 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                 console.log("- Clicked location:", clickedLocation);
 
                 // Validate required fields
-                if (!title || !address || !subtype) {
+                if (!title || !address || !subtype || !communityId) {
                   alert(
-                    "Por favor completa todos los campos requeridos (Título, Dirección y Categoría)"
+                    "Por favor completa todos los campos requeridos (Título, Dirección, Categoría y Comunidad)"
                   );
                   return;
                 }
@@ -576,6 +588,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                   description: description?.trim() || "",
                   address: address.trim(),
                   subtype: subtype as PinSubtype,
+                  communityId: communityId.trim(),
                   picture:
                     pictureFile && pictureFile.size > 0
                       ? pictureFile
@@ -632,6 +645,31 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                     </option>
                   ))}
                 </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Comunidad *
+                </label>
+                <select
+                  name="communityId"
+                  required
+                  disabled={isLoadingCommunities}
+                  className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
+                >
+                  <option value="">
+                    {isLoadingCommunities ? 'Cargando comunidades...' : 'Selecciona una comunidad'}
+                  </option>
+                  {communities.map((community) => (
+                    <option key={community.id} value={community.id}>
+                      {community.title}
+                    </option>
+                  ))}
+                </select>
+                {communities.length === 0 && !isLoadingCommunities && (
+                  <p className="text-sm text-red-600 mt-2">
+                    No hay comunidades disponibles en esta ubicación
+                  </p>
+                )}
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
