@@ -33,7 +33,7 @@ const Content = ({ id }: Props) => {
           borderBottom: !tipData.background_image ? "2px solid #000" : undefined,
         }}
       >
-        {tipData.background_image ? (
+        {false ? (
           <img
             src={tipData.background_image}
             alt="Portada"
@@ -44,7 +44,7 @@ const Content = ({ id }: Props) => {
           <div
             className="absolute top-0 left-0 w-full h-full rounded-b-lg"
             style={{
-              background: "var(--color-primary)",
+              background: tipData!.colour ?? "var(--color-primary)",
               border: "2px solid #000",
               borderTop: 0,
             }}
@@ -60,13 +60,14 @@ const Content = ({ id }: Props) => {
               minHeight: 0,
             }}
           >
-            {tipData.picture ? (
+            {tipData.background_image ? (
               <img
-                src={tipData.picture}
+                src={tipData.background_image}
                 alt="Avatar"
                 width={160}
                 height={160}
-                className="w-full h-full object-cover"
+                className="object-cover"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             ) : (
               <User
