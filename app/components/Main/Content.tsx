@@ -42,7 +42,7 @@ const Content = ({
     {/* Tips List Section */}
     <section className="flex flex-col gap-4 mt-3">
       {tips.map((tip) => (
-        <TipCard key={tip.id} title={tip.title} avatar={tip.avatar} tipId={tip.id} />
+        <TipCard key={tip.id} title={tip.title} tipId={tip.id} authorId={tip.authorId} />
       ))}
     </section>
   </main>
