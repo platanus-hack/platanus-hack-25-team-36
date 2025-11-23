@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useGetCommunities, useJoinCommunity, useLeaveCommunity } from "@/app/hooks/api";
+import Loader from "@/app/components/Loader";
 
 const communityEmoji = [
   { "emoji": "🎨", "hex": "#F8E4A6" },
@@ -191,14 +192,14 @@ const Communities = () => {
     isPartOf: userId ? community.memberIds?.includes(userId) : false,
   }));
 
+  if (isLoading) {
+    return (<Loader />);
+  }
+
   return (
     <div className="px-2 py-4 mt-24 flex flex-col min-h-[80vh]">
       <h1 className="font-bold text-lg mb-4">🌳 Mis comunidades</h1>
-      {isLoading ? (
-        <div className="flex items-center justify-center py-8">
-          <p className="text-gray-500">Cargando comunidades...</p>
-        </div>
-      ) : communities.length === 0 ? (
+      {communities.length === 0 ? (
         <div className="flex items-center justify-center py-8">
           <p className="text-gray-500">No hay comunidades disponibles</p>
         </div>
