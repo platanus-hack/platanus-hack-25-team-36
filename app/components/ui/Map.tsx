@@ -153,7 +153,6 @@ const Map = ({
   const lastValidMarkersRef = useRef<Marker[]>([]);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [isCreatingPin, setIsCreatingPin] = useState(false);
-  const [pinCreated, setPinCreated] = useState(false);
   const [clickedLocation, setClickedLocation] = useState<{
     lng: number;
     lat: number;
@@ -674,23 +673,17 @@ const Map = ({
             radius: 100,
           },
         });
-        setPinCreated(true);
-        // After 1.5s, close modal and reset
-        setTimeout(() => {
-          setShowForm(false);
-          setClickedLocation(null);
-          setIsCreatingPin(false);
-          setPinCreated(false);
-        }, 1500);
+        alert("¡Pin creado y guardado exitosamente!");
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "Error desconocido";
         alert(`Pin creado en el mapa pero falló al guardar: ${errorMessage}`);
-        setShowForm(false);
-        setClickedLocation(null);
-        setIsCreatingPin(false);
-        setPinCreated(false);
       }
+
+      // Step 5: Reset states
+      setShowForm(false);
+      setClickedLocation(null);
+      setIsCreatingPin(false);
     } catch (error) {
       console.error("Error creating pin:", error);
       alert(
@@ -929,16 +922,14 @@ const Map = ({
                     setIsCreatingPin(false);
                   }}
                   className="flex-1 px-4 py-3 text-gray-900 bg-gray-200 border-2 border-gray-800 rounded-lg hover:bg-gray-300 font-semibold"
-                  disabled={pinCreated}
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className={`flex-1 px-4 py-3 rounded-lg font-semibold text-white ${pinCreated ? 'bg-[var(--color-chip-9)]' : 'bg-blue-600 hover:bg-blue-700'}`}
-                  disabled={pinCreated}
+                  className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
                 >
-                  {pinCreated ? 'Listo!' : 'Crear Pin'}
+                  Crear Pin
                 </button>
               </div>
             </form>
