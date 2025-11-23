@@ -381,7 +381,7 @@ async function deleteHandler(request: AuthenticatedRequest) {
   }
 }
 
-export const GET = getHandler;
+export const GET = withAuth(getHandler);
 export const POST = withAuth(postHandler);
 export const PUT = withAuth(putHandler);
 export const DELETE = withAuth(deleteHandler);
