@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { User } from "lucide-react";
+import { User, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 type TipCardProps = {
   avatar?: string;
   title: string;
+  backgroundColor?: string;
 };
 
-export default function TipCard({ avatar, title }: TipCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+
+export default function TipCard({ avatar, title, backgroundColor }: TipCardProps) {
+  const buttonBg = backgroundColor || 'var(--color-chip-5)';
 
   return (
     <div className="w-full px-4 py-3 md:px-6 md:py-5 flex items-center gap-3 md:gap-4" style={{ backgroundColor: 'white', border: '1.5px solid rgb(0, 0, 0)', borderRadius: '8px', fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', boxShadow: '3px 3px 0px rgba(0, 0, 0, 0.7)' }}>
@@ -22,27 +23,29 @@ export default function TipCard({ avatar, title }: TipCardProps) {
           <User className="w-8 h-8" style={{ color: 'var(--foreground)' }} />
         )}
       </div>
-      
       {/* Title */}
       <div className="flex-1">
         <p className="font-medium" style={{ color: 'var(--foreground)', fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}>{title}</p>
       </div>
-      
-      {/* Dropdown Button */}
+      {/* Circular External Link Button */}
       <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="flex-shrink-0 transition-transform w-16 h-16 flex items-center justify-center"
-        style={{ transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)", backgroundColor: 'transparent' }}
+        type="button"
+        style={{
+          width: 48,
+          height: 48,
+          borderRadius: "50%",
+          border: "1px solid black",
+          backgroundColor: buttonBg,
+          boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.7)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          cursor: "pointer",
+        }}
+        aria-label="Enlace externo"
       >
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 32 32"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M16 22C15.3 22 14.7 21.7 14.3 21.2L8.3 13.2C7.5 12.1 8.3 10.5 9.7 10.5H22.3C23.7 10.5 24.5 12.1 23.7 13.2L17.7 21.2C17.3 21.7 16.7 22 16 22Z" fill="#A7875A" stroke="#A7875A" strokeWidth="1" strokeLinejoin="round"/>
-        </svg>
+        <ExternalLink size={24} color="black" />
       </button>
     </div>
   );
