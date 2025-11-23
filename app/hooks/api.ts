@@ -35,9 +35,7 @@ interface GetUserAvatarResponse {
   image: string;
 }
 
-interface GetTipByIdResponse {
-  data: MapPin | TextTip;
-}
+type GetTipByIdResponse = MapPin | TextTip;
 
 interface GetMessageByIdResponse {
   authorId: {
@@ -137,6 +135,10 @@ const communitiesApi = {
 
     return api.get("/communities", { params });
   },
+  joinCommunity: (communityId: string): Promise<{ success: boolean }> =>
+    api.post(`/communities/${communityId}/join`),
+  leaveCommunity: (communityId: string): Promise<{ success: boolean }> =>
+    api.delete(`/communities/${communityId}/join`),
 };
 
 const usersApi = {
@@ -337,6 +339,32 @@ export const useGetCommunities = ({
     queryFn: () => communitiesApi.getCommunities(longitude, latitude),
     staleTime: 10 * 60 * 1000, // 10 minutes
     gcTime: 15 * 60 * 1000, // 15 minutes
+  });
+};
+
+export const useJoinCommunity = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (communityId: string) =>
+      communitiesApi.joinCommunity(communityId),
+    onSuccess: () => {
+      // Invalidate communities queries to refetch with updated membership
+      queryClient.invalidateQueries({ queryKey: ["communities"] });
+    },
+  });
+};
+
+export const useLeaveCommunity = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (communityId: string) =>
+      communitiesApi.leaveCommunity(communityId),
+    onSuccess: () => {
+      // Invalidate communities queries to refetch with updated membership
+      queryClient.invalidateQueries({ queryKey: ["communities"] });
+    },
   });
 };
 
