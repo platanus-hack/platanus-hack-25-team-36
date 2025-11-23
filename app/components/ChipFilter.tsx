@@ -54,9 +54,9 @@ export default function ChipFilters({ onActiveSubtypesChange, onIsCommunityModeC
 
   const [checked, setChecked] = useState(true);
   const [activeFilters, setActiveFilters] = useState<Record<PinSubtype, boolean>>({
-    [PinSubtype.SERVICE]: false,
-    [PinSubtype.EVENT]: false,
-    [PinSubtype.BUSINESS]: false,
+    [PinSubtype.SERVICE]: true,
+    [PinSubtype.EVENT]: true,
+    [PinSubtype.BUSINESS]: true,
   });
 
   const handleToggle = (value: boolean) => {
