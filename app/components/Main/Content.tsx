@@ -18,6 +18,8 @@ const Content = ({ mapPins, onChangeMapCenter, onChangeSearch }: Props) => {
     { id: 4, title: "Estoy empezando un taller de costura gratis !" },
   ];
 
+  console.log(onChangeMapCenter)
+
   return (
     <main className="flex flex-col pt-24 px-6 pb-6 gap-6" style={{ background: 'var(--color-background)' }}>
       {/* Search and Filters Section */}
