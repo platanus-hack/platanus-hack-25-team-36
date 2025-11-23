@@ -47,5 +47,779 @@
     "text": "¿Dónde puedo comprar lana de buena calidad en Ñuñoa? Busco específicamente lana merino.",
     "likedBy": ["69222d70996f4819736f750c", "692217192636a7b618685e71"],
     "dislikedBy": []
+  },
+  {
+    "id": "msg8",
+    "authorId": "692217192636a7b618685e71",
+    "text": "¡Qué buena recomendación! Necesito alguien para cuidar a mi gato cuando viaje. ¿Podrías pasarme el contacto?",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg9",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "También lo conozco, es super confiable. Mi perro lo adora. Recomendado 100%.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg10",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Me encanta esta iniciativa. Acabo de mudarme y sería genial conocer a mis vecinos. ¿Cuándo es el próximo encuentro?",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg11",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Don Manuel también me ayudó con unos muebles. Es un señor muy amable y hace trabajos de calidad. Totalmente recomendado.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg12",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "¡Genial! Me encantaría conocer esa ruta. ¿Podrías compartir el mapa?",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg13",
+    "authorId": "692217192636a7b618685e71",
+    "text": "La probé ayer y es increíble. Mucho mejor que las rutas que conocía. Gracias por compartirla.",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg14",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Me interesa mucho. Soy nuevo en Magic y me gustaría aprender estrategias. ¿Puedo unirme?",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg15",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Excelente idea. Tengo varias lanas que no voy a usar. ¿Cuándo sería el intercambio?",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg16",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Me encanta esta idea. Tengo algunas herramientas básicas que puedo llevar. ¿Qué necesitamos específicamente?",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg17",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Soy mecánico de bicis y puedo ayudar enseñando. Me parece genial compartir conocimientos.",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg18",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, estaré ahí. Tengo que aprender a cambiar una cámara porque siempre me pasa en el peor momento.",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg19",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "¿Necesitamos confirmar asistencia o solo llegamos? Quiero asegurarme de que haya espacio.",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg20",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Puedo llevar algunas cámaras de repuesto por si alguien las necesita. También tengo parches.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg21",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Me encantaría sumarme pero nunca he subido a Farellones. ¿Es muy difícil?",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg22",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "No te preocupes, vamos tranquilos y nadie se queda atrás. Es más mental que físico. Te va a encantar.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg23",
+    "authorId": "692217192636a7b618685e71",
+    "text": "En la calle San Diego hay varias tiendas con buenos precios. La que está cerca del metro es la más barata.",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg24",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "También puedes comprar online en algunas páginas. A veces tienen ofertas buenas. Te paso el link si quieres.",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg25",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Gracias a ambos. Voy a revisar ambas opciones. La verdad es que necesito urgente.",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg26",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Don Carlos es un crack. Me arregló la bici cuando nadie más podía. Super recomendado.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg27",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Tengo semillas de cilantro y perejil. ¿Te interesan? También tengo algunas de lechuga.",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg28",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Yo tengo semillas de zanahoria y remolacha. Podríamos hacer un intercambio más grande entre varios.",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg29",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Perfecto, me interesan todas. ¿Cuándo podemos hacer el intercambio?",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg30",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Qué proyecto más bonito. Me encantaría aprender a compostar. ¿Cuándo sería el taller?",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg31",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "También puedo aportar mis residuos. Tengo muchos restos de frutas y verduras. Es genial que alguien se preocupe por esto.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg32",
+    "authorId": "692217192636a7b618685e71",
+    "text": "¿Recuerdas el nombre del vivero o la dirección exacta? Me gustaría ir este fin de semana.",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg33",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Primero, ¿qué tipo de planta es? Eso ayuda mucho a diagnosticar el problema.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg34",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Las hojas amarillas pueden ser exceso de agua o falta de nutrientes. ¿Con qué frecuencia la riegas?",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg35",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Es una monstera. La riego dos veces por semana. ¿Será mucho?",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg36",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Para una monstera, dos veces por semana puede ser mucho dependiendo del tamaño de la maceta y la luz. ¿Tiene buen drenaje la maceta?",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg37",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Las monsteras prefieren que la tierra se seque un poco entre riegos. Prueba regar solo cuando los primeros 2-3 cm de tierra estén secos.",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg38",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Ah, puede ser eso. La maceta tiene agujeros pero tal vez no suficientes. ¿Debería cambiarla?",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg39",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Sí, y asegúrate de que tenga una capa de drenaje en el fondo (piedras o similar). También revisa las raíces, si están muy apretadas o negras, necesita más espacio.",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg40",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Y no olvides la luz. Las monsteras necesitan luz indirecta brillante. Si está muy oscuro o muy directo el sol, también puede causar problemas.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg41",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, voy a revisar todo eso. Muchas gracias a todos por la ayuda. Espero poder salvarla.",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg42",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Si después de hacer estos cambios no mejora en una semana, avísame y vemos qué más puede ser. A veces también necesita fertilizante.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg43",
+    "authorId": "692217192636a7b618685e71",
+    "text": "¿Cuál es el nombre del café? Me encantaría conocerlo. Busco lugares tranquilos para leer.",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg44",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Me encantó 'Cien años de soledad'. Las discusiones del club siempre son muy interesantes. Estaré ahí.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg45",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "No pude leerlo completo pero leí varios capítulos. ¿Puedo ir igual aunque no lo haya terminado?",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg46",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Tengo varios libros de García Márquez y algunos de Isabel Allende. ¿Te interesan?",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg47",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Si te gustó García Márquez, definitivamente lee 'El otoño del patriarca'. Es diferente pero igual de hermoso.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg48",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Te recomiendo 'La casa de los espíritus' de Isabel Allende. Tiene esa misma profundidad emocional y es muy bien escrita.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg49",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Ambas suenan geniales. ¿Cuál me recomiendan leer primero?",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg50",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Yo empezaría con 'La casa de los espíritus'. Es más accesible y te va a encantar. Luego 'El otoño del patriarca' que es más experimental.",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg51",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "También podrías leer 'Pedro Páramo' de Juan Rulfo. Es corto pero increíblemente profundo. Una obra maestra.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg52",
+    "authorId": "692217192636a7b618685e71",
+    "text": "No conozco a Juan Rulfo. ¿De qué trata?",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg53",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Es sobre un hombre que va a buscar a su padre a un pueblo fantasma. Es mágico realismo puro, muy poético y conmovedor.",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg54",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Y si quieres algo más contemporáneo, 'Fiebre tropical' de Julián Delgado Lopera es increíble. Trata temas de identidad y pertenencia.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg55",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Wow, tengo muchas opciones ahora. Gracias a todos. Creo que empezaré con 'La casa de los espíritus' como sugirieron.",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg56",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "También 'Como agua para chocolate' de Laura Esquivel. Es romántico pero con mucha profundidad. Muy bonito.",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg57",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Y no olvides 'Rayuela' de Cortázar. Es más experimental pero si te gusta la buena prosa, es imprescindible.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg58",
+    "authorId": "692217192636a7b618685e71",
+    "text": "He escuchado de 'Rayuela' pero siempre me dio miedo porque dicen que es difícil. ¿Vale la pena intentarlo?",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg59",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Vale totalmente la pena. Puedes leerlo de forma tradicional primero y luego seguir el orden que propone Cortázar. Es como leer dos libros en uno.",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg60",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Exacto, y no te preocupes si no entiendes todo. La prosa es tan hermosa que solo leerla es un placer. Es una experiencia única.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg61",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, me convencieron. Voy a empezar con 'La casa de los espíritus' y luego seguir con las otras recomendaciones. Gracias a todos por compartir.",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg62",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Me encantaría sumarme. Hace tiempo que no juego pero tengo ganas de volver. ¿Hay espacio?",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg63",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Siempre hay espacio. Ven tranquilo, es muy relajado y todos se ayudan. Te va a encantar.",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg64",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Conozco a alguien que podría ayudar. No es profesional pero juega bien y es buena persona. ¿Te paso el contacto?",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg65",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Gracias por los tips. El calentamiento es clave, lo aprendí por las malas. ¿Tienes alguna rutina específica que recomiendes?",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg66",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Sí, claro. Empiezo con 5 minutos de trote suave, luego estiramientos dinámicos de piernas y cadera. Después hago algunos ejercicios de activación como saltos pequeños. ¿Te paso el video que sigo?",
+    "parentMessageId": "msg65",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg67",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Sí por favor, me serviría mucho. Gracias!",
+    "parentMessageId": "msg66",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg68",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Yo también quiero el video si no es molestia 😊",
+    "parentMessageId": "msg66",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg69",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Claro, sin problema. Les paso el link por privado.",
+    "parentMessageId": "msg68",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg70",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Perfecto, muchas gracias!",
+    "parentMessageId": "msg69",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg71",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "También puedes probar con 'El amor en los tiempos del cólera' del mismo García Márquez. Es más romántico pero igual de profundo.",
+    "parentMessageId": "msg47",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg72",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Ese también está en mi lista! Gracias por la recomendación.",
+    "parentMessageId": "msg71",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg73",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Es uno de mis favoritos. La forma en que describe el amor a través del tiempo es increíble.",
+    "parentMessageId": "msg71",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg74",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Totalmente de acuerdo. Es un libro que te hace reflexionar mucho sobre el tiempo y el amor.",
+    "parentMessageId": "msg73",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg75",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Ahora tengo muchas ganas de leerlo. Gracias a todos por las recomendaciones!",
+    "parentMessageId": "msg74",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg76",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "También podría ser falta de nutrientes. ¿Cuándo fue la última vez que la fertilizaste?",
+    "parentMessageId": "msg34",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg77",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Hace como 3 meses. ¿Debería fertilizarla ahora?",
+    "parentMessageId": "msg76",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg78",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Sí, especialmente si está creciendo. Las monsteras son bastante hambrientas. Usa un fertilizante balanceado cada 2-3 semanas en primavera/verano.",
+    "parentMessageId": "msg77",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg79",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Y en invierno reduce la frecuencia a una vez al mes o menos. Las plantas descansan en esa época.",
+    "parentMessageId": "msg78",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg80",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, voy a empezar con el fertilizante entonces. Muchas gracias por todos los consejos!",
+    "parentMessageId": "msg79",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg81",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "También revisa si tiene plagas. A veces las hojas amarillas pueden ser por ácaros o cochinillas.",
+    "parentMessageId": "msg35",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg82",
+    "authorId": "692217192636a7b618685e71",
+    "text": "¿Cómo las identifico? No sé mucho de plagas.",
+    "parentMessageId": "msg81",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg83",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Los ácaros son como pequeñas telarañas en el envés de las hojas. Las cochinillas parecen pequeñas bolitas blancas o marrones. Revisa bien las hojas.",
+    "parentMessageId": "msg82",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg84",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Voy a revisar ahora mismo. Gracias por el tip!",
+    "parentMessageId": "msg83",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg85",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Si encuentras algo, avísame y te paso el tratamiento. No es difícil de solucionar.",
+    "parentMessageId": "msg84",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg86",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, te aviso. Muchas gracias por toda la ayuda!",
+    "parentMessageId": "msg85",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg87",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Yo también puedo ayudar con herramientas. Tengo algunas que no uso mucho.",
+    "parentMessageId": "msg17",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg88",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Genial! Cuantas más herramientas tengamos, mejor. ¿Qué herramientas tienes?",
+    "parentMessageId": "msg87",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg89",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Tengo llaves allen, destornilladores, una bomba de aire y algunas otras cosas básicas.",
+    "parentMessageId": "msg88",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg90",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Perfecto, eso nos viene genial. La bomba de aire especialmente es muy útil.",
+    "parentMessageId": "msg89",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg91",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Yo puedo llevar algunas llaves y parches. Entre todos tenemos todo lo necesario!",
+    "parentMessageId": "msg90",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg92",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Excelente! Esto va a ser un taller muy completo entonces.",
+    "parentMessageId": "msg91",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg93",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "No te preocupes, vamos tranquilos y nadie se queda atrás. Es más mental que físico. Te va a encantar.",
+    "parentMessageId": "msg21",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg94",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, entonces me apunto. ¿Necesito llevar algo especial?",
+    "parentMessageId": "msg93",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg95",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Agua, algo para comer en el camino, y ropa de abrigo porque hace frío en la montaña. También casco y luces.",
+    "parentMessageId": "msg94",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg96",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, tengo todo eso. ¿A qué hora exactamente salimos?",
+    "parentMessageId": "msg95",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg97",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "A las 6 AM en punto. Nos encontramos en el Costanera Center. Si llegas 5 minutos antes mejor.",
+    "parentMessageId": "msg96",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg98",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, estaré ahí. Gracias por la info!",
+    "parentMessageId": "msg97",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg99",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Yo también quiero ir! ¿Hay más espacio?",
+    "parentMessageId": "msg97",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg100",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Claro que sí! Mientras más seamos, mejor. Te esperamos!",
+    "parentMessageId": "msg99",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg101",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "También puedes leerlo de forma tradicional primero y luego seguir el orden que propone Cortázar. Es como leer dos libros en uno.",
+    "parentMessageId": "msg59",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg102",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Eso suena interesante. ¿Cuál orden recomiendas para empezar?",
+    "parentMessageId": "msg101",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg103",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Yo recomiendo empezar por el orden tradicional (capítulos 1-56). Es más fácil seguir la historia así. Luego puedes releer siguiendo el tablero de dirección.",
+    "parentMessageId": "msg102",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg104",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Exacto, y cuando lo lees por segunda vez siguiendo el tablero, descubres cosas nuevas. Es una experiencia única.",
+    "parentMessageId": "msg103",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg105",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Perfecto, entonces empiezo con el orden tradicional. Gracias por la guía!",
+    "parentMessageId": "msg104",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg106",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "También puedes comprar online en algunas páginas. A veces tienen ofertas buenas. Te paso el link si quieres.",
+    "parentMessageId": "msg24",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg107",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Sí por favor, me serviría mucho. Gracias!",
+    "parentMessageId": "msg106",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg108",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Te lo paso por privado para no hacer spam aquí.",
+    "parentMessageId": "msg107",
+    "likedBy": ["69222e247ba033fd6c4db90b"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg109",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "text": "Perfecto, gracias!",
+    "parentMessageId": "msg108",
+    "likedBy": [],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg110",
+    "authorId": "692217192636a7b618685e71",
+    "text": "Yo también quiero el link si no es molestia 😊",
+    "parentMessageId": "msg108",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": []
+  },
+  {
+    "id": "msg111",
+    "authorId": "69222d70996f4819736f750c",
+    "text": "Claro, sin problema. Te lo paso también.",
+    "parentMessageId": "msg110",
+    "likedBy": [],
+    "dislikedBy": []
   }
 ]

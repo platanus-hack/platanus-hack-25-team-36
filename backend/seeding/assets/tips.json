@@ -366,5 +366,403 @@
     "likedBy": ["69222d70996f4819736f750c", "692217192636a7b618685e71", "692217192636a7b618685e71"],
     "dislikedBy": [],
     "comments": []
+  },
+  {
+    "type": "pin",
+    "communityId": "Providencia Centro",
+    "authorId": "69222d70996f4819736f750c",
+    "title": "Vecino que ayuda con mascotas",
+    "description": "Mi vecino del edificio en Providencia 1230 tiene un servicio informal de cuidado de mascotas cuando uno viaja. Es super confiable y cariñoso con los animales. Si alguien necesita ayuda, puedo pasarles su contacto. No es caro y la paz mental vale mucho.",
+    "tags": ["mascotas", "servicio", "vecinos", "confianza", "recomendación"],
+    "background_image": "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6010, -33.4175]
+      },
+      "radius": 100
+    },
+    "address": "Providencia 1230, Providencia, Santiago",
+    "subtype": "Service",
+    "colour": "#D9E9CF",
+    "likedBy": ["692217192636a7b618685e71", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg8", "msg9"]
+  },
+  {
+    "type": "text",
+    "communityId": "Ñuñoa",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "title": "Grupo de apoyo para nuevos vecinos",
+    "description": "Hacemos un grupo informal los primeros sábados de cada mes para ayudar a nuevos vecinos a integrarse. Compartimos tips del barrio, contactos útiles y hacemos amistades. Si eres nuevo o quieres ayudar, escríbeme. Es súper acogedor.",
+    "tags": ["comunidad", "integración", "vecinos", "apoyo", "bienvenida"],
+    "background_image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg10"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Las Condes",
+    "authorId": "692217192636a7b618685e71",
+    "title": "Carpintero de confianza",
+    "description": "Don Manuel hace trabajos de carpintería a domicilio. Es honesto, puntual y hace trabajos de calidad. Me arregló unos muebles viejos y quedaron como nuevos. Si alguien necesita, puedo pasarles su número. Trabaja en toda la zona.",
+    "tags": ["carpintería", "reparación", "muebles", "servicio", "recomendación"],
+    "background_image": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5510, -33.4110]
+      },
+      "radius": 2000
+    },
+    "address": "Las Condes, Santiago",
+    "subtype": "Service",
+    "colour": "#D9E9CF",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg11"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Ejercicio Providencia",
+    "authorId": "69222d70996f4819736f750c",
+    "title": "Ruta secreta por el Mapocho",
+    "description": "Hay una ruta de running que casi nadie conoce: empieza en el Parque Forestal y sigue por el Mapocho hacia el oriente. Son como 6km sin semáforos, con buena sombra y menos contaminación. La descubrí hace un mes y ahora es mi favorita. Comparto el mapa si alguien quiere.",
+    "tags": ["running", "ruta", "mapocho", "secreto", "cardio"],
+    "background_image": "https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6400, -33.4300]
+      },
+      "radius": 500
+    },
+    "address": "Parque Forestal, Santiago",
+    "subtype": "Service",
+    "colour": "#D9E9CF",
+    "likedBy": ["69222e247ba033fd6c4db90b", "692217192636a7b618685e71"],
+    "dislikedBy": [],
+    "comments": ["msg12", "msg13"]
+  },
+  {
+    "type": "text",
+    "communityId": "Magic the Gathering Santiago",
+    "authorId": "692217192636a7b618685e71",
+    "title": "Intercambio de estrategias",
+    "description": "Estoy armando un grupo para compartir estrategias y probar decks antes de torneos. Nos juntamos los miércoles por la tarde. Si alguien quiere practicar o aprender, son bienvenidos. Ambiente relajado y sin presión.",
+    "tags": ["Magic the Gathering", "estrategia", "práctica", "comunidad", "aprendizaje"],
+    "background_image": "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=800",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg14"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Tejido y Manualidades Ñuñoa",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "title": "Intercambio de lanas sobrantes",
+    "description": "Tengo varias lanas que me sobraron de proyectos pasados. En vez de guardarlas, propongo hacer un intercambio. Traigan sus lanas sobrantes y las intercambiamos. Así todos aprovechamos mejor y conocemos nuevos materiales.",
+    "tags": ["tejido", "intercambio", "lana", "comunidad", "reciclaje"],
+    "background_image": "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5950, -33.4560]
+      },
+      "radius": 200
+    },
+    "address": "Centro Cultural de Ñuñoa, Ñuñoa, Santiago",
+    "subtype": "Event",
+    "colour": "#A7AAE1",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg15"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Ciclistas providencia",
+    "authorId": "692217192636a7b618685e71",
+    "title": "Taller de reparación comunitaria",
+    "description": "Organizamos un taller mensual donde aprendemos a reparar nuestras bicis. Traemos herramientas y nos ayudamos mutuamente. El próximo es el primer sábado del mes. Si tienes herramientas o experiencia, eres bienvenido. Si eres principiante, también.",
+    "tags": ["ciclismo", "reparación", "taller", "comunidad", "aprendizaje"],
+    "background_image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 300
+    },
+    "address": "Parque de las Esculturas, Providencia, Santiago",
+    "subtype": "Event",
+    "colour": "#A7AAE1",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg16", "msg17", "msg18", "msg19", "msg20"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Ciclistas providencia",
+    "authorId": "69222d70996f4819736f750c",
+    "title": "Ruta dominical a Farellones",
+    "description": "Hacemos una salida los domingos temprano hacia Farellones. Salimos a las 6 AM para evitar el tráfico. Es un desafío pero muy gratificante. Vamos a ritmo conversado, nadie se queda atrás. Si alguien quiere sumarse, avísenme.",
+    "tags": ["ciclismo", "ruta", "farellones", "domingo", "desafío"],
+    "background_image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 100
+    },
+    "address": "Providencia, Santiago",
+    "subtype": "Event",
+    "colour": "#A7AAE1",
+    "likedBy": ["692217192636a7b618685e71", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg21", "msg22"]
+  },
+  {
+    "type": "text",
+    "communityId": "Ciclistas providencia",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "title": "¿Dónde comprar repuestos baratos?",
+    "description": "Mi cadena se rompió y necesito repuestos. ¿Alguien conoce alguna tienda con buenos precios? Preferiblemente cerca de Providencia pero puedo moverme si vale la pena.",
+    "tags": ["ciclismo", "repuestos", "compras", "recomendación"],
+    "background_image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": [],
+    "comments": ["msg23", "msg24", "msg25"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Ciclistas providencia",
+    "authorId": "692217192636a7b618685e71",
+    "title": "Mecánico de bicis recomendado",
+    "description": "Don Carlos en Avenida Providencia es el mejor mecánico que conozco. Es honesto, rápido y no te cobra de más. Me salvó varias veces cuando tenía problemas urgentes. Si alguien necesita, está en Providencia 2100, local pequeño pero confiable.",
+    "tags": ["ciclismo", "mecánico", "reparación", "recomendación", "confianza"],
+    "background_image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6015, -33.4178]
+      },
+      "radius": 50
+    },
+    "address": "Avenida Providencia 2100, Providencia, Santiago",
+    "subtype": "Business",
+    "colour": "#9ECAD6",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg26"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Jardineros salvajes",
+    "authorId": "69222d70996f4819736f750c",
+    "title": "Intercambio de semillas",
+    "description": "Tengo semillas de tomates cherry, albahaca y rúcula que coseché este año. Están listas para compartir. Si alguien tiene otras semillas para intercambiar, sería genial. También acepto plantas pequeñas o esquejes.",
+    "tags": ["jardinería", "semillas", "intercambio", "tomates", "comunidad"],
+    "background_image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5950, -33.4560]
+      },
+      "radius": 200
+    },
+    "address": "Plaza Ñuñoa, Ñuñoa, Santiago",
+    "subtype": "Event",
+    "colour": "#A7AAE1",
+    "likedBy": ["692217192636a7b618685e71", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg27", "msg28", "msg29"]
+  },
+  {
+    "type": "text",
+    "communityId": "Jardineros salvajes",
+    "authorId": "692217192636a7b618685e71",
+    "title": "Compostera comunitaria",
+    "description": "Estoy armando una compostera comunitaria en mi edificio. Si alguien quiere aportar sus residuos orgánicos o aprender a compostar, pueden venir. También podemos hacer talleres para enseñar a otros. Es un proyecto bonito que ayuda al medio ambiente.",
+    "tags": ["jardinería", "compost", "sustentable", "comunidad", "medio ambiente"],
+    "background_image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg30", "msg31"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Jardineros salvajes",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "title": "Vivero con mejores precios",
+    "description": "Encontré un vivero en Las Condes que tiene precios mucho mejores que los de cadena. La señora que atiende es super conocedora y te da tips gratis. Está en Avenida Las Condes, cerca del metro. Vale la pena el viaje.",
+    "tags": ["jardinería", "vivero", "plantas", "compras", "recomendación"],
+    "background_image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5500, -33.4100]
+      },
+      "radius": 500
+    },
+    "address": "Avenida Las Condes, Las Condes, Santiago",
+    "subtype": "Business",
+    "colour": "#9ECAD6",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg32"]
+  },
+  {
+    "type": "text",
+    "communityId": "Jardineros salvajes",
+    "authorId": "692217192636a7b618685e71",
+    "title": "¿Cómo salvar una planta que se está muriendo?",
+    "description": "Tengo una planta que se está poniendo amarilla y perdiendo hojas. Ya probé cambiarle el agua y la ubicación pero no mejora. ¿Alguien tiene experiencia con esto? Necesito ayuda urgente, es una planta que me regalaron y tiene valor sentimental.",
+    "tags": ["jardinería", "ayuda", "plantas", "problemas", "consejos"],
+    "background_image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg33", "msg34", "msg35", "msg36", "msg37", "msg38", "msg39", "msg40", "msg41", "msg42"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Club de lectura Lyon",
+    "authorId": "69222d70996f4819736f750c",
+    "title": "Café para leer tranquilo",
+    "description": "Encontré un café pequeño en Lyon que es perfecto para leer. Tiene sillones cómodos, buena iluminación y no ponen música fuerte. Los dueños respetan cuando alguien está leyendo. Es mi lugar favorito los sábados por la tarde.",
+    "tags": ["lectura", "café", "lugar", "tranquilo", "recomendación"],
+    "background_image": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 300
+    },
+    "address": "Barrio Lyon, Providencia, Santiago",
+    "subtype": "Business",
+    "colour": "#9ECAD6",
+    "likedBy": ["692217192636a7b618685e71", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg43"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Club de lectura Lyon",
+    "authorId": "692217192636a7b618685e71",
+    "title": "Reunión mensual del club",
+    "description": "Nos reunimos el último viernes de cada mes a las 19:00 en el Centro Cultural. Este mes leímos 'Cien años de soledad'. La próxima reunión discutiremos el libro y elegiremos el siguiente. Todos bienvenidos, incluso si no leyeron el libro completo.",
+    "tags": ["lectura", "club", "reunión", "libros", "comunidad"],
+    "background_image": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800",
+    "startDate": "2024-12-27T19:00:00.000Z",
+    "duration": 7200000,
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6009, -33.4173]
+      },
+      "radius": 200
+    },
+    "address": "Centro Cultural, Barrio Lyon, Providencia, Santiago",
+    "subtype": "Event",
+    "colour": "#A7AAE1",
+    "likedBy": ["69222d70996f4819736f750c", "69222e247ba033fd6c4db90b"],
+    "dislikedBy": [],
+    "comments": ["msg44", "msg45"]
+  },
+  {
+    "type": "text",
+    "communityId": "Club de lectura Lyon",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "title": "Intercambio de libros",
+    "description": "Tengo varios libros que ya leí y quiero compartir. Si alguien tiene libros para intercambiar, podemos hacer un intercambio. También acepto préstamos si prometen devolverlos. Es una forma bonita de conocer nuevos autores.",
+    "tags": ["lectura", "libros", "intercambio", "comunidad", "compartir"],
+    "background_image": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg46"]
+  },
+  {
+    "type": "text",
+    "communityId": "Club de lectura Lyon",
+    "authorId": "692217192636a7b618685e71",
+    "title": "¿Qué libro me recomiendan?",
+    "description": "Terminé de leer 'El amor en los tiempos del cólera' y me encantó. Busco algo similar, con esa profundidad emocional y buena prosa. ¿Alguien tiene recomendaciones? Preferiblemente literatura latinoamericana pero abierto a otras cosas.",
+    "tags": ["lectura", "recomendación", "libros", "literatura", "ayuda"],
+    "background_image": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg47", "msg48", "msg49", "msg50", "msg51", "msg52", "msg53", "msg54", "msg55", "msg56", "msg57", "msg58", "msg59", "msg60", "msg61"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Pichanga unidos",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "title": "Cancha disponible domingos",
+    "description": "Conseguimos una cancha los domingos de 10 a 12 AM. Es sintética, en buen estado y con buena iluminación. Jugamos partidos amistosos, todos los niveles bienvenidos. Si alguien quiere sumarse, avísenme. Es $3.000 por persona para cubrir la cancha.",
+    "tags": ["fútbol", "cancha", "domingo", "partido", "comunidad"],
+    "background_image": "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800",
+    "startDate": "2024-12-22T10:00:00.000Z",
+    "duration": 7200000,
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.5950, -33.4560]
+      },
+      "radius": 500
+    },
+    "address": "Cancha sintética, Ñuñoa, Santiago",
+    "subtype": "Event",
+    "colour": "#A7AAE1",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg62", "msg63"]
+  },
+  {
+    "type": "text",
+    "communityId": "Pichanga unidos",
+    "authorId": "692217192636a7b618685e71",
+    "title": "Buscamos arquero",
+    "description": "Nuestro arquero se lesionó y necesitamos alguien que pueda cubrir mientras se recupera. No necesitas ser profesional, solo tener ganas de jugar y pasarla bien. Los domingos a las 10 AM. Si conoces a alguien, también bienvenido.",
+    "tags": ["fútbol", "equipo", "arquero", "búsqueda", "comunidad"],
+    "background_image": "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800",
+    "likedBy": ["69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg64"]
+  },
+  {
+    "type": "pin",
+    "communityId": "Pichanga unidos",
+    "authorId": "69222d70996f4819736f750c",
+    "title": "Lugar para comprar zapatillas baratas",
+    "description": "Encontré una tienda en el centro que vende zapatillas de fútbol a buen precio. No son de marca pero son cómodas y duran bien. Si alguien necesita equipo básico, puedo pasarles la dirección. Está cerca del metro Los Héroes.",
+    "tags": ["fútbol", "zapatillas", "equipo", "compras", "recomendación"],
+    "background_image": "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800",
+    "location": {
+      "point": {
+        "type": "Point",
+        "coordinates": [-70.6500, -33.4500]
+      },
+      "radius": 500
+    },
+    "address": "Cerca del metro Los Héroes, Santiago",
+    "subtype": "Business",
+    "colour": "#9ECAD6",
+    "likedBy": ["692217192636a7b618685e71"],
+    "dislikedBy": [],
+    "comments": []
+  },
+  {
+    "type": "text",
+    "communityId": "Pichanga unidos",
+    "authorId": "69222e247ba033fd6c4db90b",
+    "title": "Tips para evitar lesiones",
+    "description": "Después de mi lesión, aprendí mucho sobre prevención. Comparto algunos tips: siempre calentar antes de jugar, estirar después, usar zapatillas adecuadas y escuchar al cuerpo. Si alguien quiere más detalles o tiene preguntas, puedo ayudar.",
+    "tags": ["fútbol", "lesiones", "prevención", "salud", "consejos"],
+    "background_image": "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800",
+    "likedBy": ["692217192636a7b618685e71", "69222d70996f4819736f750c"],
+    "dislikedBy": [],
+    "comments": ["msg65"]
   }
 ]

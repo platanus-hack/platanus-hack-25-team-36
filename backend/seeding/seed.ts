@@ -167,7 +167,9 @@ async function seedMessages(messagesData: any[], userPreferencesMap: Map<string,
   
   const messageMap = new Map<string, any>();
   const mongoose = await import("mongoose");
+  const messagesToUpdate: Array<{ message: any; parentMessageId?: string; replyIds?: string[] }> = [];
   
+  // First pass: create all messages
   for (const messageData of messagesData) {
     let authorId: any = null;
     
@@ -217,7 +219,47 @@ async function seedMessages(messagesData: any[], userPreferencesMap: Map<string,
     
     const message = await Message.create(processedData);
     messageMap.set(messageData.id || message._id.toString(), message);
+    
+    // Store parent/reply info for second pass
+    if (messageData.parentMessageId || messageData.replyIds) {
+      messagesToUpdate.push({
+        message,
+        parentMessageId: messageData.parentMessageId,
+        replyIds: messageData.replyIds,
+      });
+    }
+    
     logging.info(`Created message: ${message._id}`);
+  }
+  
+  // Second pass: update messages with parent relationships
+  for (const { message, parentMessageId } of messagesToUpdate) {
+    if (parentMessageId) {
+      const parentMessage = messageMap.get(parentMessageId);
+      if (parentMessage) {
+        await Message.findByIdAndUpdate(message._id, {
+          parentMessageId: parentMessage._id,
+        });
+        logging.info(`Updated message ${message._id} with parent ${parentMessage._id}`);
+      } else {
+        logging.warn(`Parent message ${parentMessageId} not found for message ${message._id}`);
+      }
+    }
+  }
+  
+  // Third pass: update parent messages with replyIds (populate replyIds arrays)
+  for (const messageData of messagesData) {
+    if (messageData.parentMessageId) {
+      const parentMessage = messageMap.get(messageData.parentMessageId);
+      const childMessage = messageMap.get(messageData.id);
+      
+      if (parentMessage && childMessage) {
+        await Message.findByIdAndUpdate(parentMessage._id, {
+          $addToSet: { replyIds: childMessage._id },
+        });
+        logging.info(`Added reply ${childMessage._id} to parent ${parentMessage._id}`);
+      }
+    }
   }
   
   return messageMap;

@@ -22,6 +22,15 @@ export const MessageSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   }],
+  parentMessageId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Message",
+    required: false,
+  },
+  replyIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Message",
+  }],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -38,6 +47,7 @@ MessageSchema.index({ authorId: 1, createdAt: -1 });
 MessageSchema.index({ createdAt: -1 });
 MessageSchema.index({ likedBy: 1 });
 MessageSchema.index({ dislikedBy: 1 });
+MessageSchema.index({ parentMessageId: 1 });
 
 MessageSchema.pre("save", function (next) {
   updateTimestampPreSave.call(this);
@@ -46,6 +56,9 @@ MessageSchema.pre("save", function (next) {
   }
   if (this.isModified("dislikedBy") || this.isNew) {
     this.dislikedBy = deduplicateObjectIds(this.dislikedBy);
+  }
+  if (this.isModified("replyIds") || this.isNew) {
+    this.replyIds = deduplicateObjectIds(this.replyIds);
   }
   next();
 });

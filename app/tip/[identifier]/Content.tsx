@@ -88,7 +88,7 @@ const Content = ({ id }: Props) => {
       {/* Map section */}
       {tip.type !== "text" && (
         <div className="mx-4 md:mx-8 my-2 h-[400px] rounded-lg overflow-hidden">
-          <Map pins={[tip]} />
+          <Map pins={[tip]} communities={[]} />
         </div>
       )}
       {/* Discussions section */}
