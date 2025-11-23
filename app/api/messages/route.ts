@@ -9,15 +9,19 @@ async function getHandler(request: AuthenticatedRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
+    console.log("[GET /api/messages] id param:", id);
+
     if (id) {
       const message = await Message.findById(id).populate({
         path: "authorId",
         select: "name image",
         model: User,
       });
+
+      console.log("[GET /api/messages] Fetched message:", message);
       if (!message)
         return NextResponse.json({ error: "Not found" }, { status: 404 });
-      
+
       const messageObj = message.toObject();
       if (messageObj.authorId && typeof messageObj.authorId === "object") {
         messageObj.authorId = {
@@ -26,7 +30,7 @@ async function getHandler(request: AuthenticatedRequest) {
           image: messageObj.authorId.image,
         };
       }
-      
+
       return NextResponse.json(messageObj);
     }
 
@@ -35,7 +39,7 @@ async function getHandler(request: AuthenticatedRequest) {
       select: "name image",
       model: User,
     });
-    
+
     const formattedMessages = messages.map((msg) => {
       const msgObj = msg.toObject();
       if (msgObj.authorId && typeof msgObj.authorId === "object") {

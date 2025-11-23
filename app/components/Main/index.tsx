@@ -23,8 +23,6 @@ const Main = () => {
     ...(longitude && { longitude }),
   });
 
-  console.log("Tips data:", tipsData?.nonPins);
-
   const onChangeMapCenter = (newLongitude: number, newLatitude: number) => {
     setLongitude(newLongitude);
     setLatitude(newLatitude);

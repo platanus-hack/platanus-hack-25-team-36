@@ -35,6 +35,18 @@ interface GetUserAvatarResponse {
   image: string;
 }
 
+interface GetTipByIdResponse {
+  data: MapPin | TextTip;
+}
+
+interface GetMessageByIdResponse {
+  authorId: {
+    _id: string;
+    image: string;
+  };
+  text: string;
+}
+
 // API functions
 const userPreferencesApi = {
   getUserPreferences: (): Promise<UserPreferences[]> =>
@@ -102,6 +114,8 @@ const tipsApi = {
 
     return api.get("/tips", { params });
   },
+  getTipById: (id: string): Promise<GetTipByIdResponse> =>
+    api.get(`/tips/${id}`),
 };
 
 const communitiesApi = {
@@ -120,6 +134,11 @@ const communitiesApi = {
 const usersApi = {
   getAvatar: (id: string): Promise<GetUserAvatarResponse> =>
     api.get(`/users/${id}`),
+};
+
+const messagesApi = {
+  getMessageById: (id: string): Promise<GetMessageByIdResponse> =>
+    api.get(`/messages?id=${id}`),
 };
 
 /**
@@ -316,5 +335,25 @@ export const useGetUserAvatar = (id: string) => {
     enabled: !!id, // Only run query if id exists
     staleTime: 30 * 60 * 1000, // 30 minutes
     gcTime: 60 * 60 * 1000, // 1 hour
+  });
+};
+
+export const useGetTipById = (id: string) => {
+  return useQuery({
+    queryKey: ["tips", id],
+    queryFn: () => tipsApi.getTipById(id),
+    enabled: !!id, // Only run query if id exists
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 20 * 60 * 1000, // 20 minutes
+  });
+};
+
+export const useGetMessageById = (id: string) => {
+  return useQuery({
+    queryKey: ["messages", id],
+    queryFn: () => messagesApi.getMessageById(id),
+    enabled: !!id, // Only run query if id exists
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 20 * 60 * 1000, // 20 minutes
   });
 };
