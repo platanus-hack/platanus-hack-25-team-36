@@ -40,9 +40,9 @@ type MarkerMap = globalThis.Map<string, mapboxgl.Marker>;
  * @returns HTML element for the custom marker
  */
 const createCustomMarkerElement = (marker: Marker): HTMLDivElement => {
-  const el = document.createElement('div');
-  el.className = 'custom-marker';
-  el.style.cursor = 'pointer';
+  const el = document.createElement("div");
+  el.className = "custom-marker";
+  el.style.cursor = "pointer";
 
   // Get the icon configuration based on subtype
   const iconConfig = getCategoryIcon(marker.subtype as PinSubtype);
@@ -151,12 +151,15 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
   const createPinMutation = useCreatePin();
 
   // React Query hook for fetching communities based on clicked location
-  const { data: communities = [], isLoading: isLoadingCommunities } = useGetCommunities(
-    clickedLocation ? {
-      longitude: clickedLocation.lng,
-      latitude: clickedLocation.lat,
-    } : undefined
-  );
+  const { data: communities = [], isLoading: isLoadingCommunities } =
+    useGetCommunities(
+      clickedLocation
+        ? {
+            longitude: clickedLocation.lng,
+            latitude: clickedLocation.lat,
+          }
+        : undefined
+    );
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -386,8 +389,8 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     // Create custom marker element with icon
     const customMarkerElement = createCustomMarkerElement({
       id: `temp_${Date.now()}`,
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       longitude: location.lng,
       latitude: location.lat,
       color,
@@ -503,7 +506,12 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
         pictureDisplayUrl
       );
       try {
-        addMarkerToMap(clickedLocation, popupHTML, categoryColor, formData.icon);
+        addMarkerToMap(
+          clickedLocation,
+          popupHTML,
+          categoryColor,
+          formData.icon
+        );
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "Error desconocido";
@@ -559,7 +567,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
 
       {/* Floating Add Pin Button */}
       <button
-        className={`absolute bottom-4 right-4 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110 active:scale-95 flex items-center justify-center ${
+        className={`absolute bottom-4 right-4 z-30 w-14 h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-110 active:scale-95 flex items-center justify-center ${
           isCreatingPin
             ? "bg-gray-200 hover:bg-gray-300"
             : "bg-white hover:bg-gray-50"
@@ -744,7 +752,9 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                   className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
                 >
                   <option value="">
-                    {isLoadingCommunities ? 'Cargando comunidades...' : 'Selecciona una comunidad'}
+                    {isLoadingCommunities
+                      ? "Cargando comunidades..."
+                      : "Selecciona una comunidad"}
                   </option>
                   {communities.map((community) => (
                     <option key={community.id} value={community.id}>

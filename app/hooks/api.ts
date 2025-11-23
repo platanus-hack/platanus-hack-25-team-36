@@ -31,6 +31,10 @@ interface GetTipsResponse {
   nonPins: TextTip[];
 }
 
+interface GetUserAvatarResponse {
+  image: string;
+}
+
 // API functions
 const userPreferencesApi = {
   getUserPreferences: (): Promise<UserPreferences[]> =>
@@ -111,6 +115,11 @@ const communitiesApi = {
 
     return api.get("/communities", { params });
   },
+};
+
+const usersApi = {
+  getAvatar: (id: string): Promise<GetUserAvatarResponse> =>
+    api.get(`/users/${id}`),
 };
 
 /**
@@ -297,5 +306,15 @@ export const useGetCommunities = ({
     queryFn: () => communitiesApi.getCommunities(longitude, latitude),
     staleTime: 10 * 60 * 1000, // 10 minutes
     gcTime: 15 * 60 * 1000, // 15 minutes
+  });
+};
+
+export const useGetUserAvatar = (id: string) => {
+  return useQuery({
+    queryKey: ["users", id, "avatar"],
+    queryFn: () => usersApi.getAvatar(id),
+    enabled: !!id, // Only run query if id exists
+    staleTime: 30 * 60 * 1000, // 30 minutes
+    gcTime: 60 * 60 * 1000, // 1 hour
   });
 };

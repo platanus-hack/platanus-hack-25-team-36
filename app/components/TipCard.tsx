@@ -2,19 +2,26 @@
 
 import { User, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { useGetUserAvatar } from "../hooks/api";
 
 type TipCardProps = {
-  avatar?: string;
+  authorId: string;
   title: string;
   backgroundColor?: string;
 };
 
 export default function TipCard({
-  avatar,
+  authorId,
   title,
   backgroundColor,
 }: TipCardProps) {
   const buttonBg = backgroundColor || "var(--color-chip-5)";
+
+  const { data: avatarData } = useGetUserAvatar(authorId);
+
+  const avatar = avatarData?.image;
+
+  console.log("Avatar URL:", avatarData, avatar);
 
   return (
     <div
@@ -30,11 +37,9 @@ export default function TipCard({
       {/* Avatar */}
       <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center overflow-hidden">
         {avatar ? (
-          <Image
+          <img
             src={avatar}
             alt="Avatar"
-            width={64}
-            height={64}
             className="w-full h-full object-cover"
           />
         ) : (
