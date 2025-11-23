@@ -1,6 +1,6 @@
 # Pasa el dato
 
-Conecta con lo que tu barrio tiene para ofrecerte. Pasa el dato es una plataforma que te permite descubir eventos, servicios y tips locales, de manera inteligente y personalizada.
+Conecta con lo que tu barrio tiene para ofrecerte. Pasa el dato, es una plataforma que te permite descubir eventos, servicios y tips locales, de manera inteligente y personalizada.
 
 <img src="./project-logo.png" alt="Project Logo" width="200" />
 
