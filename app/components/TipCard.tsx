@@ -2,20 +2,30 @@
 
 import { User, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useGetUserAvatar } from "../hooks/api";
 
 type TipCardProps = {
   authorId: string;
   title: string;
   backgroundColor?: string;
+  tipId?: string;
 };
 
 export default function TipCard({
   authorId,
   title,
   backgroundColor,
+  tipId,
 }: TipCardProps) {
   const buttonBg = backgroundColor || "var(--color-chip-5)";
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    if (tipId) {
+      router.push(`/tip/${tipId}`);
+    }
+  };
 
   const { data: avatarData } = useGetUserAvatar(authorId);
 
@@ -61,6 +71,7 @@ export default function TipCard({
       {/* Circular External Link Button */}
       <button
         type="button"
+        onClick={handleNavigate}
         style={{
           width: 48,
           height: 48,
