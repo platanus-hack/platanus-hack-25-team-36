@@ -31,8 +31,6 @@ export default function TipCard({
 
   const avatar = avatarData?.image;
 
-  console.log("Avatar URL:", avatarData, avatar);
-
   return (
     <div
       className="w-full px-4 py-3 md:px-6 md:py-5 flex items-center gap-3 md:gap-4"

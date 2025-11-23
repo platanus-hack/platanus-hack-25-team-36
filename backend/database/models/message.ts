@@ -36,6 +36,8 @@ type MessageDocument = mongoose.HydratedDocument<InferSchemaType<typeof MessageS
 
 MessageSchema.index({ authorId: 1, createdAt: -1 });
 MessageSchema.index({ createdAt: -1 });
+MessageSchema.index({ likedBy: 1 });
+MessageSchema.index({ dislikedBy: 1 });
 
 MessageSchema.pre("save", function (next) {
   updateTimestampPreSave.call(this);

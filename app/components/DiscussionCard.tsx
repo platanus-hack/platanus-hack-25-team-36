@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { User } from "lucide-react";
+import { useGetMessageById } from "../hooks/api";
 
-export function DiscussionCard({ discussion }: { discussion: any }) {
+export function DiscussionCard({ discussion }: { discussion: string }) {
   const [expanded, setExpanded] = useState(false);
+
+  const { data: messageData } = useGetMessageById(discussion);
+
   return (
     <div
       className="rounded-lg shadow-md border border-gray-300 bg-white"
@@ -12,9 +16,9 @@ export function DiscussionCard({ discussion }: { discussion: any }) {
       <div className="flex items-center px-3 py-2">
         {/* Avatar */}
         <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
-          {discussion.MainPost.avatarUrl ? (
-            <Image
-              src={discussion.MainPost.avatarUrl}
+          {messageData?.authorId.image ? (
+            <img
+              src={messageData.authorId.image}
               alt="Avatar"
               width={40}
               height={40}
@@ -30,7 +34,7 @@ export function DiscussionCard({ discussion }: { discussion: any }) {
         {/* Title/content */}
         <div className="flex-1 ml-3">
           <p className="font-medium text-[var(--foreground)] text-sm">
-            {discussion.MainPost.content}
+            {messageData?.text}
           </p>
         </div>
         {/* Dropdown Button */}
@@ -52,8 +56,8 @@ export function DiscussionCard({ discussion }: { discussion: any }) {
       </div>
       {expanded && (
         <MessageList
-          messages={discussion.Messages}
-          mainUserId={discussion.MainPost.userId}
+          messages={[]}
+          mainUserId={messageData?.authorId._id || ""}
         />
       )}
     </div>

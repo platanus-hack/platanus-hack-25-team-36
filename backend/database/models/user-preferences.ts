@@ -26,6 +26,9 @@ export const UserPreferencesSchema = new mongoose.Schema({
 
 type UserPreferencesDocument = mongoose.HydratedDocument<InferSchemaType<typeof UserPreferencesSchema>>;
 
+UserPreferencesSchema.index({ createdAt: -1 });
+UserPreferencesSchema.index({ interests: 1 });
+
 UserPreferencesSchema.pre("save", updateTimestampPreSave);
 
 export const UserPreferences = mongoose.models.UserPreferences || mongoose.model("UserPreferences", UserPreferencesSchema);

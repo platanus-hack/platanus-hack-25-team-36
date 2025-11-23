@@ -68,7 +68,12 @@ export const TipBaseSchema = new mongoose.Schema({
 TipBaseSchema.index({ communityId: 1, createdAt: -1 });
 TipBaseSchema.index({ type: 1, createdAt: -1 });
 TipBaseSchema.index({ createdAt: -1 });
+TipBaseSchema.index({ updatedAt: -1 });
 TipBaseSchema.index({ tags: 1 });
+TipBaseSchema.index({ communityId: 1, updatedAt: -1 });
+TipBaseSchema.index({ communityId: 1, type: 1 });
+TipBaseSchema.index({ likedBy: 1 });
+TipBaseSchema.index({ dislikedBy: 1 });
 
 TipBaseSchema.pre("save", function (next) {
   updateTimestampPreSave.call(this);
@@ -125,6 +130,8 @@ const TipPinSchema = new mongoose.Schema({
 
 TipPinSchema.index({ "location.point": "2dsphere" });
 TipPinSchema.index({ startDate: 1 });
+TipPinSchema.index({ type: 1, subtype: 1 });
+TipPinSchema.index({ communityId: 1, subtype: 1 });
 
 const TipTextSchema = new mongoose.Schema({});
 

@@ -58,6 +58,7 @@ CommunitySchema.index({ "location.point": "2dsphere" });
 CommunitySchema.index({ name: "text", description: "text" });
 CommunitySchema.index({ tags: 1 });
 CommunitySchema.index({ createdAt: -1 });
+CommunitySchema.index({ members: 1 });
 
 CommunitySchema.pre("save", function (next) {
   updateTimestampPreSave.call(this);

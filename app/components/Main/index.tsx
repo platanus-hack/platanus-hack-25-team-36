@@ -27,8 +27,6 @@ const Main = () => {
     isCommunityMode,
   });
 
-  console.log("Tips data:", tipsData?.nonPins);
-
   const onChangeMapCenter = (newLongitude: number, newLatitude: number) => {
     setLongitude(newLongitude);
     setLatitude(newLatitude);
