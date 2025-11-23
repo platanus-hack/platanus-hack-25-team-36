@@ -6,7 +6,7 @@ Conecta con lo que tu barrio tiene para ofrecerte. Pasa el dato, es una platafor
 
 Track: Legacy
 
-Team-46
+Team-36
 
 - Felipe Snahueza ([@Sanhuezafce](https://github.com/Sanhuezafce))
 - Gabriela Mendoza ([@gabrielaelisa](https://github.com/gabrielaelisa))
