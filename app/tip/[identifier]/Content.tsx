@@ -94,7 +94,7 @@ const Content = ({ id }: Props) => {
       <div className="px-4 md:px-8 py-4">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-lg font-semibold text-[var(--foreground)]">
-            Discussions
+            Discusión
           </h2>
           <button
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all w-fit bg-[var(--color-chip-3)]`}
