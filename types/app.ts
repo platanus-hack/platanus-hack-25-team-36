@@ -175,6 +175,7 @@ export interface MapPin {
   picture?: string; // User-uploaded image URL (S3 key)
   background_image?: string; // AI-generated background image URL (S3 key)
   colour?: string; // Pin color
+  icon?: string; // Custom icon identifier (e.g., 'dollar', 'musical-note')
   
   // Event fields (optional)
   startDate?: string; // ISO date string for event start

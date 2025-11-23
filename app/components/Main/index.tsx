@@ -9,6 +9,8 @@ const Main = () => {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
 
+  const hasActiveSearch = search !== null && search.trim() !== "";
+
   const {
     data: tipsData,
     isLoading,
@@ -16,7 +18,7 @@ const Main = () => {
     isError,
     refetch,
   } = useGetTips({
-    ...(search && search !== "" && { search }),
+    ...(hasActiveSearch && { search: search.trim() }),
     ...(latitude && { latitude }),
     ...(longitude && { longitude }),
   });

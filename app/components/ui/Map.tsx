@@ -10,6 +10,7 @@ import {
   getAvailableCategories,
   getCategoryColor,
 } from "@/app/utils/categoryColors";
+import { getCategoryIcon, AVAILABLE_ICONS } from "@/app/utils/categoryIcons";
 import { getS3Url } from "@/app/services/s3";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -23,6 +24,7 @@ type Marker = {
   color: string;
   picture?: string; // Pin image from form
   authorAvatar?: string; // User profile picture
+  subtype?: string; // Pin subtype for icon mapping
 };
 
 type Props = {
@@ -31,6 +33,50 @@ type Props = {
 };
 
 type MarkerMap = globalThis.Map<string, mapboxgl.Marker>;
+
+/**
+ * Creates a custom marker HTML element with icon
+ * @param marker - Marker data including subtype for icon mapping
+ * @returns HTML element for the custom marker
+ */
+const createCustomMarkerElement = (marker: Marker): HTMLDivElement => {
+  const el = document.createElement('div');
+  el.className = 'custom-marker';
+  el.style.cursor = 'pointer';
+
+  // Get the icon configuration based on subtype
+  const iconConfig = getCategoryIcon(marker.subtype as PinSubtype);
+
+  // Create marker with colored background and icon
+  el.innerHTML = `
+    <div style="
+      width: 40px;
+      height: 40px;
+      background-color: ${marker.color};
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      border: 3px solid white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    ">
+      <img
+        src="${iconConfig.iconPath}"
+        alt="${iconConfig.iconAlt}"
+        style="
+          width: 24px;
+          height: 24px;
+          transform: rotate(45deg);
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+        "
+      />
+    </div>
+  `;
+
+  return el;
+};
 
 /**
  * Creates popup HTML content with image, title, and description
@@ -199,14 +245,17 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     const map = mapRef.current;
     if (!map || !isMapLoaded) return;
 
-    // Use the new markers if available, otherwise keep the last valid markers
-    // This prevents flickering when data is being fetched
-    const markersToUse =
-      markers.length > 0 ? markers : lastValidMarkersRef.current;
+    // Always use the current markers prop - if it's empty, show no markers
+    // Only fall back to lastValidMarkersRef if markers is undefined (shouldn't happen with default prop)
+    const markersToUse = markers;
 
-    // Update lastValidMarkersRef if we have new valid data
+    // Update lastValidMarkersRef only when we have valid (non-empty) data
+    // This preserves markers during initial load, but allows empty arrays to clear the map
     if (markers.length > 0) {
       lastValidMarkersRef.current = markers;
+    } else {
+      // Clear the cache when we receive an empty array to prevent fallback
+      lastValidMarkersRef.current = [];
     }
 
     // Create a Set of current marker IDs from the data we're using
@@ -239,8 +288,11 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
           maxWidth: "300px",
         }).setHTML(createPopupContent(marker));
 
+        // Create custom marker element with icon
+        const customMarkerElement = createCustomMarkerElement(marker);
+
         const mapMarker = new mapboxgl.Marker({
-          color: marker.color,
+          element: customMarkerElement,
         })
           .setLngLat([marker.longitude, marker.latitude])
           .setPopup(popup)
@@ -308,7 +360,8 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
   const addMarkerToMap = (
     location: { lng: number; lat: number },
     popupHTML: string,
-    color: string
+    color: string,
+    iconOrSubtype?: string
   ) => {
     if (!mapRef.current) {
       throw new Error("Map not ready");
@@ -329,7 +382,19 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
       closeOnClick: true,
       maxWidth: "300px",
     }).setHTML(popupHTML);
-    const marker = new mapboxgl.Marker({ color })
+
+    // Create custom marker element with icon
+    const customMarkerElement = createCustomMarkerElement({
+      id: `temp_${Date.now()}`,
+      title: '',
+      description: '',
+      longitude: location.lng,
+      latitude: location.lat,
+      color,
+      subtype: iconOrSubtype,
+    });
+
+    const marker = new mapboxgl.Marker({ element: customMarkerElement })
       .setLngLat([location.lng, location.lat])
       .setPopup(popup)
       .addTo(mapRef.current);
@@ -352,6 +417,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     description: string;
     address: string;
     subtype: PinSubtype;
+    icon: string;
     communityId: string;
     picture?: File;
   }) => {
@@ -437,7 +503,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
         pictureDisplayUrl
       );
       try {
-        addMarkerToMap(clickedLocation, popupHTML, categoryColor);
+        addMarkerToMap(clickedLocation, popupHTML, categoryColor, formData.icon);
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "Error desconocido";
@@ -458,6 +524,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
             colour: categoryColor,
             picture: pictureUrl,
             background_image: backgroundImageUrl,
+            icon: formData.icon,
           },
           location: {
             lng: clickedLocation.lng,
@@ -550,6 +617,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                 const description = formData.get("description") as string;
                 const address = formData.get("address") as string;
                 const subtype = formData.get("subtype") as string;
+                const icon = formData.get("icon") as string;
                 const communityId = formData.get("communityId") as string;
                 const pictureFile = formData.get("picture") as File;
 
@@ -557,6 +625,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                 console.log("- Title:", title);
                 console.log("- Description:", description);
                 console.log("- Address:", address);
+                console.log("- Icon:", icon);
                 console.log("- Community ID:", communityId);
                 console.log(
                   "- Picture file:",
@@ -569,9 +638,9 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                 console.log("- Clicked location:", clickedLocation);
 
                 // Validate required fields
-                if (!title || !address || !subtype || !communityId) {
+                if (!title || !address || !subtype || !icon || !communityId) {
                   alert(
-                    "Por favor completa todos los campos requeridos (Título, Dirección, Categoría y Comunidad)"
+                    "Por favor completa todos los campos requeridos (Título, Dirección, Categoría, Icono y Comunidad)"
                   );
                   return;
                 }
@@ -588,6 +657,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                   description: description?.trim() || "",
                   address: address.trim(),
                   subtype: subtype as PinSubtype,
+                  icon: icon.trim(),
                   communityId: communityId.trim(),
                   picture:
                     pictureFile && pictureFile.size > 0
@@ -642,6 +712,23 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
                   {getAvailableCategories().map((category) => (
                     <option key={category.value} value={category.value}>
                       {category.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Icono *
+                </label>
+                <select
+                  name="icon"
+                  required
+                  className="w-full p-3 border-2 border-gray-800 rounded-lg text-gray-900"
+                >
+                  <option value="">Selecciona un icono</option>
+                  {AVAILABLE_ICONS.map((icon) => (
+                    <option key={icon.value} value={icon.value}>
+                      {icon.label}
                     </option>
                   ))}
                 </select>

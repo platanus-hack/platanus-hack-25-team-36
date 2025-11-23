@@ -74,6 +74,7 @@ function transformTipToMapPin(tip: TipPinLean | TipPinDocument): MapPin {
     address: (tipObj.address as string) || "",
     picture: tipObj.picture as string | undefined,
     colour: tipObj.colour as string | undefined,
+    icon: tipObj.icon as string | undefined,
     startDate: convertDate(tipObj.startDate),
     duration: tipObj.duration as number | undefined,
     contact:
@@ -143,7 +144,11 @@ async function getHandler(request: AuthenticatedRequest) {
     const longitudeParam = searchParams.get("longitude");
     const latitudeParam = searchParams.get("latitude");
 
-    if (searchQuery || updatedAtParam || (longitudeParam && latitudeParam)) {
+    const hasSearchQuery = searchQuery !== null && searchQuery.trim() !== "";
+    const hasUpdatedAt = updatedAtParam !== null;
+    const hasLocation = longitudeParam !== null && latitudeParam !== null;
+
+    if (hasSearchQuery || hasUpdatedAt || hasLocation) {
       const updatedAt = updatedAtParam ? new Date(updatedAtParam) : undefined;
 
       let communityIds: string[] = [];
@@ -189,8 +194,10 @@ async function getHandler(request: AuthenticatedRequest) {
         );
       }
 
+      const trimmedSearchQuery = hasSearchQuery ? searchQuery.trim() : undefined;
+      
       const result = await Tip.searchTips({
-        searchQuery: searchQuery || undefined,
+        searchQuery: trimmedSearchQuery,
         updatedAt,
         communityIds: communityIds.map((id) => new mongoose.Types.ObjectId(id)),
       });

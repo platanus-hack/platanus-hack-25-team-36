@@ -15,6 +15,7 @@ interface MapComponentMarker {
   color: string;
   picture?: string;
   authorAvatar?: string;
+  subtype?: string;
 }
 
 /**
@@ -30,6 +31,7 @@ const parseMapDataToMarkers = (mapPins: MapPin[]): MapComponentMarker[] => {
     color: pin.colour || "#9ECAD6", // Default color if not provided
     picture: getS3Url(pin.picture), // Convert S3 key to accessible URL
     authorAvatar: undefined, // TODO: Get from author data when user authentication is implemented
+    subtype: pin.icon || pin.subtype, // Use custom icon if available, fallback to subtype
   }));
 };
 

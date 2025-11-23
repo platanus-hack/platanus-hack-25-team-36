@@ -13,6 +13,7 @@ export interface PinFormData {
   colour: string;
   picture?: string;
   background_image?: string;
+  icon?: string;
 }
 
 export interface PinLocation {
@@ -60,6 +61,7 @@ export const savePinToDatabase = async (
     colour: formData.colour,
     picture: formData.picture || '',
     background_image: formData.background_image || '',
+    icon: formData.icon || '',
     contact: {},
     comments: [],
     likedBy: [],

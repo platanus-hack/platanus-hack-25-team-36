@@ -20,17 +20,17 @@ export const CATEGORY_COLORS: Record<PinSubtype, CategoryConfig> = {
   [PinSubtype.SERVICE]: {
     label: 'Servicios',
     colorClass: 'bg-[var(--color-chip-3)]',
-    hexColor: '#D9E9CF', // green
+    hexColor: '#E8F5E3', // soft pastel mint green
   },
   [PinSubtype.EVENT]: {
     label: 'Eventos',
     colorClass: 'bg-[var(--color-chip-2)]',
-    hexColor: '#A7AAE1', // lila
+    hexColor: '#E3D9F5', // soft pastel lavender
   },
   [PinSubtype.BUSINESS]: {
     label: 'Negocios',
     colorClass: 'bg-[var(--color-chip-1)]',
-    hexColor: '#9ECAD6', // blue
+    hexColor: '#D4E9F2', // soft pastel sky blue
   },
 };
 

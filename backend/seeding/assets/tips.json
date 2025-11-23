@@ -16,7 +16,7 @@
     },
     "address": "Avenida Providencia, Providencia, Santiago",
     "subtype": "Business",
-    "colour": "#FF5733",
+    "colour": "#9ECAD6",
     "likedBy": ["user2", "user3"],
     "dislikedBy": [],
     "comments": []
@@ -40,7 +40,7 @@
     },
     "address": "Plaza Ñuñoa, Ñuñoa, Santiago",
     "subtype": "Event",
-    "colour": "#27AE60",
+    "colour": "#A7AAE1",
     "likedBy": ["user2", "user4", "user5"],
     "dislikedBy": [],
     "comments": []
@@ -74,7 +74,7 @@
     },
     "address": "Avenida Providencia, Providencia, Santiago",
     "subtype": "Business",
-    "colour": "#FF5733",
+    "colour": "#9ECAD6",
     "likedBy": ["user2", "user5"],
     "dislikedBy": [],
     "comments": []
@@ -98,7 +98,7 @@
     },
     "address": "Parque de las Esculturas, Providencia, Santiago",
     "subtype": "Event",
-    "colour": "#E67E22",
+    "colour": "#A7AAE1",
     "likedBy": ["user1", "user2", "user3", "user4"],
     "dislikedBy": [],
     "comments": []
@@ -120,7 +120,7 @@
     },
     "address": "Avenida Apoquindo, Las Condes, Santiago",
     "subtype": "Service",
-    "colour": "#9B59B6",
+    "colour": "#D9E9CF",
     "likedBy": ["user1", "user2"],
     "dislikedBy": [],
     "comments": []
@@ -142,7 +142,7 @@
     },
     "address": "Avenida Irarrázaval, Ñuñoa, Santiago",
     "subtype": "Business",
-    "colour": "#33C3F0",
+    "colour": "#9ECAD6",
     "likedBy": ["user4", "user5"],
     "dislikedBy": [],
     "comments": []
@@ -164,7 +164,7 @@
     },
     "address": "Parque de las Esculturas, Providencia, Santiago",
     "subtype": "Service",
-    "colour": "#E74C3C",
+    "colour": "#D9E9CF",
     "likedBy": ["user3", "user6", "user7"],
     "dislikedBy": [],
     "comments": []
@@ -186,7 +186,7 @@
     },
     "address": "Avenida Providencia, Providencia, Santiago",
     "subtype": "Business",
-    "colour": "#E74C3C",
+    "colour": "#9ECAD6",
     "likedBy": ["user3", "user6"],
     "dislikedBy": [],
     "comments": []
@@ -210,7 +210,7 @@
     },
     "address": "Costanera Center, Providencia, Santiago",
     "subtype": "Event",
-    "colour": "#E74C3C",
+    "colour": "#A7AAE1",
     "likedBy": ["user3", "user6", "user7"],
     "dislikedBy": [],
     "comments": []
@@ -244,7 +244,7 @@
     },
     "address": "Avenida Providencia, Providencia, Santiago",
     "subtype": "Business",
-    "colour": "#8E44AD",
+    "colour": "#9ECAD6",
     "likedBy": ["user1", "user5", "user6"],
     "dislikedBy": [],
     "comments": []
@@ -268,7 +268,7 @@
     },
     "address": "Avenida Providencia, Providencia, Santiago",
     "subtype": "Event",
-    "colour": "#8E44AD",
+    "colour": "#A7AAE1",
     "likedBy": ["user1", "user5", "user6", "user7"],
     "dislikedBy": [],
     "comments": []
@@ -314,7 +314,7 @@
     },
     "address": "Avenida Irarrázaval, Ñuñoa, Santiago",
     "subtype": "Business",
-    "colour": "#F39C12",
+    "colour": "#9ECAD6",
     "likedBy": ["user2", "user4", "user7"],
     "dislikedBy": [],
     "comments": []
@@ -338,7 +338,7 @@
     },
     "address": "Centro Cultural de Ñuñoa, Ñuñoa, Santiago",
     "subtype": "Event",
-    "colour": "#F39C12",
+    "colour": "#A7AAE1",
     "likedBy": ["user2", "user4", "user7"],
     "dislikedBy": [],
     "comments": []

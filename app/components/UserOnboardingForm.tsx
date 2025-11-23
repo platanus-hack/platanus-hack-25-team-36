@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import RegionesYComunas from "./communes";
 
@@ -18,7 +19,8 @@ const interestOptions = [
 
 export default function UserOnboardingForm() {
   const router = useRouter();
-  const [name, setName] = useState("");
+  const { data: session } = useSession();
+  const userName = session?.user?.name || "";
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedCommune, setSelectedCommune] = useState("");
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
@@ -50,8 +52,13 @@ export default function UserOnboardingForm() {
   };
 
   const handleSubmit = async () => {
-    if (!name || !selectedRegion || !selectedCommune) {
+    if (!selectedRegion || !selectedCommune) {
       alert("Por favor completa todos los campos requeridos");
+      return;
+    }
+
+    if (!session?.user?.id) {
+      alert("No se pudo identificar tu sesión. Por favor, inicia sesión nuevamente.");
       return;
     }
 
@@ -76,11 +83,16 @@ export default function UserOnboardingForm() {
         }),
       });
 
-      if (response.status === 200 || response.status === 201) {
-        router.push("/");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
       }
+
+      await response.json();
+      router.push("/");
     } catch (error) {
       console.error("Error submitting form:", error);
+      alert(error instanceof Error ? error.message : "Error al enviar los datos. Por favor, intenta nuevamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -110,31 +122,19 @@ export default function UserOnboardingForm() {
       <div className="flex-1 flex items-center justify-center p-4 pt-24">
         <div className="w-full max-w-md space-y-6">
 
-        {/* Name Input */}
-        <div>
-          <label className="block text-sm font-medium mb-2" style={{ color: "var(--foreground)" }}>
-            Cómo te llamas?
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Victor Hugo ..."
-            className="w-full px-4 py-3 rounded-lg outline-none"
-            style={{
-              backgroundColor: "white",
-              border: "1.5px solid rgb(0, 0, 0)",
-              boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.7)",
-              fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-              color: "var(--foreground)",
-            }}
-          />
-        </div>
+        {/* Greeting */}
+        {userName && (
+          <div>
+            <h2 className="text-2xl font-medium mb-6" style={{ color: "var(--foreground)" }}>
+              ¡Hola {userName}!
+            </h2>
+          </div>
+        )}
 
         {/* Region Autocomplete */}
         <div>
           <label className="block text-sm font-medium mb-2" style={{ color: "var(--foreground)" }}>
-            En qué región vives?
+            ¿En qué región vives?
           </label>
           <div className="relative">
             <input
@@ -192,7 +192,7 @@ export default function UserOnboardingForm() {
         {/* Commune Autocomplete */}
         <div>
           <label className="block text-sm font-medium mb-2" style={{ color: "var(--foreground)" }}>
-            En qué comuna vives?
+            ¿En qué comuna vives?
           </label>
           <div className="relative">
             <input
@@ -248,7 +248,7 @@ export default function UserOnboardingForm() {
         {/* Interests Multi-select */}
         <div>
           <label className="block text-sm font-medium mb-2" style={{ color: "var(--foreground)" }}>
-            Qué te apasiona?
+            ¿Qué te apasiona?
           </label>
           <div className="grid grid-cols-2 gap-3">
             {interestOptions.map((option) => {
@@ -286,7 +286,7 @@ export default function UserOnboardingForm() {
             color: "var(--foreground)",
           }}
         >
-          {isSubmitting ? "Enviando..." : "Vamos!"}
+          {isSubmitting ? "Enviando..." : "¡Vamos!"}
         </button>
         </div>
       </div>
