@@ -2,7 +2,7 @@
 
 Conecta con lo que tu barrio tiene para ofrecerte. Pasa el dato es una plataforma que te permite descubir eventos, servicios y tips locales, de manera inteligente y personalizada.
 
-<img src="./pasaeldato.png" alt="Project Logo" width="200" />
+<img src="./project-logo.png" alt="Project Logo" width="200" />
 
 Track: Legacy
 
