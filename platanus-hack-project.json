@@ -1,4 +1,5 @@
 {
   "project-name": "Pasa el dato",
-  "project-description-spanish": "Conecta con lo que tu barrio tiene para ofrecerte. Pasa el dato es una plataforma que te permite descubir eventos, servicios y tips locales, de manera inteligente y personalizada."
+  "project-description-spanish": "Conecta con lo que tu barrio tiene para ofrecerte. Pasa el dato es una plataforma que te permite descubir eventos, servicios y tips locales, de manera inteligente y personalizada.",
+  "deploy-url": "https://pasaeldato.com"
 }
