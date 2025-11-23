@@ -3,10 +3,6 @@ import { authOptions } from "./auth";
 import { NextRequest, NextResponse } from "next/server";
 import { Session } from "next-auth";
 
-interface RouteContext {
-  params?: Record<string, string>;
-}
-
 interface AuthenticatedRequest extends NextRequest {
   user?: Session["user"];
   session?: Session;
@@ -15,13 +11,13 @@ interface AuthenticatedRequest extends NextRequest {
 /**
  * Higher-order function to protect API routes with authentication
  */
-export function withAuth(
+export function withAuth<T = any>(
   handler: (
     request: AuthenticatedRequest,
-    context?: RouteContext
+    context: { params: Promise<T> }
   ) => Promise<NextResponse>
 ) {
-  return async (request: NextRequest, context?: RouteContext) => {
+  return async (request: NextRequest, context: { params: Promise<T> }) => {
     const session = await getServerSession(authOptions);
 
     if (!session) {
