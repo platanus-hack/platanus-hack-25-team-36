@@ -258,11 +258,16 @@ export default function UserOnboardingForm() {
                   key={option.label}
                   type="button"
                   onClick={() => toggleInterest(option.label)}
-                  className="aspect-video rounded-lg flex items-center justify-center text-4xl transition-all"
+                  className="aspect-[2/1] rounded-lg flex items-center justify-center text-2xl transition-all"
                   style={{
+                    display: "flex",
+                    width: '100%',
                     backgroundColor: isSelected ? "var(--color-chip-3)" : "var(--color-light-grey)",
                     border: isSelected ? "2px solid rgb(0, 0, 0)" : "1px solid rgb(0, 0, 0)",
                     boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.7)",
+                    minHeight: '80px',
+                    height: '48px',
+                    maxHeight: '56px',
                   }}
                 >
                   {option.emoji}
