@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { withAuth } from "@/app/lib/auth-utils";
+import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -11,7 +11,7 @@ const openai = new OpenAI({
  * Generates a 1024x1024 background image from a description
  * Note: DALL-E 2 max size is 1024x1024. For 3000x1000, consider using DALL-E 3 or external upscaling.
  */
-async function postHandler(request: Request) {
+async function postHandler(request: AuthenticatedRequest) {
   try {
     // Check if API key is configured
     if (!process.env.OPENAI_API_KEY) {

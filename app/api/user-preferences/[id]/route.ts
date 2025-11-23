@@ -1,15 +1,12 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
 import { UserPreferences } from "@/backend/database/models";
-import { withAuth } from "@/app/lib/auth-utils";
+import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 
-async function getHandler(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function getHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
-    const { id } = await params;
+    const id = request.user?.id;
     const userPreference = await UserPreferences.findById(id);
     if (!userPreference)
       return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -22,13 +19,10 @@ async function getHandler(
   }
 }
 
-async function putHandler(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function putHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
-    const { id } = await params;
+    const id = request.user?.id;
     const body = await request.json();
     const userPreference = await UserPreferences.findByIdAndUpdate(id, body, {
       new: true,
@@ -44,13 +38,10 @@ async function putHandler(
   }
 }
 
-async function deleteHandler(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function deleteHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
-    const { id } = await params;
+    const id = request.user?.id;
     await UserPreferences.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { withAuth } from "@/app/lib/auth-utils";
+import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -10,7 +10,7 @@ const openai = new OpenAI({
  * POST /api/generate-profile
  * Generates a 256x256 profile image from a description (DALL-E 2 native size)
  */
-async function postHandler(request: Request) {
+async function postHandler(request: AuthenticatedRequest) {
   try {
     // Check if API key is configured
     if (!process.env.OPENAI_API_KEY) {

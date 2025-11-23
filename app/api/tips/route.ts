@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
 import { Tip, TipPin, TipText, Community } from "@/backend/database/models";
 import { MapPin, TextTip, MapPinType, PinSubtype } from "@/types/app";
-import { withAuth } from "@/app/lib/auth-utils";
+import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 import mongoose from "mongoose";
 
 type TipPinDocument = mongoose.HydratedDocument<InstanceType<typeof TipPin>>;
@@ -125,7 +125,7 @@ function transformTipToTipText(tip: TipTextLean | TipTextDocument): TextTip {
   };
 }
 
-async function getHandler(request: Request) {
+async function getHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
     const { searchParams } = new URL(request.url);
@@ -236,7 +236,7 @@ async function getHandler(request: Request) {
   }
 }
 
-async function postHandler(request: Request) {
+async function postHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
     const body = await request.json();
@@ -265,7 +265,7 @@ async function postHandler(request: Request) {
   }
 }
 
-async function putHandler(request: Request) {
+async function putHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
     const { searchParams } = new URL(request.url);
@@ -285,7 +285,7 @@ async function putHandler(request: Request) {
   }
 }
 
-async function deleteHandler(request: Request) {
+async function deleteHandler(request: AuthenticatedRequest) {
   try {
     await initializeMongoDb({});
     const { searchParams } = new URL(request.url);

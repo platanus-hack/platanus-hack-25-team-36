@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3ClientConfig } from "@aws-sdk/client-s3/dist-types/S3Client";
-import { withAuth } from "@/app/lib/auth-utils";
+import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 
 // --- Configuration ---
 // IMPORTANT: Use environment variables for all sensitive data.
@@ -41,7 +41,7 @@ const s3Client = new S3Client(clientConfig);
  *
  * @param request The incoming Next.js request object.
  */
-async function getHandler(request: Request) {
+async function getHandler(request: AuthenticatedRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const key = searchParams.get("key");
@@ -149,7 +149,7 @@ async function getHandler(request: Request) {
  *
  * @param request The incoming Next.js request object.
  */
-async function postHandler(request: Request) {
+async function postHandler(request: AuthenticatedRequest) {
   try {
     // SECURITY CHECK: Ensure credentials are present before attempting upload.
     if (!hasCredentials) {

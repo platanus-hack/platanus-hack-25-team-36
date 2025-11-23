@@ -6,7 +6,10 @@ import mapboxgl from "mapbox-gl";
 import Image from "next/image";
 import { useCreatePin } from "@/app/hooks/api";
 import { PinSubtype } from "@/types/app";
-import { getAvailableCategories, getCategoryColor } from "@/app/utils/categoryColors";
+import {
+  getAvailableCategories,
+  getCategoryColor,
+} from "@/app/utils/categoryColors";
 import { getS3Url } from "@/app/services/s3";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -86,7 +89,9 @@ const createPopupContent = (marker: Marker): string => {
 const Map = ({ markers = [], onChangeCenter }: Props) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<MarkerMap>(new globalThis.Map<string, mapboxgl.Marker>());
+  const markersRef = useRef<MarkerMap>(
+    new globalThis.Map<string, mapboxgl.Marker>()
+  );
   const lastValidMarkersRef = useRef<Marker[]>([]);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [isCreatingPin, setIsCreatingPin] = useState(false);
@@ -106,7 +111,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [-70.6009, -33.4173],
-      zoom: 12,
+      zoom: 15,
     });
 
     map.on("load", () => {
@@ -188,7 +193,8 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
 
     // Use the new markers if available, otherwise keep the last valid markers
     // This prevents flickering when data is being fetched
-    const markersToUse = markers.length > 0 ? markers : lastValidMarkersRef.current;
+    const markersToUse =
+      markers.length > 0 ? markers : lastValidMarkersRef.current;
 
     // Update lastValidMarkersRef if we have new valid data
     if (markers.length > 0) {
@@ -253,12 +259,13 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
           margin-bottom: 12px;
           display: block;
         " />`
-      : '';
+      : "";
 
     // Truncate description if longer than 20 characters
-    const truncatedDescription = description.length > 20
-      ? description.substring(0, 20) + '. . .'
-      : description;
+    const truncatedDescription =
+      description.length > 20
+        ? description.substring(0, 20) + ". . ."
+        : description;
 
     return `
       <div style="
@@ -402,7 +409,9 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
           pictureUrl = imageResult.s3Key;
           console.log("User image uploaded:", pictureUrl);
         } catch {
-          alert("Falló la carga de la imagen, pero el pin se creará sin imagen");
+          alert(
+            "Falló la carga de la imagen, pero el pin se creará sin imagen"
+          );
         }
       }
 

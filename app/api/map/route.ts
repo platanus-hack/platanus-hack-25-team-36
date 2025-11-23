@@ -5,6 +5,7 @@ import { MapPin, ApiResponse, MapPinType, PinSubtype } from "@/types/app";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import mongoose from "mongoose";
+import { AuthenticatedRequest, withAuth } from "@/app/lib/auth-utils";
 
 type TipPinDocument = mongoose.HydratedDocument<InstanceType<typeof TipPin>>;
 type TipPinLean = Record<string, unknown>;
@@ -84,7 +85,7 @@ function transformTipToMapPin(tip: TipPinLean | TipPinDocument): MapPin {
   };
 }
 
-export async function GET(request: Request) {
+async function getHandler(request: AuthenticatedRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -211,3 +212,5 @@ export async function GET(request: Request) {
     return NextResponse.json(response, { status: 500 });
   }
 }
+
+export const GET = withAuth(getHandler);

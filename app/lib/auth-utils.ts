@@ -3,11 +3,11 @@ import { authOptions } from "./auth";
 import { NextRequest, NextResponse } from "next/server";
 import { Session } from "next-auth";
 
-interface RouteContext {
+export interface RouteContext {
   params?: Record<string, string>;
 }
 
-interface AuthenticatedRequest extends NextRequest {
+export interface AuthenticatedRequest extends NextRequest {
   user?: Session["user"];
   session?: Session;
 }
