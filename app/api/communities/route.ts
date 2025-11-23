@@ -2,38 +2,59 @@ import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
 import { Community } from "@/backend/database/models";
 
-export async function GET(request: Request) {
+/**
+ * Transform MongoDB community document to frontend format
+ * Maps _id to id and name to title for frontend compatibility
+ */
+function transformCommunity(community: any) {
+  return {
+    id: community._id.toString(),
+    title: community.name,
+    description: community.description,
+    locationId: community.location?._id?.toString() || '',
+    memberIds: community.members?.map((m: any) => m.toString()) || [],
+    pinIds: [], // Not stored in current schema
+    tags: community.tags || [],
+    createdAt: community.createdAt?.toISOString() || new Date().toISOString(),
+  };
+}
+import { withAuth } from "@/app/lib/auth-utils";
+
+async function getHandler(request: Request) {
   try {
     await initializeMongoDb({});
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    
+
     if (id) {
       const community = await Community.findById(id);
       if (!community) return NextResponse.json({ error: "Not found" }, { status: 404 });
       return NextResponse.json(community);
     }
-    
+
     const longitudeParam = searchParams.get("longitude");
     const latitudeParam = searchParams.get("latitude");
-    
+
     if (longitudeParam && latitudeParam) {
       const longitude = Number.parseFloat(longitudeParam);
       const latitude = Number.parseFloat(latitudeParam);
-      
+
       if (Number.isNaN(longitude) || Number.isNaN(latitude)) {
-        return NextResponse.json({ error: "Invalid longitude or latitude" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Invalid longitude or latitude" },
+          { status: 400 }
+        );
       }
-      
+
       const communities = await Community.findIntersectingWithLocation({
         type: "Point",
         coordinates: [longitude, latitude],
       });
-      return NextResponse.json(communities);
+      return NextResponse.json(communities.map(transformCommunity));
     }
-    
+
     const communities = await Community.find().limit(100);
-    return NextResponse.json(communities);
+    return NextResponse.json(communities.map(transformCommunity));
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed" },
@@ -42,7 +63,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   try {
     await initializeMongoDb({});
     const body = await request.json();
@@ -56,16 +77,20 @@ export async function POST(request: Request) {
   }
 }
 
-export async function PUT(request: Request) {
+async function putHandler(request: Request) {
   try {
     await initializeMongoDb({});
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
-    
+    if (!id)
+      return NextResponse.json({ error: "id required" }, { status: 400 });
+
     const body = await request.json();
-    const community = await Community.findByIdAndUpdate(id, body, { new: true });
-    if (!community) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const community = await Community.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+    if (!community)
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(community);
   } catch (error) {
     return NextResponse.json(
@@ -75,13 +100,14 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+async function deleteHandler(request: Request) {
   try {
     await initializeMongoDb({});
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
-    
+    if (!id)
+      return NextResponse.json({ error: "id required" }, { status: 400 });
+
     await Community.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -92,3 +118,7 @@ export async function DELETE(request: Request) {
   }
 }
 
+export const GET = withAuth(getHandler);
+export const POST = withAuth(postHandler);
+export const PUT = withAuth(putHandler);
+export const DELETE = withAuth(deleteHandler);

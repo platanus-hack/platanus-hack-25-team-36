@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { NextResponse } from "next/server";
+import OpenAI from "openai";
+import { withAuth } from "@/app/lib/auth-utils";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -9,12 +10,12 @@ const openai = new OpenAI({
  * POST /api/generate-profile
  * Generates a 256x256 profile image from a description (DALL-E 2 native size)
  */
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   try {
     // Check if API key is configured
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
-        { error: 'OpenAI API key is not configured' },
+        { error: "OpenAI API key is not configured" },
         { status: 500 }
       );
     }
@@ -23,43 +24,47 @@ export async function POST(request: Request) {
     const { description } = body;
 
     // Validate description
-    if (!description || typeof description !== 'string' || description.trim().length === 0) {
+    if (
+      !description ||
+      typeof description !== "string" ||
+      description.trim().length === 0
+    ) {
       return NextResponse.json(
-        { error: 'Valid description is required' },
+        { error: "Valid description is required" },
         { status: 400 }
       );
     }
 
-    console.log('Generating profile image (256x256):', { description });
+    console.log("Generating profile image (256x256):", { description });
 
     // Generate profile image using DALL-E 2 at 256x256 (perfect for profiles)
     const result = await openai.images.generate({
-      model: 'dall-e-2',
+      model: "dall-e-2",
       prompt: `Profile picture, centered portrait, face-focused: ${description.trim()}. Professional headshot style`,
-      size: '256x256',
+      size: "256x256",
       n: 1,
-      response_format: 'b64_json',
+      response_format: "b64_json",
     });
 
     if (!result.data || !result.data[0]?.b64_json) {
-      throw new Error('No image data received from OpenAI');
+      throw new Error("No image data received from OpenAI");
     }
 
-    console.log('Profile image generated successfully');
+    console.log("Profile image generated successfully");
 
     return NextResponse.json(
       {
         success: true,
         data: {
           b64_json: result.data[0].b64_json,
-          size: '256x256',
-          type: 'profile'
+          size: "256x256",
+          type: "profile",
         },
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Profile image generation error:', error);
+    console.error("Profile image generation error:", error);
 
     // Handle OpenAI specific errors
     if (error instanceof OpenAI.APIError) {
@@ -74,10 +79,13 @@ export async function POST(request: Request) {
     }
 
     // Handle generic errors
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       { error: `Failed to generate profile image: ${errorMessage}` },
       { status: 500 }
     );
   }
 }
+
+export const POST = withAuth(postHandler);

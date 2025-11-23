@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
 import { UserPreferences } from "@/backend/database/models";
+import { withAuth } from "@/app/lib/auth-utils";
 
-export async function GET(
+async function getHandler(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -10,7 +11,8 @@ export async function GET(
     await initializeMongoDb({});
     const { id } = await params;
     const userPreference = await UserPreferences.findById(id);
-    if (!userPreference) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    if (!userPreference)
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(userPreference);
   } catch (error) {
     return NextResponse.json(
@@ -20,7 +22,7 @@ export async function GET(
   }
 }
 
-export async function PUT(
+async function putHandler(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -28,8 +30,11 @@ export async function PUT(
     await initializeMongoDb({});
     const { id } = await params;
     const body = await request.json();
-    const userPreference = await UserPreferences.findByIdAndUpdate(id, body, { new: true });
-    if (!userPreference) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const userPreference = await UserPreferences.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+    if (!userPreference)
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(userPreference);
   } catch (error) {
     return NextResponse.json(
@@ -39,7 +44,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
+async function deleteHandler(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -56,3 +61,6 @@ export async function DELETE(
   }
 }
 
+export const GET = withAuth(getHandler);
+export const PUT = withAuth(putHandler);
+export const DELETE = withAuth(deleteHandler);

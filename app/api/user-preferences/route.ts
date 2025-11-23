@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { initializeMongoDb } from "@/backend/database/connection";
 import { UserPreferences } from "@/backend/database/models";
+import { withAuth } from "@/app/lib/auth-utils";
 
-export async function GET(request: Request) {
+async function getHandler(request: Request) {
   try {
     await initializeMongoDb({});
     const userPreferences = await UserPreferences.find().limit(100);
@@ -15,7 +16,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   try {
     await initializeMongoDb({});
     const body = await request.json();
@@ -29,4 +30,5 @@ export async function POST(request: Request) {
   }
 }
 
-
+export const GET = withAuth(getHandler);
+export const POST = withAuth(postHandler);
