@@ -159,6 +159,7 @@ export enum PinSubtype {
  * Aligned with TipPinSchema MongoDB model.
  */
 export interface MapPin {
+  _id?: string;
   id: string; // Unique ID for the pin
   authorId: string; // Author: User (reference to User.id)
   communityId: string; // Community: Community (reference to Community.id) - required
@@ -204,6 +205,7 @@ export interface MapPin {
  * Aligned with TipTextSchema MongoDB model.
  */
 export interface TextTip {
+  _id?: string;
   id: string; // Unique ID for the tip
   authorId: string; // Author: User (reference to User.id)
   communityId: string; // Community: Community (reference to Community.id) - required

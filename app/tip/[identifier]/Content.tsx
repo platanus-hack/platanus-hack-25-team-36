@@ -21,7 +21,7 @@ const Content = ({ id }: Props) => {
   if (!tipData) return <div>Cargando...</div>;
   const tip = tipData;
   const color = "colour" in tip ? tip.colour : "var(--color-primary)";
-  const backgroundImage = ("background_image" in tip && tip.background_image?.startsWith("pins/background_image") === false) ? tip.background_image : null;
+  const backgroundImage = ("background_image" in tip && tip.background_image?.startsWith("pins/background_image") === false) ? tip.background_image : undefined;
   console.log(`backgroundImage: ${JSON.stringify(tip)}`);
   return (
     <div className="min-h-screen bg-[var(--background)]">
@@ -65,7 +65,7 @@ const Content = ({ id }: Props) => {
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             ) : (
-                <CommunityAvatar identifier={tip._id} avatarUrl={backgroundImage} size={130} />
+                <CommunityAvatar identifier={tip!._id!} avatarUrl={backgroundImage} size={130} />
               
             )}
           </div>
