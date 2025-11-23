@@ -4,46 +4,31 @@
 // ...existing code...
 import Image from "next/image";
 import { User, Check, Plus } from "lucide-react";
-
-// Dummy data for demonstration
-const communities = [
-  {
-    avatarUrl: "",
-    portadaUrl: "",
-    title: "Ciclistas de Bellavista",
-    isPartOf: true,
-  },
-  {
-    avatarUrl: "",
-    portadaUrl: "",
-    title: "Ciclistas de Bellavista",
-    isPartOf: false,
-  },
-  {
-    avatarUrl: "",
-    portadaUrl: "",
-    title: "Ciclistas de Bellavista",
-    isPartOf: true,
-  },
-  {
-    avatarUrl: "",
-    portadaUrl: "",
-    title: "Ciclistas de Bellavista",
-    isPartOf: false,
-  },
-];
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useGetCommunities, useJoinCommunity, useLeaveCommunity } from "@/app/hooks/api";
 
 type CommunityCardProps = {
+  communityId: string;
   avatarUrl: string;
   portadaUrl: string;
   title: string;
   isPartOf: boolean;
+  onToggle: (communityId: string, currentState: boolean) => void;
 };
 
-import { useState } from "react";
-
-function CommunityCard({ avatarUrl, portadaUrl, title, isPartOf: initialIsPartOf }: CommunityCardProps) {
+function CommunityCard({ communityId, avatarUrl, portadaUrl, title, isPartOf: initialIsPartOf, onToggle }: CommunityCardProps) {
   const [isPartOf, setIsPartOf] = useState(initialIsPartOf);
+
+  const handleClick = () => {
+    setIsPartOf((prev) => {
+      const newState = !prev;
+      onToggle(communityId, prev);
+      return newState;
+    });
+  };
+
   return (
     <div
       className="relative flex flex-col w-full min-w-[160px] h-28 rounded-lg shadow-md flex-grow cursor-pointer"
@@ -53,7 +38,7 @@ function CommunityCard({ avatarUrl, portadaUrl, title, isPartOf: initialIsPartOf
         border: isPartOf ? "3px solid black" : "1px solid black",
         cursor: "pointer",
       }}
-      onClick={() => setIsPartOf((prev) => !prev)}
+      onClick={handleClick}
       tabIndex={0}
       role="button"
       aria-pressed={isPartOf}
@@ -114,21 +99,70 @@ function CommunityCard({ avatarUrl, portadaUrl, title, isPartOf: initialIsPartOf
 
 const Communities = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+  // Get current user session
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
+  // Fetch all communities from API
+  const { data: communitiesData = [], isLoading } = useGetCommunities(undefined);
+
+  // Mutation hooks for joining/leaving communities
+  const joinCommunityMutation = useJoinCommunity();
+  const leaveCommunityMutation = useLeaveCommunity();
 
   const handleSubmit = () => {
     setIsSubmitting(true);
-    // Simulate async action
-    setTimeout(() => setIsSubmitting(false), 1200);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      router.push('/');
+    }, 1200);
   };
+
+  // Handle toggle membership
+  const handleToggleMembership = (communityId: string, currentState: boolean) => {
+    if (!userId) {
+      alert("Debes iniciar sesión para unirte a una comunidad");
+      return;
+    }
+
+    // If currently part of community (currentState = true), leave it
+    // If not part of community (currentState = false), join it
+    if (currentState) {
+      leaveCommunityMutation.mutate(communityId);
+    } else {
+      joinCommunityMutation.mutate(communityId);
+    }
+  };
+
+  // Transform API data to match CommunityCard props
+  const communities = communitiesData.map((community: any) => ({
+    communityId: community.id,
+    avatarUrl: "", // Communities don't have avatars in the current schema
+    portadaUrl: "", // Communities don't have cover images in the current schema
+    title: community.title, // API transforms 'name' to 'title'
+    isPartOf: userId ? community.memberIds?.includes(userId) : false,
+  }));
 
   return (
     <div className="px-2 py-4 mt-24 flex flex-col min-h-[80vh]">
       <h1 className="font-bold text-lg mb-4">🌳 Mis comunidades</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
-        {communities.map((c, idx) => (
-          <CommunityCard key={idx} {...c} />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="flex items-center justify-center py-8">
+          <p className="text-gray-500">Cargando comunidades...</p>
+        </div>
+      ) : communities.length === 0 ? (
+        <div className="flex items-center justify-center py-8">
+          <p className="text-gray-500">No hay comunidades disponibles</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
+          {communities.map((c: any, idx: number) => (
+            <CommunityCard key={idx} {...c} onToggle={handleToggleMembership} />
+          ))}
+        </div>
+      )}
       <div className="flex-grow" />
       {/* Submit Button */}
       <button

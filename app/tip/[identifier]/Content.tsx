@@ -60,7 +60,7 @@ const Content = ({ id }: Props) => {
               minHeight: 0,
             }}
           >
-            {tipData.background_image ? (
+            {'picture' in tipData && tipData.background_image ? (
               <img
                 src={tipData.background_image}
                 alt="Avatar"
