@@ -37,11 +37,11 @@ const Main = () => {
       : undefined
   );
 
-  console.log('Main component state:', {
+  console.log("Main component state:", {
     isCommunityMode,
     latitude,
     longitude,
-    communitiesCount: communitiesData?.length || 0
+    communitiesCount: communitiesData?.length || 0,
   });
 
   const onChangeMapCenter = (newLongitude: number, newLatitude: number) => {
@@ -65,7 +65,7 @@ const Main = () => {
     <Content
       mapPins={tipsData?.pins || []}
       tips={tipsData?.nonPins || []}
-      communities={communitiesData}
+      communities={isCommunityMode ? communitiesData : []}
       onChangeMapCenter={onChangeMapCenter}
       onChangeSearch={handleChangeSearch}
       onActiveSubtypesChange={handleActiveSubtypesChange}
