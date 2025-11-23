@@ -89,12 +89,16 @@ const tipsApi = {
   getTips: (
     search?: string,
     longitudeParam?: number,
-    latitudeParam?: number
+    latitudeParam?: number,
+    allowedSubtypes?: string[]
   ): Promise<GetTipsResponse> => {
     const params: Record<string, string | number> = {};
     if (search) params.search = search;
     if (longitudeParam !== undefined) params.longitude = longitudeParam;
     if (latitudeParam !== undefined) params.latitude = latitudeParam;
+    if (allowedSubtypes !== undefined) {
+      params.allowedSubtypes = allowedSubtypes.join(",");
+    }
 
     return api.get("/tips", { params });
   },
@@ -270,14 +274,16 @@ export const useGetTips = ({
   search,
   longitude,
   latitude,
+  allowedSubtypes,
 }: {
   search?: string;
   longitude?: number;
   latitude?: number;
+  allowedSubtypes?: string[];
 }) => {
   return useQuery({
-    queryKey: ["tips", { search, longitude, latitude }],
-    queryFn: () => tipsApi.getTips(search, longitude, latitude),
+    queryKey: ["tips", { search, longitude, latitude, allowedSubtypes }],
+    queryFn: () => tipsApi.getTips(search, longitude, latitude, allowedSubtypes),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
     placeholderData: (previousData) => previousData, // Keep previous data while fetching

@@ -150,8 +150,8 @@ async function getHandler(request: AuthenticatedRequest) {
     const hasUpdatedAt = updatedAtParam !== null;
     const hasLocation = longitudeParam !== null && latitudeParam !== null;
     const isCommunityMode = isCommunityModeParam === "true";
-    const allowedSubtypes = allowedSubtypesParam
-      ? allowedSubtypesParam.split(",").map((s) => s.trim())
+    const allowedSubtypes = allowedSubtypesParam !== null
+      ? allowedSubtypesParam.split(",").map((s) => s.trim()).filter((s) => s.length > 0)
       : undefined;
 
     if (hasSearchQuery || hasUpdatedAt || hasLocation) {
@@ -241,11 +241,15 @@ async function getHandler(request: AuthenticatedRequest) {
         transformTipToTipText(nonPin)
       );
 
-      if (allowedSubtypes && allowedSubtypes.length > 0) {
-        pins = pins.filter((pin) => {
-          if (!pin.subtype) return false;
-          return allowedSubtypes.includes(pin.subtype);
-        });
+      if (allowedSubtypes !== undefined) {
+        if (allowedSubtypes.length === 0) {
+          pins = [];
+        } else {
+          pins = pins.filter((pin) => {
+            if (!pin.subtype) return false;
+            return allowedSubtypes.includes(pin.subtype);
+          });
+        }
       }
 
       return NextResponse.json({
@@ -295,11 +299,15 @@ async function getHandler(request: AuthenticatedRequest) {
       }
     }
 
-    if (allowedSubtypes && allowedSubtypes.length > 0) {
-      pins = pins.filter((pin) => {
-        if (!pin.subtype) return false;
-        return allowedSubtypes.includes(pin.subtype);
-      });
+    if (allowedSubtypes !== undefined) {
+      if (allowedSubtypes.length === 0) {
+        pins = [];
+      } else {
+        pins = pins.filter((pin) => {
+          if (!pin.subtype) return false;
+          return allowedSubtypes.includes(pin.subtype);
+        });
+      }
     }
 
     return NextResponse.json({
