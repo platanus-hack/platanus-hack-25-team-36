@@ -7,6 +7,7 @@ import { User } from "lucide-react";
 import Map from "@/app/components/Map";
 import { useGetTipById } from "@/app/hooks/api";
 import Loader from "@/app/components/Loader";
+import { CommunityAvatar } from "@/app/communities/page";
 
 type Props = {
   id: string;
@@ -20,8 +21,8 @@ const Content = ({ id }: Props) => {
   if (!tipData) return <div>Cargando...</div>;
   const tip = tipData;
   const color = "colour" in tip ? tip.colour : "var(--color-primary)";
-  const backgroundImage = "background_image" in tip ? tip.background_image : null;
-
+  const backgroundImage = ("background_image" in tip && tip.background_image?.startsWith("pins/background_image") === false) ? tip.background_image : null;
+  console.log(`backgroundImage: ${JSON.stringify(tip)}`);
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header />
@@ -64,10 +65,8 @@ const Content = ({ id }: Props) => {
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             ) : (
-              <User
-                className="w-full h-full"
-                style={{ color: "var(--foreground)" }}
-              />
+                <CommunityAvatar identifier={tip._id} avatarUrl={backgroundImage} size={130} />
+              
             )}
           </div>
           <div className="ml-6 mt-6 flex flex-col py-5">
