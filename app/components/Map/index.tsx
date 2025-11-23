@@ -16,6 +16,7 @@ interface MapComponentMarker {
   picture?: string;
   authorAvatar?: string;
   subtype?: string;
+  tipId?: string; // Associated tip ID for navigation
 }
 
 /**
@@ -32,6 +33,7 @@ const parseMapDataToMarkers = (mapPins: MapPin[]): MapComponentMarker[] => {
     picture: getS3Url(pin.picture), // Convert S3 key to accessible URL
     authorAvatar: undefined, // TODO: Get from author data when user authentication is implemented
     subtype: pin.icon || pin.subtype, // Use custom icon if available, fallback to subtype
+    tipId: pin.id, // Pass tip ID for navigation to detail page
   }));
 };
 

@@ -25,6 +25,7 @@ type Marker = {
   picture?: string; // Pin image from form
   authorAvatar?: string; // User profile picture
   subtype?: string; // Pin subtype for icon mapping
+  tipId?: string; // Associated tip ID for navigation
 };
 
 type Props = {
@@ -80,7 +81,7 @@ const createCustomMarkerElement = (marker: Marker): HTMLDivElement => {
 
 /**
  * Creates popup HTML content with image, title, and description
- * @param marker - Marker data including optional image URLs
+ * @param marker - Marker data including optional image URLs and tipId for navigation
  * @returns HTML string for popup content
  */
 const createPopupContent = (marker: Marker): string => {
@@ -102,6 +103,12 @@ const createPopupContent = (marker: Marker): string => {
     marker.description.length > 20
       ? marker.description.substring(0, 20) + ". . ."
       : marker.description;
+
+  // Create navigation URL if tipId is available
+  const tipUrl = marker.tipId ? `/tip/${marker.tipId}` : '#';
+  const clickHandler = marker.tipId
+    ? `onclick="window.location.href='${tipUrl}'"`
+    : '';
 
   return `
     <div style="
@@ -127,7 +134,7 @@ const createPopupContent = (marker: Marker): string => {
         cursor: pointer;
         font-weight: 600;
         transition: color 0.2s;
-      " onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#2563eb'">${truncatedDescription}</a>
+      " onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#2563eb'" ${clickHandler}>${truncatedDescription}</a>
     </div>
   `;
 };
@@ -308,7 +315,8 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
     title: string,
     description: string,
     address: string,
-    pictureUrl: string
+    pictureUrl: string,
+    tipId?: string
   ) => {
     const imageHtml = pictureUrl
       ? `<img src="${pictureUrl}" alt="${title}" style="
@@ -326,6 +334,12 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
       description.length > 20
         ? description.substring(0, 20) + ". . ."
         : description;
+
+    // Create navigation URL if tipId is available
+    const tipUrl = tipId ? `/tip/${tipId}` : '#';
+    const clickHandler = tipId
+      ? `onclick="window.location.href='${tipUrl}'"`
+      : '';
 
     return `
       <div style="
@@ -351,7 +365,7 @@ const Map = ({ markers = [], onChangeCenter }: Props) => {
           cursor: pointer;
           font-weight: 600;
           transition: color 0.2s;
-        " onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#2563eb'">${truncatedDescription}</a>
+        " onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#2563eb'" ${clickHandler}>${truncatedDescription}</a>
       </div>
     `;
   };
