@@ -1,0 +1,93 @@
+.container {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+.toggle-switch {
+  position: relative;
+  width: var(--toggle-width, 75px);
+  display: inline-block;
+  text-align: left;
+  height: var(--toggle-height, 36px);
+}
+.checkbox {
+  display: none;
+}
+.label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0 solid #bbb;
+  border-radius: calc(var(--toggle-height, 36px) / 2);
+  border: 1px solid black;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+  height: var(--toggle-height, 36px);
+}
+.inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.inner:before,
+.inner:after {
+  float: left;
+  width: 50%;
+  height: var(--toggle-height, 36px);
+  padding: 0;
+  line-height: var(--toggle-height, 36px);
+  color: var(--color-chip-5);
+  font-weight: bold;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+  content: "";
+  padding-right: 10px;
+  background-color: var(--color-chip-5);
+  color: #bbb;
+  text-align: right;
+}
+.inner:before {
+  float: left;
+  width: 50%;
+  height: var(--toggle-height, 36px);
+  padding: 0;
+  line-height: var(--toggle-height, 36px);
+  color: var(--color-chip-5);
+  font-weight: bold;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+  content: "";
+  padding-left: 10px;
+  background-color: var(--color-chip-2);
+  color: #222;
+}
+.switch {
+  display: block;
+  width: var(--toggle-switch-size, 24px);
+  height: var(--toggle-switch-size, 24px);
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  left: calc((var(--toggle-height, 36px) - var(--toggle-switch-size, 24px)) / 2);
+  transform: translateY(-50%);
+  border: 0 solid #bbb;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+}
+.checkbox:checked + .label .inner {
+  margin-left: 0;
+}
+.checkbox:checked + .label .switch {
+  left: calc(var(--toggle-width, 75px) - var(--toggle-switch-size, 24px) - (var(--toggle-height, 36px) - var(--toggle-switch-size, 24px)) / 2);
+}
+.checkbox:checked + .label .inner:before {
+  background-color: var(--color-chip-2);
+  color: #222;
+}
+.checkbox:checked + .label .inner:after {
+  background-color: var(--color-chip-5);
+  color: #bbb;
+}
