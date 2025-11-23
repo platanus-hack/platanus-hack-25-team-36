@@ -1,6 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../lib/axios";
-import { MapPin, MapPinType, TextTip, UserPreferences, Community } from "@/types/app";
+import {
+  MapPin,
+  MapPinType,
+  TextTip,
+  UserPreferences,
+  Community,
+} from "@/types/app";
 import type { PinFormData, PinLocation } from "../services/pins";
 
 interface Post {
@@ -34,20 +40,21 @@ interface GetTipsResponse {
 
 // API functions
 const userPreferencesApi = {
-  getUserPreferences: (): Promise<UserPreferences[]> => api.get("/user-preferences"),
-  getUserPreference: (id: string): Promise<UserPreferences> => api.get(`/user-preferences/${id}`),
-  createUserPreference: (userPreferenceData: Omit<UserPreferences, "id">): Promise<UserPreferences> =>
+  getUserPreferences: (): Promise<UserPreferences[]> =>
+    api.get("/user-preferences"),
+  getUserPreference: (id: string): Promise<UserPreferences> =>
+    api.get(`/user-preferences/${id}`),
+  createUserPreference: (
+    userPreferenceData: Omit<UserPreferences, "id">
+  ): Promise<UserPreferences> =>
     api.post("/user-preferences", userPreferenceData),
-  updateUserPreference: (id: string, userPreferenceData: Partial<UserPreferences>): Promise<UserPreferences> =>
+  updateUserPreference: (
+    id: string,
+    userPreferenceData: Partial<UserPreferences>
+  ): Promise<UserPreferences> =>
     api.put(`/user-preferences/${id}`, userPreferenceData),
-  deleteUserPreference: (id: string): Promise<void> => api.delete(`/user-preferences/${id}`),
-};
-
-const postApi = {
-  getPosts: (): Promise<Post[]> => api.get("/posts"),
-  getPost: (id: string): Promise<Post> => api.get(`/posts/${id}`),
-  createPost: (postData: Omit<Post, "id">): Promise<Post> =>
-    api.post("/posts", postData),
+  deleteUserPreference: (id: string): Promise<void> =>
+    api.delete(`/user-preferences/${id}`),
 };
 
 const mapApi = {
@@ -101,7 +108,10 @@ const tipsApi = {
 };
 
 const communitiesApi = {
-  getCommunities: (longitude?: number, latitude?: number): Promise<Community[]> => {
+  getCommunities: (
+    longitude?: number,
+    latitude?: number
+  ): Promise<Community[]> => {
     const params: Record<string, string | number> = {};
     if (longitude !== undefined) params.longitude = longitude;
     if (latitude !== undefined) params.latitude = latitude;
@@ -156,8 +166,13 @@ export const useUpdateUserPreference = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, userPreferenceData }: { id: string; userPreferenceData: Partial<UserPreferences> }) =>
-      userPreferencesApi.updateUserPreference(id, userPreferenceData),
+    mutationFn: ({
+      id,
+      userPreferenceData,
+    }: {
+      id: string;
+      userPreferenceData: Partial<UserPreferences>;
+    }) => userPreferencesApi.updateUserPreference(id, userPreferenceData),
     onSuccess: (data, variables) => {
       // Update the specific user preference in cache
       queryClient.setQueryData(["user-preferences", variables.id], data);
